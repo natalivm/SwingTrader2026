@@ -1,14 +1,14 @@
-// Service Worker for PWA functionality
-const CACHE_NAME = 'swingtrader-v1';
+const CACHE_NAME = 'swingtrader-v2';
 const urlsToCache = [
   '/SwingTrader2026/',
   '/SwingTrader2026/index.html',
   '/SwingTrader2026/styles.css',
   '/SwingTrader2026/script.js',
-  '/SwingTrader2026/manifest.json'
+  '/SwingTrader2026/manifest.json',
+  '/SwingTrader2026/icon-192.svg',
+  '/SwingTrader2026/icon-512.svg'
 ];
 
-// Install event - cache files
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -17,52 +17,38 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then(cacheNames =>
+      Promise.all(
+        cacheNames
+          .filter(name => name !== CACHE_NAME)
+          .map(name => caches.delete(name))
+      )
+    ).then(() => self.clients.claim())
   );
 });
 
-// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', event => {
+  // Only handle same-origin requests
+  if (!event.request.url.startsWith(self.location.origin)) return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request).then(response => {
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
-        return fetch(event.request).then(response => {
-          // Don't cache non-successful responses
-          if (!response || response.status !== 200 || response.type === 'error') {
-            return response;
-          }
-          // Clone the response
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-          return response;
-        });
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        return response;
+      });
+    }).catch(() =>
+      new Response('You are offline. Please reconnect to use SwingTrader 2026.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain' }
       })
-      .catch(() => {
-        // Return offline page if available
-        return new Response('You are offline', {
-          status: 503,
-          statusText: 'Service Unavailable',
-          headers: new Headers({
-            'Content-Type': 'text/plain'
-          })
-        });
-      })
+    )
   );
 });
