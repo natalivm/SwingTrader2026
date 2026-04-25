@@ -59,6 +59,31 @@
     const initialTab = location.hash.slice(1);
     if (initialTab) activateTab(initialTab);
 
+    // ── PWA install prompt ──────────────────────────────────────────────────
+    let deferredInstallPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (installBtn) installBtn.hidden = false;
+    });
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredInstallPrompt) return;
+            deferredInstallPrompt.prompt();
+            const { outcome } = await deferredInstallPrompt.userChoice;
+            deferredInstallPrompt = null;
+            installBtn.hidden = true;
+        });
+    }
+
+    window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        if (installBtn) installBtn.hidden = true;
+    });
+
     // ── Position count — computed from actual rows ──────────────────────────
     const tbody   = document.querySelector('.positions-table tbody');
     const countEl = document.querySelector('.position-count');
