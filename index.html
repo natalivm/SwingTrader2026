@@ -24,8 +24,8 @@
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="#dashboard" class="nav-link active" data-tab="dashboard">Dashboard</a></li>
-                <li class="nav-item"><a href="#portfolio" class="nav-link" data-tab="portfolio">Portfolio</a></li>
+                <li class="nav-item"><a href="#portfolio" class="nav-link active" data-tab="portfolio">Portfolio</a></li>
+                <li class="nav-item"><a href="#dashboard" class="nav-link" data-tab="dashboard">Dashboard</a></li>
                 <li class="nav-item"><a href="#analytics" class="nav-link" data-tab="analytics">Analytics</a></li>
                 <li class="nav-item"><a href="#strategies" class="nav-link" data-tab="strategies">Strategies</a></li>
                 <li class="nav-item"><a href="#settings" class="nav-link" data-tab="settings">Settings</a></li>
@@ -34,19 +34,195 @@
     </nav>
 
     <main class="main-content">
-        <!-- Dashboard Page -->
-        <section id="dashboard" class="page active" data-page="dashboard">
+        <!-- Portfolio Page -->
+        <section id="portfolio" class="page active" data-page="portfolio">
             <div class="page-container">
-                <h1>Dashboard</h1>
-                <p>Dashboard content goes here</p>
+                <h2 class="section-title">Portfolio Summary</h2>
+                
+                <!-- Portfolio Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">PORTFOLIO VALUE</div>
+                        <div class="stat-value">$1,046,881.39</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">BUYING POWER</div>
+                        <div class="stat-value">$143,938.13</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">TOTAL P&L $</div>
+                        <div class="stat-value profit">+$46,881.39</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">TOTAL P&L %</div>
+                        <div class="stat-value profit">+4.69%</div>
+                    </div>
+                </div>
+
+                <!-- Open Positions Table -->
+                <div class="positions-section">
+                    <h3 class="positions-title">Open Positions <span class="position-count">(13)</span></h3>
+                    <div class="table-container">
+                        <table class="positions-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>SYMBOL</th>
+                                    <th>SIDE</th>
+                                    <th>SHARES</th>
+                                    <th>AVG PRICE</th>
+                                    <th>LIVE PRICE</th>
+                                    <th>COST BASIS</th>
+                                    <th>MARKET VALUE</th>
+                                    <th>UNREALIZED P&L</th>
+                                    <th>ENTRY DATE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">SOXL</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>1000</td>
+                                    <td>$126.07</td>
+                                    <td>$127.62</td>
+                                    <td>$126,070.00</td>
+                                    <td>$127,622.00</td>
+                                    <td class="loss">-$1,552.00 (-1.23%)</td>
+                                    <td>Apr 24, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">MU</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>200</td>
+                                    <td>$488.83</td>
+                                    <td>$494.50</td>
+                                    <td>$97,766.00</td>
+                                    <td>$98,900.00</td>
+                                    <td class="loss">-$1,134.00 (-1.16%)</td>
+                                    <td>Apr 22, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">DELL</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>300</td>
+                                    <td>$212.87</td>
+                                    <td>$216.08</td>
+                                    <td>$63,861.00</td>
+                                    <td>$64,822.50</td>
+                                    <td class="loss">-$961.50 (-1.51%)</td>
+                                    <td>Apr 21, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">AVGO</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>300</td>
+                                    <td>$412.78</td>
+                                    <td>$420.03</td>
+                                    <td>$123,834.00</td>
+                                    <td>$126,009.60</td>
+                                    <td class="loss">-$2,175.60 (-1.76%)</td>
+                                    <td>Apr 17, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">IWM</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>500</td>
+                                    <td>$275.25</td>
+                                    <td>$276.67</td>
+                                    <td>$137,625.00</td>
+                                    <td>$138,333.00</td>
+                                    <td class="loss">-$708.00 (-0.51%)</td>
+                                    <td>Apr 17, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">GOOGL</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>250</td>
+                                    <td>$333.15</td>
+                                    <td>$343.44</td>
+                                    <td>$83,287.50</td>
+                                    <td>$85,858.75</td>
+                                    <td class="loss">-$2,571.25 (-3.09%)</td>
+                                    <td>Apr 14, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">BE</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>300</td>
+                                    <td>$219.65</td>
+                                    <td>$232.72</td>
+                                    <td>$65,895.00</td>
+                                    <td>$69,816.00</td>
+                                    <td class="loss">-$3,921.00 (-5.95%)</td>
+                                    <td>Apr 14, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">SPXU</td>
+                                    <td><span class="badge long">Long</span></td>
+                                    <td>6000</td>
+                                    <td>$45.84</td>
+                                    <td>$42.84</td>
+                                    <td>$275,055.00</td>
+                                    <td>$257,034.00</td>
+                                    <td class="loss">-$18,021.00 (-6.55%)</td>
+                                    <td>Apr 14, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">QID</td>
+                                    <td><span class="badge long">Long</span></td>
+                                    <td>20000</td>
+                                    <td>$18.53</td>
+                                    <td>$17.14</td>
+                                    <td>$370,500.00</td>
+                                    <td>$342,700.00</td>
+                                    <td class="loss">-$27,800.00 (-7.50%)</td>
+                                    <td>Apr 8, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">STX</td>
+                                    <td><span class="badge short">Short</span></td>
+                                    <td>300</td>
+                                    <td>$518.35</td>
+                                    <td>$587.05</td>
+                                    <td>$155,505.00</td>
+                                    <td>$176,114.10</td>
+                                    <td class="loss">-$20,609.10 (-13.25%)</td>
+                                    <td>Apr 8, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td class="expand-btn">▸</td>
+                                    <td class="symbol">SOXS</td>
+                                    <td><span class="badge long">Long</span></td>
+                                    <td>20000</td>
+                                    <td>$23.68</td>
+                                    <td>$13.57</td>
+                                    <td>$473,545.00</td>
+                                    <td>$271,380.00</td>
+                                    <td class="loss">-$202,165.00 (-42.69%)</td>
+                                    <td>Apr 7, 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Portfolio Page -->
-        <section id="portfolio" class="page" data-page="portfolio">
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="page" data-page="dashboard">
             <div class="page-container">
-                <h1>Portfolio</h1>
-                <p>Portfolio content goes here</p>
+                <h1>Dashboard</h1>
+                <p>Dashboard content goes here</p>
             </div>
         </section>
 
