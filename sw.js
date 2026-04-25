@@ -1,4 +1,4 @@
-const CACHE_NAME = 'swingtrader-v3';
+const CACHE_NAME = 'swingtrader-v4';
 const BASE = self.registration.scope;
 const ASSETS = [
   BASE,
