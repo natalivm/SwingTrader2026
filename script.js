@@ -66,6 +66,96 @@
         countEl.textContent = `(${tbody.rows.length})`;
     }
 
+    // ── Row selection for open positions ────────────────────────────────────
+    if (tbody) {
+        tbody.addEventListener('click', e => {
+            const row = e.target.closest('tr');
+            if (!row) return;
+            const isSelected = row.classList.contains('row-selected');
+            tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
+            if (!isSelected) row.classList.add('row-selected');
+        });
+    }
+
+    // ── Trade History filter & search ───────────────────────────────────────
+    const filterBtns  = document.querySelectorAll('.filter-btn');
+    const symbolSearch = document.querySelector('.symbol-search');
+    const tradesBody   = document.querySelector('.trades-table tbody');
+
+    function applyTradesFilter() {
+        if (!tradesBody) return;
+        const active    = document.querySelector('.filter-btn.active');
+        const filter    = active ? active.dataset.filter : 'all';
+        const searchVal = (symbolSearch ? symbolSearch.value : '').trim().toUpperCase();
+
+        Array.from(tradesBody.rows).forEach(row => {
+            const matchesFilter = filter === 'all' || row.dataset.result === filter;
+            const symbol = (row.querySelector('.symbol') || {}).textContent || '';
+            const matchesSearch = !searchVal || symbol.toUpperCase().includes(searchVal);
+            row.style.display = matchesFilter && matchesSearch ? '' : 'none';
+        });
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyTradesFilter();
+        });
+    });
+
+    if (symbolSearch) {
+        symbolSearch.addEventListener('input', applyTradesFilter);
+    }
+
+    // ── Trades table sorting ─────────────────────────────────────────────────
+    const tradesTable = document.querySelector('.trades-table');
+    if (tradesTable && tradesBody) {
+        let tSortCol = -1;
+        let tSortAsc = true;
+
+        const MONTHS = { Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6,
+                         Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12 };
+
+        function tradesCellValue(row, idx) {
+            const cell = row.cells[idx];
+            if (!cell) return '';
+            const raw = cell.textContent.trim();
+            const dm = raw.match(/^(\w{3})\s+(\d{1,2})(?:\s+'(\d{2}))?$/);
+            if (dm) {
+                const yr = dm[3] ? 2000 + +dm[3] : 2026;
+                return new Date(yr, (MONTHS[dm[1]] || 1) - 1, +dm[2]).getTime();
+            }
+            const n = parseFloat(raw.replace(/[$\s%+]/g, '').replace(',', '.'));
+            if (!isNaN(n)) return n;
+            return raw.toLowerCase();
+        }
+
+        function sortTradesBy(colIdx) {
+            tSortAsc = (tSortCol === colIdx) ? !tSortAsc : true;
+            tSortCol = colIdx;
+
+            Array.from(tradesBody.rows)
+                .sort((a, b) => {
+                    const av = tradesCellValue(a, colIdx);
+                    const bv = tradesCellValue(b, colIdx);
+                    if (av < bv) return tSortAsc ? -1 : 1;
+                    if (av > bv) return tSortAsc ? 1 : -1;
+                    return 0;
+                })
+                .forEach(row => tradesBody.appendChild(row));
+
+            tradesTable.querySelectorAll('thead th').forEach((th, i) => {
+                const icon = th.querySelector('.sort-icon');
+                if (icon) icon.textContent = i === colIdx ? (tSortAsc ? '↑' : '↓') : '↕';
+            });
+        }
+
+        tradesTable.querySelectorAll('thead th').forEach((th, idx) => {
+            th.addEventListener('click', () => sortTradesBy(idx));
+        });
+    }
+
     // ── Column sorting ──────────────────────────────────────────────────────
     const table = document.querySelector('.positions-table');
     if (table && tbody) {
