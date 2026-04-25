@@ -103,6 +103,34 @@ body {
     letter-spacing: -0.5px;
 }
 
+.install-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+}
+
+.install-btn:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.install-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow);
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
