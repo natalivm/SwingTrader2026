@@ -785,6 +785,160 @@ body {
 .ph-value.green { color: var(--accent-green); }
 .ph-value.red   { color: var(--accent-red); }
 
+/* ── Monthly Performance Dashboard ──────────────────────────────────────── */
+.monthly-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0;
+    margin-left: 6px;
+}
+
+.monthly-chart-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 40px 20px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 16px;
+    overflow-x: auto;
+}
+
+.chart-bars {
+    display: flex;
+    height: 300px;
+    gap: 60px;
+    border-bottom: 2px solid var(--border);
+    justify-content: center;
+    padding: 0 20px;
+    min-width: 380px;
+}
+
+.chart-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.chart-bar-label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    white-space: nowrap;
+}
+
+.chart-bar {
+    width: 90px;
+    border-radius: 6px 6px 0 0;
+    transition: opacity 0.2s, transform 0.15s;
+    transform-origin: bottom center;
+    cursor: default;
+}
+
+.chart-bar:hover {
+    opacity: 0.82;
+    transform: scaleY(1.025);
+}
+
+.bar-positive { background-color: #2563eb; }
+.bar-negative { background-color: #991b1b; }
+
+.chart-month-row {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 0 20px;
+    min-width: 380px;
+}
+
+.chart-month-row span {
+    width: 90px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.monthly-table-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.monthly-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.monthly-table thead tr {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-bottom: 2px solid var(--border);
+}
+
+.monthly-table th {
+    padding: 11px 20px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 10.5px;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+.monthly-table th.text-right { text-align: right; }
+
+.monthly-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.15s;
+}
+
+.monthly-table tbody tr:last-child { border-bottom: none; }
+
+.monthly-table tbody tr:nth-child(odd)  { background-color: #fafbff; }
+.monthly-table tbody tr:nth-child(even) { background-color: var(--card-bg); }
+
+.monthly-table tbody tr:hover { background-color: var(--hover-bg) !important; }
+
+.monthly-table td {
+    padding: 16px 20px;
+    color: var(--text-light);
+    white-space: nowrap;
+}
+
+.monthly-name {
+    font-weight: 700;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.monthly-sum {
+    font-size: 14.5px;
+    font-weight: 700;
+}
+
+.monthly-table tfoot tr.ytd-row {
+    background: linear-gradient(135deg, #eef2ff 0%, #e8eeff 100%);
+    border-top: 2px solid var(--border);
+}
+
+.monthly-table tfoot td {
+    padding: 16px 20px;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.ytd-label {
+    color: var(--primary-color) !important;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+}
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
     .metrics-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -849,6 +1003,14 @@ body {
 
     .trades-controls { flex-direction: column; align-items: flex-start; }
     .symbol-search { width: 100%; }
+
+    .monthly-chart-card { padding: 20px 16px 16px; }
+    .chart-bars { gap: 32px; min-width: 300px; padding: 0 8px; }
+    .chart-bar  { width: 70px; }
+    .chart-month-row { gap: 32px; min-width: 300px; padding: 0 8px; }
+    .chart-month-row span { width: 70px; }
+    .monthly-table th,
+    .monthly-table td { padding: 12px 14px; }
 }
 
 @media (max-width: 480px) {
