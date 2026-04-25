@@ -1,36 +1,34 @@
-const CACHE_NAME = 'swingtrader-v2';
-const urlsToCache = [
-  '/SwingTrader2026/',
-  '/SwingTrader2026/index.html',
-  '/SwingTrader2026/styles.css',
-  '/SwingTrader2026/script.js',
-  '/SwingTrader2026/manifest.json',
-  '/SwingTrader2026/icon-192.svg',
-  '/SwingTrader2026/icon-512.svg'
+const CACHE_NAME = 'swingtrader-v3';
+const BASE = self.registration.scope;
+const ASSETS = [
+  BASE,
+  BASE + 'index.html',
+  BASE + 'styles.css',
+  BASE + 'script.js',
+  BASE + 'manifest.json',
+  BASE + 'icon-192.svg',
+  BASE + 'icon-512.svg',
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache =>
+      Promise.allSettled(ASSETS.map(url => cache.add(url)))
+    ).then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames =>
-      Promise.all(
-        cacheNames
-          .filter(name => name !== CACHE_NAME)
-          .map(name => caches.delete(name))
-      )
-    ).then(() => self.clients.claim())
+    caches.keys()
+      .then(names => Promise.all(
+        names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', event => {
-  // Only handle same-origin requests
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
@@ -47,7 +45,7 @@ self.addEventListener('fetch', event => {
     }).catch(() =>
       new Response('You are offline. Please reconnect to use SwingTrader 2026.', {
         status: 503,
-        headers: { 'Content-Type': 'text/plain' }
+        headers: { 'Content-Type': 'text/plain' },
       })
     )
   );

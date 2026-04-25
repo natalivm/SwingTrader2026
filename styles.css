@@ -1,18 +1,46 @@
 :root {
+    /* Brand */
     --primary-color: #1e40af;
     --secondary-color: #3b82f6;
+
+    /* Surfaces */
     --bg: #f0f2f5;
     --card-bg: #ffffff;
     --border: #e5e7eb;
     --table-header-bg: #f9fafb;
     --row-alt: #fffef7;
+    --hover-bg: rgba(30, 64, 175, 0.04);
+    --active-bg: rgba(30, 64, 175, 0.06);
+
+    /* Text */
     --text-color: #111827;
     --text-light: #6b7280;
     --text-muted: #9ca3af;
+    --text-inverse: #ffffff;
+
+    /* Semantic colors */
     --accent-green: #16a34a;
     --accent-red: #dc2626;
     --accent-blue: #1d4ed8;
     --accent-orange: #ea580c;
+
+    /* Ticker */
+    --ticker-warning: #c2410c;
+    --ticker-buy-zone: #15803d;
+
+    /* Category badges */
+    --badge-swing-bg: #f0f0f0;
+    --badge-swing-text: #4b5563;
+    --badge-recovery-bg: #ede9fe;
+    --badge-recovery-text: #6d28d9;
+    --badge-pending-bg: #fef9c3;
+    --badge-pending-text: #92400e;
+
+    /* Progress bar */
+    --progress-track: #e5e7eb;
+    --progress-fill: #93c5fd;
+
+    /* Shadows */
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
@@ -32,6 +60,13 @@ body {
     color: var(--text-color);
     background-color: var(--bg);
     line-height: 1.6;
+}
+
+/* Global focus style for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 3px;
 }
 
 /* Navigation Bar */
@@ -81,7 +116,7 @@ body {
     display: flex;
     align-items: center;
     border-bottom: 3px solid transparent;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     font-weight: 500;
     font-size: 14px;
     height: 100%;
@@ -89,7 +124,7 @@ body {
 
 .nav-link:hover {
     color: var(--primary-color);
-    background-color: rgba(30, 64, 175, 0.04);
+    background-color: var(--hover-bg);
 }
 
 .nav-link.active {
@@ -113,6 +148,7 @@ body {
     margin: 4px 0;
     border-radius: 2px;
     transition: all 0.3s ease;
+    display: block;
 }
 
 .hamburger.active span:nth-child(1) {
@@ -145,12 +181,11 @@ body {
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .page-container {
     background-color: transparent;
-    border-radius: 8px;
     padding: 0;
 }
 
@@ -185,13 +220,13 @@ body {
     position: sticky;
     top: 64px;
     z-index: 998;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow);
 }
 
 .ticker-badge {
     flex-shrink: 0;
     background-color: var(--primary-color);
-    color: #ffffff;
+    color: var(--text-inverse);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.2px;
@@ -246,12 +281,12 @@ body {
 
 .ticker-item.warning .ticker-icon,
 .ticker-item.warning .ticker-title {
-    color: #c2410c;
+    color: var(--ticker-warning);
     font-weight: 600;
 }
 
 .ticker-item.buy-zone .ticker-title {
-    color: #15803d;
+    color: var(--ticker-buy-zone);
     font-weight: 600;
 }
 
@@ -299,17 +334,9 @@ body {
     line-height: 1.1;
 }
 
-.metric-value.blue {
-    color: var(--primary-color);
-}
-
-.metric-value.profit {
-    color: var(--accent-green);
-}
-
-.metric-value.loss {
-    color: var(--accent-red);
-}
+.metric-value.blue   { color: var(--primary-color); }
+.metric-value.profit { color: var(--accent-green); }
+.metric-value.loss   { color: var(--accent-red); }
 
 .metric-sub {
     font-size: 12px;
@@ -355,13 +382,8 @@ body {
     letter-spacing: -0.5px;
 }
 
-.stat-value.profit {
-    color: var(--accent-green);
-}
-
-.stat-value.loss {
-    color: var(--accent-red);
-}
+.stat-value.profit { color: var(--accent-green); }
+.stat-value.loss   { color: var(--accent-red); }
 
 /* Positions Section */
 .positions-section {
@@ -419,6 +441,12 @@ body {
     letter-spacing: 0.6px;
     white-space: nowrap;
     user-select: none;
+    cursor: pointer;
+}
+
+.positions-table th:hover {
+    color: var(--text-color);
+    background-color: var(--hover-bg);
 }
 
 .positions-table th .sort-icon {
@@ -445,7 +473,7 @@ body {
 }
 
 .positions-table tbody tr:hover {
-    background-color: rgba(30, 64, 175, 0.04);
+    background-color: var(--hover-bg);
 }
 
 .positions-table td {
@@ -454,7 +482,6 @@ body {
     white-space: nowrap;
 }
 
-/* Symbol column */
 .positions-table td.symbol {
     font-weight: 700;
     color: var(--text-color);
@@ -462,7 +489,7 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Current price - blue with dotted underline */
+/* Current price — blue with dotted underline */
 .current-price {
     color: var(--accent-blue);
     font-weight: 600;
@@ -482,39 +509,25 @@ body {
 }
 
 .badge.swing-trade {
-    background-color: #f0f0f0;
-    color: #4b5563;
+    background-color: var(--badge-swing-bg);
+    color: var(--badge-swing-text);
 }
 
 .badge.recovery {
-    background-color: #ede9fe;
-    color: #6d28d9;
+    background-color: var(--badge-recovery-bg);
+    color: var(--badge-recovery-text);
 }
 
 .badge.pending {
-    background-color: #fef9c3;
-    color: #92400e;
+    background-color: var(--badge-pending-bg);
+    color: var(--badge-pending-text);
 }
 
 /* P&L and directional values */
-.loss {
-    color: var(--accent-red);
-    font-weight: 500;
-}
-
-.profit {
-    color: var(--accent-green);
-    font-weight: 500;
-}
-
-.to-stop-close {
-    color: var(--accent-orange);
-    font-weight: 600;
-}
-
-.neutral {
-    color: var(--text-muted);
-}
+.loss    { color: var(--accent-red);    font-weight: 500; }
+.profit  { color: var(--accent-green);  font-weight: 500; }
+.to-stop-close { color: var(--accent-orange); font-weight: 600; }
+.neutral { color: var(--text-muted); }
 
 /* Progress bar */
 .progress-cell {
@@ -527,7 +540,7 @@ body {
 .progress-bar-track {
     flex: 1;
     height: 5px;
-    background-color: #e5e7eb;
+    background-color: var(--progress-track);
     border-radius: 3px;
     overflow: hidden;
 }
@@ -535,8 +548,9 @@ body {
 .progress-bar-fill {
     height: 100%;
     border-radius: 3px;
-    background-color: #93c5fd;
+    background-color: var(--progress-fill);
     min-width: 0;
+    transition: width 0.3s ease;
 }
 
 .progress-value {
@@ -546,7 +560,15 @@ body {
     text-align: right;
 }
 
-/* Mobile Responsive */
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+    .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar-container {
         padding: 0 15px;
@@ -594,11 +616,11 @@ body {
     }
 
     .nav-link:hover {
-        background-color: rgba(30, 64, 175, 0.04);
+        background-color: var(--hover-bg);
     }
 
     .nav-link.active {
-        background-color: rgba(30, 64, 175, 0.06);
+        background-color: var(--active-bg);
         color: var(--primary-color);
         border-left-color: var(--primary-color);
         border-bottom: none;
