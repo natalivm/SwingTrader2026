@@ -40,6 +40,9 @@
     --badge-pending-bg: #fffbeb;
     --badge-pending-text: #d97706;
     --badge-pending-border: #fde68a;
+    --badge-short-bg: #fff1f2;
+    --badge-short-text: #be123c;
+    --badge-short-border: #fecdd3;
 
     /* Progress */
     --progress-track: #e2e8f0;
@@ -604,6 +607,12 @@ body {
     background-color: var(--badge-pending-bg);
     color: var(--badge-pending-text);
     border-color: var(--badge-pending-border);
+}
+
+.badge.short-trade {
+    background-color: var(--badge-short-bg);
+    color: var(--badge-short-text);
+    border-color: var(--badge-short-border);
 }
 
 .badge.gain-badge {
