@@ -6,7 +6,7 @@
     <meta name="description" content="SwingTrader 2026 - A responsive web application for swing trading">
     <meta name="theme-color" content="#1e40af">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="SwingTrader">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e40af' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>ST</text></svg>">
@@ -33,183 +33,299 @@
         </div>
     </nav>
 
+    <!-- Alert Ticker -->
+    <div class="alert-ticker">
+        <div class="ticker-badge">ALERTS</div>
+        <div class="ticker-viewport">
+            <div class="ticker-track">
+                <span class="ticker-item warning">
+                    <span class="ticker-icon">&#9888;</span>
+                    <span class="ticker-title">BWA within 2.3% of stop</span>
+                    <span class="ticker-body">Current <strong>$54.74</strong> vs stop <strong>$53.50</strong>.</span>
+                </span>
+                <span class="ticker-sep">|</span>
+                <span class="ticker-item warning">
+                    <span class="ticker-icon">&#9888;</span>
+                    <span class="ticker-title">ONDS within 1.8% of stop</span>
+                    <span class="ticker-body">Current <strong>$9.98</strong> vs stop <strong>$9.80</strong>.</span>
+                </span>
+                <span class="ticker-sep">|</span>
+                <span class="ticker-item buy-zone">
+                    <span class="ticker-title">NXT &mdash; Buy zone active</span>
+                    <span class="ticker-body">Current <strong>$124.36</strong> vs trigger <strong>$125.00</strong> or lower. Limit order should fill.</span>
+                </span>
+                <span class="ticker-sep">|</span>
+                <!-- duplicate for seamless loop -->
+                <span class="ticker-item warning">
+                    <span class="ticker-icon">&#9888;</span>
+                    <span class="ticker-title">BWA within 2.3% of stop</span>
+                    <span class="ticker-body">Current <strong>$54.74</strong> vs stop <strong>$53.50</strong>.</span>
+                </span>
+                <span class="ticker-sep">|</span>
+                <span class="ticker-item warning">
+                    <span class="ticker-icon">&#9888;</span>
+                    <span class="ticker-title">ONDS within 1.8% of stop</span>
+                    <span class="ticker-body">Current <strong>$9.98</strong> vs stop <strong>$9.80</strong>.</span>
+                </span>
+                <span class="ticker-sep">|</span>
+                <span class="ticker-item buy-zone">
+                    <span class="ticker-title">NXT &mdash; Buy zone active</span>
+                    <span class="ticker-body">Current <strong>$124.36</strong> vs trigger <strong>$125.00</strong> or lower. Limit order should fill.</span>
+                </span>
+                <span class="ticker-sep">|</span>
+            </div>
+        </div>
+    </div>
+
     <main class="main-content">
         <!-- Portfolio Page -->
         <section id="portfolio" class="page active" data-page="portfolio">
             <div class="page-container">
                 <h2 class="section-title">Portfolio Summary</h2>
-                
+
+                <!-- Performance Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Trades</div>
+                        <div class="metric-value">54</div>
+                        <div class="metric-sub">33 wins · 21 losses</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Win Rate</div>
+                        <div class="metric-value blue">61.1%</div>
+                        <div class="metric-sub">YTD 2026</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg Gain</div>
+                        <div class="metric-value profit">+6.1%</div>
+                        <div class="metric-sub">per winning trade</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg Loss</div>
+                        <div class="metric-value loss">-5.1%</div>
+                        <div class="metric-sub">per losing trade</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Expectancy</div>
+                        <div class="metric-value profit">+1.7%</div>
+                        <div class="metric-sub">per trade</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Best Trade</div>
+                        <div class="metric-value profit">+24.8%</div>
+                        <div class="metric-sub">PAAS · Jan 26</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Worst Trade</div>
+                        <div class="metric-value loss">-11.4%</div>
+                        <div class="metric-sub">ASM · Feb 17</div>
+                    </div>
+                </div>
+
                 <!-- Portfolio Stats Cards -->
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-label">PORTFOLIO VALUE</div>
+                        <div class="stat-label">Portfolio Value</div>
                         <div class="stat-value">$1,046,881.39</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">BUYING POWER</div>
+                        <div class="stat-label">Buying Power</div>
                         <div class="stat-value">$143,938.13</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">TOTAL P&L $</div>
+                        <div class="stat-label">Total P&amp;L $</div>
                         <div class="stat-value profit">+$46,881.39</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">TOTAL P&L %</div>
+                        <div class="stat-label">Total P&amp;L %</div>
                         <div class="stat-value profit">+4.69%</div>
                     </div>
                 </div>
 
                 <!-- Open Positions Table -->
                 <div class="positions-section">
-                    <h3 class="positions-title">Open Positions <span class="position-count">(13)</span></h3>
+                    <div class="positions-header">
+                        <h3 class="positions-title">Open Positions <span class="position-count">(9)</span></h3>
+                    </div>
                     <div class="table-container">
                         <table class="positions-table">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>SYMBOL</th>
-                                    <th>SIDE</th>
-                                    <th>SHARES</th>
-                                    <th>AVG PRICE</th>
-                                    <th>LIVE PRICE</th>
-                                    <th>COST BASIS</th>
-                                    <th>MARKET VALUE</th>
-                                    <th>UNREALIZED P&L</th>
-                                    <th>ENTRY DATE</th>
+                                    <th>SYMBOL <span class="sort-icon">↕</span></th>
+                                    <th>CATEGORY <span class="sort-icon">↕</span></th>
+                                    <th>ENTERED <span class="sort-icon">↕</span></th>
+                                    <th>ENTRY <span class="sort-icon">↕</span></th>
+                                    <th>STOP <span class="sort-icon">↕</span></th>
+                                    <th>CURRENT <span class="sort-icon">↕</span></th>
+                                    <th>TARGET <span class="sort-icon">↕</span></th>
+                                    <th>P/L % <span class="sort-icon">↕</span></th>
+                                    <th>TO STOP <span class="sort-icon">↕</span></th>
+                                    <th>TO TARGET <span class="sort-icon">↕</span></th>
+                                    <th>PROGRESS <span class="sort-icon">↕</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">SOXL</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>1000</td>
-                                    <td>$126.07</td>
-                                    <td>$127.62</td>
-                                    <td>$126,070.00</td>
-                                    <td>$127,622.00</td>
-                                    <td class="loss">-$1,552.00 (-1.23%)</td>
-                                    <td>Apr 24, 2026</td>
+                                    <td class="symbol">BSX</td>
+                                    <td><span class="badge recovery">Recovery (2/5)</span></td>
+                                    <td>Feb 12 '26</td>
+                                    <td>$73.12</td>
+                                    <td class="neutral">—</td>
+                                    <td><span class="current-price">65,69</span></td>
+                                    <td>$100.00</td>
+                                    <td class="loss">-10.2%</td>
+                                    <td class="neutral">n/a</td>
+                                    <td>52.2%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-28%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">MU</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>200</td>
-                                    <td>$488.83</td>
-                                    <td>$494.50</td>
-                                    <td>$97,766.00</td>
-                                    <td>$98,900.00</td>
-                                    <td class="loss">-$1,134.00 (-1.16%)</td>
-                                    <td>Apr 22, 2026</td>
+                                    <td class="symbol">BWA</td>
+                                    <td><span class="badge swing-trade">Swing Trade</span></td>
+                                    <td>Mar 26 '26</td>
+                                    <td>$55.50</td>
+                                    <td>$53.50</td>
+                                    <td><span class="current-price">54,74</span></td>
+                                    <td>$70.00</td>
+                                    <td class="loss">-1.4%</td>
+                                    <td class="to-stop-close">2.3%</td>
+                                    <td>27.9%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-5%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">DELL</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>300</td>
-                                    <td>$212.87</td>
-                                    <td>$216.08</td>
-                                    <td>$63,861.00</td>
-                                    <td>$64,822.50</td>
-                                    <td class="loss">-$961.50 (-1.51%)</td>
-                                    <td>Apr 21, 2026</td>
+                                    <td class="symbol">CRM</td>
+                                    <td><span class="badge recovery">Recovery (full)</span></td>
+                                    <td>Jul 7 '25</td>
+                                    <td>$257.50</td>
+                                    <td class="neutral">—</td>
+                                    <td><span class="current-price">173,30</span></td>
+                                    <td>$350.00</td>
+                                    <td class="loss">-32.7%</td>
+                                    <td class="neutral">n/a</td>
+                                    <td>102.0%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-91%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">AVGO</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>300</td>
-                                    <td>$412.78</td>
-                                    <td>$420.03</td>
-                                    <td>$123,834.00</td>
-                                    <td>$126,009.60</td>
-                                    <td class="loss">-$2,175.60 (-1.76%)</td>
-                                    <td>Apr 17, 2026</td>
+                                    <td class="symbol">EQT</td>
+                                    <td><span class="badge swing-trade">Swing Trade</span></td>
+                                    <td>Apr 23 '26</td>
+                                    <td>$58.86</td>
+                                    <td>$55.90</td>
+                                    <td><span class="current-price">58,72</span></td>
+                                    <td>$67.00</td>
+                                    <td class="loss">-0.2%</td>
+                                    <td>4.8%</td>
+                                    <td>14.1%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-2%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">IWM</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>500</td>
-                                    <td>$275.25</td>
-                                    <td>$276.67</td>
-                                    <td>$137,625.00</td>
-                                    <td>$138,333.00</td>
-                                    <td class="loss">-$708.00 (-0.51%)</td>
-                                    <td>Apr 17, 2026</td>
+                                    <td class="symbol">FIGS</td>
+                                    <td><span class="badge swing-trade">Swing Trade</span></td>
+                                    <td>Apr 20 '26</td>
+                                    <td>$16.00</td>
+                                    <td>$14.50</td>
+                                    <td><span class="current-price">15,51</span></td>
+                                    <td>$20.00</td>
+                                    <td class="loss">-3.1%</td>
+                                    <td>6.5%</td>
+                                    <td>28.9%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-12%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">GOOGL</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>250</td>
-                                    <td>$333.15</td>
-                                    <td>$343.44</td>
-                                    <td>$83,287.50</td>
-                                    <td>$85,858.75</td>
-                                    <td class="loss">-$2,571.25 (-3.09%)</td>
-                                    <td>Apr 14, 2026</td>
+                                    <td class="symbol">NXT</td>
+                                    <td><span class="badge pending">Pending (NEW)</span></td>
+                                    <td>Apr 24 '26</td>
+                                    <td>$125.00</td>
+                                    <td>$113.50</td>
+                                    <td><span class="current-price">124,36</span></td>
+                                    <td>$160.00</td>
+                                    <td class="loss">-0.5%</td>
+                                    <td>8.7%</td>
+                                    <td>28.7%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-2%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">BE</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>300</td>
-                                    <td>$219.65</td>
-                                    <td>$232.72</td>
-                                    <td>$65,895.00</td>
-                                    <td>$69,816.00</td>
-                                    <td class="loss">-$3,921.00 (-5.95%)</td>
-                                    <td>Apr 14, 2026</td>
+                                    <td class="symbol">ONDS</td>
+                                    <td><span class="badge swing-trade">Swing Trade</span></td>
+                                    <td>Apr 17 '26</td>
+                                    <td>$10.40</td>
+                                    <td>$9.80</td>
+                                    <td><span class="current-price">9,98</span></td>
+                                    <td>$14.00</td>
+                                    <td class="loss">-4.0%</td>
+                                    <td class="to-stop-close">1.8%</td>
+                                    <td>40.3%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-12%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">SPXU</td>
-                                    <td><span class="badge long">Long</span></td>
-                                    <td>6000</td>
-                                    <td>$45.84</td>
-                                    <td>$42.84</td>
-                                    <td>$275,055.00</td>
-                                    <td>$257,034.00</td>
-                                    <td class="loss">-$18,021.00 (-6.55%)</td>
-                                    <td>Apr 14, 2026</td>
+                                    <td class="symbol">Q</td>
+                                    <td><span class="badge swing-trade">Swing Trade</span></td>
+                                    <td>Apr 21 '26</td>
+                                    <td>$137.23</td>
+                                    <td>$132.00</td>
+                                    <td><span class="current-price">137,00</span></td>
+                                    <td>$165.00</td>
+                                    <td class="loss">-0.2%</td>
+                                    <td>3.6%</td>
+                                    <td>20.4%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-1%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">QID</td>
-                                    <td><span class="badge long">Long</span></td>
-                                    <td>20000</td>
-                                    <td>$18.53</td>
-                                    <td>$17.14</td>
-                                    <td>$370,500.00</td>
-                                    <td>$342,700.00</td>
-                                    <td class="loss">-$27,800.00 (-7.50%)</td>
-                                    <td>Apr 8, 2026</td>
-                                </tr>
-                                <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">STX</td>
-                                    <td><span class="badge short">Short</span></td>
-                                    <td>300</td>
-                                    <td>$518.35</td>
-                                    <td>$587.05</td>
-                                    <td>$155,505.00</td>
-                                    <td>$176,114.10</td>
-                                    <td class="loss">-$20,609.10 (-13.25%)</td>
-                                    <td>Apr 8, 2026</td>
-                                </tr>
-                                <tr>
-                                    <td class="expand-btn">▸</td>
-                                    <td class="symbol">SOXS</td>
-                                    <td><span class="badge long">Long</span></td>
-                                    <td>20000</td>
-                                    <td>$23.68</td>
-                                    <td>$13.57</td>
-                                    <td>$473,545.00</td>
-                                    <td>$271,380.00</td>
-                                    <td class="loss">-$202,165.00 (-42.69%)</td>
-                                    <td>Apr 7, 2026</td>
+                                    <td class="symbol">SNPS</td>
+                                    <td><span class="badge recovery">Recovery (4/5)</span></td>
+                                    <td>Sep 12 '25</td>
+                                    <td>$418.23</td>
+                                    <td class="neutral">—</td>
+                                    <td><span class="current-price">400,00</span></td>
+                                    <td>$600.00</td>
+                                    <td class="loss">-4.4%</td>
+                                    <td class="neutral">n/a</td>
+                                    <td>50.0%</td>
+                                    <td>
+                                        <div class="progress-cell">
+                                            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+                                            <span class="progress-value loss">-10%</span>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -253,7 +369,6 @@
 
     <script src="script.js"></script>
     <script>
-        // Register Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
