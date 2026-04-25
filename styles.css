@@ -1067,6 +1067,22 @@ body {
     flex-shrink: 0;
 }
 
+.badge.near-stop {
+    background-color: #fff1f2;
+    color: #be123c;
+    border-color: #fda4af;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.badge.near-target {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border-color: #93c5fd;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
     .metrics-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
