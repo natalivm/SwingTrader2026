@@ -3,65 +3,44 @@
   "short_name": "SwingTrader",
   "description": "A responsive web application for swing trading",
   "start_url": "/SwingTrader2026/",
+  "scope": "/SwingTrader2026/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#1e40af",
-  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e40af' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>ST</text></svg>",
+      "src": "icon-192.svg",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%231e40af' width='512' height='512'/><text x='256' y='340' font-size='280' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>ST</text></svg>",
+      "src": "icon-512.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f9fafb' width='540' height='720'/><rect fill='%231e40af' width='540' height='70'/><text x='270' y='45' font-size='24' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>SwingTrader 2026</text><text x='270' y='200' font-size='28' font-weight='bold' fill='%231e40af' text-anchor='middle' font-family='Arial'>Dashboard</text></svg>",
-      "sizes": "540x720",
-      "type": "image/svg+xml",
-      "form_factor": "narrow"
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'><rect fill='%23f9fafb' width='1280' height='720'/><rect fill='%231e40af' width='1280' height='70'/><text x='640' y='45' font-size='28' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>SwingTrader 2026</text><text x='640' y='200' font-size='32' font-weight='bold' fill='%231e40af' text-anchor='middle' font-family='Arial'>Dashboard</text></svg>",
-      "sizes": "1280x720",
+      "src": "icon-512.svg",
+      "sizes": "512x512",
       "type": "image/svg+xml",
-      "form_factor": "wide"
+      "purpose": "maskable"
     }
   ],
   "categories": ["finance", "business"],
   "shortcuts": [
     {
-      "name": "Dashboard",
-      "short_name": "Dashboard",
-      "description": "View trading dashboard",
-      "url": "/SwingTrader2026/#dashboard",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%231e40af' width='96' height='96'/><text x='48' y='65' font-size='50' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>D</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
       "name": "Portfolio",
       "short_name": "Portfolio",
       "description": "Manage your portfolio",
-      "url": "/SwingTrader2026/#portfolio",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%233b82f6' width='96' height='96'/><text x='48' y='65' font-size='50' font-weight='bold' fill='white' text-anchor='middle' font-family='Arial'>P</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
+      "url": "/SwingTrader2026/#portfolio"
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View trading dashboard",
+      "url": "/SwingTrader2026/#dashboard"
     }
   ]
 }
