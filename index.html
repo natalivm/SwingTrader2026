@@ -43,9 +43,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#strategies" class="nav-link" data-tab="strategies">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        Strategies
+                    <a href="#alerts" class="nav-link" data-tab="alerts">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        Trade Alerts
                     </a>
                 </li>
                 <li class="nav-item">
@@ -555,34 +555,133 @@
             </div>
         </section>
 
-        <!-- Strategies Page -->
-        <section id="strategies" class="page" data-page="strategies">
+        <!-- Trade Alerts Page -->
+        <section id="alerts" class="page" data-page="alerts">
             <div class="page-container">
-                <h1 class="section-title">Strategies</h1>
-                <div class="placeholder-grid">
-                    <div class="ph-card">
-                        <span class="ph-icon">📈</span>
-                        <div class="ph-title">Swing Trade</div>
-                        <div class="ph-desc">Momentum-based entries on breakouts with 3–8 week hold time. Enter on confirmed breakout, stop below base.</div>
-                        <div class="ph-value">6 active</div>
-                    </div>
-                    <div class="ph-card">
-                        <span class="ph-icon">♻️</span>
-                        <div class="ph-title">Recovery</div>
-                        <div class="ph-desc">Averaging into quality names during temporary drawdowns. No hard stop — thesis-based exit.</div>
-                        <div class="ph-value">3 active</div>
-                    </div>
-                    <div class="ph-card">
-                        <span class="ph-icon">⏳</span>
-                        <div class="ph-title">Pending Setup</div>
-                        <div class="ph-desc">Setups entered but awaiting confirmation trigger before full position is taken.</div>
-                        <div class="ph-value">1 active</div>
-                    </div>
-                    <div class="ph-card">
-                        <span class="ph-icon">📋</span>
-                        <div class="ph-title">Trade Playbook</div>
-                        <div class="ph-desc">Rules, criteria, and entry/exit checklists for each strategy type.</div>
-                        <div class="ph-value">3 strategies</div>
+                <h1 class="section-title">Trade Alerts<span class="monthly-subtitle">new picks issued Apr 14 – Apr 24</span></h1>
+
+                <div class="alerts-table-card">
+                    <div class="table-container">
+                        <table class="alerts-table" aria-label="Trade alerts and picks">
+                            <thead>
+                                <tr>
+                                    <th>DATE</th>
+                                    <th>SYMBOL</th>
+                                    <th>TYPE</th>
+                                    <th class="text-right">ENTRY</th>
+                                    <th class="text-right">STOP</th>
+                                    <th class="text-right">TARGET</th>
+                                    <th>OUTCOME</th>
+                                    <th>NOTES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="alert-date">Apr 14</td>
+                                    <td class="symbol">MU</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">427 or lower</td>
+                                    <td class="text-right">$388.00</td>
+                                    <td class="text-right">$540.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-closed">Closed ✓</span>
+                                        <span class="outcome-text">Closed 4/20 <span class="profit">+5.4%</span></span>
+                                    </td>
+                                    <td class="alert-notes">Memory leader; tested ATH; analyst tgt 550+</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 14</td>
+                                    <td class="symbol">CAVA</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">85.70</td>
+                                    <td class="text-right">$79.90</td>
+                                    <td class="text-right">$105.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-closed">Closed ✓</span>
+                                        <span class="outcome-text">Closed 4/22 <span class="profit">+13.5%</span></span>
+                                    </td>
+                                    <td class="alert-notes">Fast-growing casual; IBD 50; stop trailed above entry, sold at open</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 15</td>
+                                    <td class="symbol">NET</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">184.27</td>
+                                    <td class="text-right">$167.00</td>
+                                    <td class="text-right">$220.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-closed">Closed ✓</span>
+                                        <span class="outcome-text">Closed 4/17 <span class="profit">+8.9%</span></span>
+                                    </td>
+                                    <td class="alert-notes">Cybersecurity bounce off key support</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 16</td>
+                                    <td class="symbol">ORCL</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">172.60</td>
+                                    <td class="text-right">$155.00</td>
+                                    <td class="text-right">$215.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-unfilled">Unfilled</span>
+                                        <span class="outcome-text">Likely never filled</span>
+                                    </td>
+                                    <td class="alert-notes">Wide stop; base breakout after Sept-high fall</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 17</td>
+                                    <td class="symbol">ONDS</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">10.40</td>
+                                    <td class="text-right">$9.80</td>
+                                    <td class="text-right">$14.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-open">Open</span>
+                                        <span class="outcome-text">Open · stop raised 9.80</span>
+                                    </td>
+                                    <td class="alert-notes">Pure-drone play; 700% Q sales; stop raised</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 17</td>
+                                    <td class="symbol">RKLB</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">83.5 or lower</td>
+                                    <td class="text-right">$75.00</td>
+                                    <td class="text-right">$100.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-unfilled">Unfilled</span>
+                                        <span class="outcome-text">Unfilled</span>
+                                    </td>
+                                    <td class="alert-notes">Small-launch leader; new backlog</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 20</td>
+                                    <td class="symbol">FIGS</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">16 or lower</td>
+                                    <td class="text-right">$14.50</td>
+                                    <td class="text-right">$20.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-open">Open</span>
+                                        <span class="outcome-text">Open · filled at 16</span>
+                                    </td>
+                                    <td class="alert-notes">Scrubs-maker; rounded-bottom high base</td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-date">Apr 21</td>
+                                    <td class="symbol">Q</td>
+                                    <td class="alert-type">Swing Long</td>
+                                    <td class="alert-entry text-right">138 or lower</td>
+                                    <td class="text-right">$132.00</td>
+                                    <td class="text-right">$165.00</td>
+                                    <td class="alert-outcome-cell">
+                                        <span class="badge outcome-open">Open</span>
+                                        <span class="outcome-text">Open · filled 137.23</span>
+                                    </td>
+                                    <td class="alert-notes">Semiconductor materials IPO; stop raised to 132</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
