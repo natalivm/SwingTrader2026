@@ -461,33 +461,3 @@
 
 })();
 
-// ── Ticker step animation ────────────────────────────────────────────────────
-(function initTicker() {
-    const track = document.querySelector('.ticker-track');
-    if (!track) return;
-    const items = Array.from(track.querySelectorAll('.ticker-item'));
-    if (items.length < 2) return;
-
-    const PAUSE = 3200;
-    const SLIDE = 550;
-    let idx = 0;
-
-    function next() {
-        idx = (idx + 1) % items.length;
-
-        if (idx === 0) {
-            // Snap back to first item without animation, then pause before next slide
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(0)';
-            track.getBoundingClientRect(); // force reflow
-            setTimeout(next, PAUSE);
-            return;
-        }
-
-        track.style.transition = `transform ${SLIDE}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-        track.style.transform = `translateX(-${items[idx].offsetLeft}px)`;
-        setTimeout(next, PAUSE + SLIDE);
-    }
-
-    setTimeout(next, PAUSE);
-}());
