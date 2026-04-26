@@ -149,9 +149,9 @@
         const ths = Array.from(table.querySelectorAll('thead th'));
 
         // Hide TO TARGET % (index 11) — kept in DOM for proximity alert logic
-        if (ths[11]) ths[11].style.display = 'none';
+        if (ths[11]) ths[11].hidden = true;
         Array.from(tbody.rows).forEach(row => {
-            if (row.cells[11]) row.cells[11].style.display = 'none';
+            if (row.cells[11]) row.cells[11].hidden = true;
         });
 
         // Remove TO STOP % (index 10) — not needed
@@ -243,108 +243,183 @@
     makeSorter(tradesTable, tradesBody, false, false);
 
     // ── Positions card view ─────────────────────────────────────────────────
-    const tableViewBtn    = document.getElementById('tableViewBtn');
-    const cardViewBtn     = document.getElementById('cardViewBtn');
-    const tableContainer  = document.querySelector('.positions-section .table-container');
-    const cardGrid        = document.getElementById('positionsCardGrid');
-    let cardsBuilt        = false;
+    const tableViewBtn   = document.getElementById('tableViewBtn');
+    const cardViewBtn    = document.getElementById('cardViewBtn');
+    const tableContainer = document.querySelector('.positions-section .table-container');
+    const cardGrid       = document.getElementById('positionsCardGrid');
 
+    // ── Animation helpers ────────────────────────────────────────────────────
+    function countUp(el, target, prefix, decimals, duration) {
+        const t0 = performance.now();
+        (function step(now) {
+            const p = Math.min((now - t0) / duration, 1);
+            el.textContent = prefix + (target * (1 - Math.pow(1 - p, 3))).toFixed(decimals);
+            if (p < 1) requestAnimationFrame(step);
+        })(t0);
+    }
+
+    function typeWriter(el, text, charDelay) {
+        el.textContent = '';
+        [...text].forEach((ch, i) => setTimeout(() => { el.textContent += ch; }, i * charDelay));
+    }
+
+    // ── Extract row data into a plain object ─────────────────────────────────
+    function rowToCardData(row) {
+        const parseP = s => parseFloat((s || '').replace(/[$,\s]/g, ''));
+        const sym      = row.querySelector('.symbol')?.textContent.trim() ?? '';
+        const isShort  = !!row.querySelector('.badge.short-trade');
+        const cat      = row.querySelector('.badge')?.textContent.trim() ?? '';
+        const entryText = row.cells[3]?.textContent.trim() ?? '—';
+        const stopRaw   = row.cells[4]?.textContent.trim() ?? '—';
+        const curRaw    = row.cells[5]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
+        const curText   = curRaw ? '$' + curRaw : '—';
+        const targetRaw = row.cells[6]?.textContent.trim() ?? '—';
+        const plPct     = row.cells[7]?.textContent.trim() ?? '—';
+        const plDol     = row.cells[8]?.textContent.trim() ?? '—';
+        const allocText = row.cells[9]?.textContent.trim() ?? '—';
+
+        const curNum = curRaw ? parseFloat(curRaw) : NaN;
+        const tgtNum = parseP(targetRaw);
+        const stpNum = parseP(stopRaw);
+        const entNum = parseP(entryText);
+
+        let upside = null, rrStr = null;
+        if (!isNaN(curNum) && !isNaN(tgtNum) && tgtNum > 0) {
+            const uVal = isShort ? (curNum - tgtNum) / curNum * 100 : (tgtNum - curNum) / curNum * 100;
+            if (uVal > 0) upside = uVal.toFixed(1) + '%';
+        }
+        if (!isNaN(curNum) && !isNaN(tgtNum) && !isNaN(stpNum) && stpNum > 0) {
+            const rr = isShort ? (curNum - tgtNum) / (stpNum - curNum) : (tgtNum - curNum) / (curNum - stpNum);
+            if (rr > 0 && isFinite(rr)) rrStr = rr.toFixed(1) + '×';
+        }
+
+        const plNum   = parseFloat(plPct.replace(/[+%\s]/g, ''));
+        const plClass = plPct.startsWith('+') ? 'profit' : plPct.startsWith('-') ? 'loss' : 'neutral';
+        const plAbs   = Math.abs(plNum).toFixed(1);
+        const status  = isNaN(plNum) || plPct === '—' ? 'No P/L data available.'
+                      : Math.abs(plNum) < 1            ? `Trading right at entry (${plPct} from entry).`
+                      : plNum > 0                      ? `Up ${plAbs}% from entry.`
+                      :                                  `Down ${plAbs}% from entry.`;
+        const stopVal   = (stopRaw  === 'n/a' || stopRaw  === '—') ? '—' : stopRaw;
+        const targetVal = (targetRaw === 'n/a' || targetRaw === '—') ? '—' : targetRaw;
+
+        return { sym, cat, isShort, entryText, stopVal, curText, targetVal, plPct, plDol, plClass, status, upside, rrStr, allocText, curNum, tgtNum, stpNum, entNum };
+    }
+
+    // ── Open position detail modal ───────────────────────────────────────────
+    function openPositionModal(d) {
+        document.querySelector('.pos-modal-overlay')?.remove();
+
+        const metricsHTML = [
+            { label: 'Stop',   val: d.stopVal,   cls: '' },
+            d.upside && { label: 'Upside', val: d.upside,   cls: 'upside' },
+            d.rrStr  && { label: 'R/R',    val: d.rrStr,    cls: 'rr' },
+            { label: 'Size',   val: d.allocText, cls: '' },
+            { label: 'P/L $',  val: d.plDol,     cls: d.plClass },
+        ].filter(Boolean).map((m, i) => `
+            <div class="pos-modal-metric" style="animation-delay:${0.22 + i * 0.07}s">
+                <div class="pos-modal-metric-label">${m.label}</div>
+                <div class="pos-modal-metric-val ${m.cls}">${m.val}</div>
+            </div>`).join('');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'pos-modal-overlay';
+        overlay.innerHTML = `
+            <div class="pos-modal" role="dialog" aria-modal="true">
+                <button class="pos-modal-close" aria-label="Close">✕</button>
+                <div class="pos-modal-header">
+                    <div class="pos-modal-sym-row">
+                        <span class="pos-modal-symbol">${d.sym}</span>
+                        <span class="badge ${d.isShort ? 'short-trade' : 'swing-trade'}">${d.cat}</span>
+                    </div>
+                    <span class="pos-modal-pl ${d.plClass}">${d.plPct}</span>
+                </div>
+                <div class="pos-modal-status"></div>
+                <div class="pos-modal-prices">
+                    <div class="pos-modal-price-col">
+                        <div class="pos-modal-price-label">Entry</div>
+                        <div class="pos-modal-price-val" ${d.entNum > 0 ? `data-n="${d.entNum}"` : ''}>${d.entryText}</div>
+                    </div>
+                    <div class="pos-modal-price-col">
+                        <div class="pos-modal-price-label">Current</div>
+                        <div class="pos-modal-price-val current" ${d.curNum > 0 ? `data-n="${d.curNum}"` : ''}>${d.curText}</div>
+                    </div>
+                    <div class="pos-modal-price-col">
+                        <div class="pos-modal-price-label">Target</div>
+                        <div class="pos-modal-price-val" ${d.tgtNum > 0 ? `data-n="${d.tgtNum}"` : ''}>${d.targetVal}</div>
+                    </div>
+                </div>
+                <div class="pos-modal-metrics">${metricsHTML}</div>
+            </div>`;
+
+        document.body.appendChild(overlay);
+
+        const close = () => {
+            overlay.style.cssText = 'opacity:0; transition:opacity 0.15s ease';
+            setTimeout(() => overlay.remove(), 150);
+        };
+        overlay.querySelector('.pos-modal-close').addEventListener('click', close);
+        overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+        const onEsc = e => { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onEsc); } };
+        document.addEventListener('keydown', onEsc);
+
+        typeWriter(overlay.querySelector('.pos-modal-status'), d.status, 22);
+
+        overlay.querySelectorAll('.pos-modal-price-val[data-n]').forEach((el, i) => {
+            const n = parseFloat(el.dataset.n);
+            if (!isNaN(n) && n > 0) {
+                const dec = (String(n).split('.')[1] ?? '').length;
+                setTimeout(() => countUp(el, n, '$', dec, 700), i * 90 + 100);
+            }
+        });
+    }
+
+    // ── Build card grid from table rows ──────────────────────────────────────
     function buildPositionCards() {
         if (!tbody || !cardGrid) return;
         cardGrid.innerHTML = '';
-
-        const parseP = s => parseFloat((s || '').replace(/[$,\s]/g, ''));
-
-        Array.from(tbody.rows).forEach(row => {
-            const sym    = row.querySelector('.symbol')?.textContent.trim() ?? '';
-            const isShort = !!row.querySelector('.badge.short-trade');
-            const cat    = row.querySelector('.badge')?.textContent.trim() ?? '';
-
-            // After column manipulation: indices 3–8 are ENTRY, STOP, CURRENT, TARGET, PL%, PL$
-            const entryText  = row.cells[3]?.textContent.trim() ?? '—';
-            const stopText   = row.cells[4]?.textContent.trim() ?? '—';
-            const curSpan    = row.cells[5]?.querySelector('.current-price');
-            const curRaw     = curSpan?.textContent.trim().replace(',', '.') ?? null;
-            const curText    = curRaw ? '$' + curRaw : '—';
-            const targetText = row.cells[6]?.textContent.trim() ?? '—';
-            const plPct      = row.cells[7]?.textContent.trim() ?? '—';
-            const plDol      = row.cells[8]?.textContent.trim() ?? '—';
-
-            const curNum  = curRaw ? parseFloat(curRaw) : NaN;
-            const tgtNum  = parseP(targetText);
-            const stpNum  = parseP(stopText);
-
-            let upside = null, rrStr = null;
-            if (!isNaN(curNum) && !isNaN(tgtNum) && tgtNum !== 0) {
-                const uVal = isShort
-                    ? (curNum - tgtNum) / curNum * 100
-                    : (tgtNum - curNum) / curNum * 100;
-                if (uVal > 0) upside = uVal.toFixed(1) + '%';
-            }
-            if (!isNaN(curNum) && !isNaN(tgtNum) && !isNaN(stpNum) && stpNum !== 0) {
-                const rrNum = isShort
-                    ? (curNum - tgtNum) / (stpNum - curNum)
-                    : (tgtNum - curNum) / (curNum - stpNum);
-                if (rrNum > 0 && isFinite(rrNum)) rrStr = rrNum.toFixed(1) + '×';
-            }
-
-            const plNum    = parseFloat(plPct.replace(/[+%\s]/g, ''));
-            const plClass  = plPct.startsWith('+') ? 'profit' : plPct.startsWith('-') ? 'loss' : 'neutral';
-            let status;
-            const plAbs = Math.abs(plNum).toFixed(1);
-            if (isNaN(plNum) || plPct === '—') {
-                status = 'No P/L data available.';
-            } else if (Math.abs(plNum) < 1) {
-                status = `Trading right at entry (${plPct} from entry).`;
-            } else if (plNum > 0) {
-                status = `Up ${plAbs}% from entry.`;
-            } else {
-                status = `Down ${plAbs}% from entry.`;
-            }
-
-            const stopVal   = (stopText === 'n/a' || stopText === '—') ? '—' : stopText;
-            const targetVal = (targetText === 'n/a' || targetText === '—') ? '—' : targetText;
-
+        Array.from(tbody.rows).forEach((row, idx) => {
+            const d = rowToCardData(row);
             const card = document.createElement('div');
             card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '');
+            card.style.animationDelay = `${idx * 50}ms`;
             card.innerHTML = `
                 <div class="pos-card-header">
                     <div class="pos-card-sym-wrap">
-                        <span class="pos-card-symbol">${sym}</span>
-                        <span class="badge ${isShort ? 'short-trade' : 'swing-trade'}">${cat}</span>
+                        <span class="pos-card-symbol">${d.sym}</span>
+                        <span class="badge ${d.isShort ? 'short-trade' : 'swing-trade'}">${d.cat}</span>
                     </div>
-                    <span class="pos-card-pl ${plClass}">${plPct}</span>
+                    <span class="pos-card-pl ${d.plClass}">${d.plPct}</span>
                 </div>
-                <div class="pos-card-status">${status}</div>
+                <div class="pos-card-status">${d.status}</div>
                 <div class="pos-card-prices">
                     <div class="pos-card-price-col">
                         <div class="pos-card-price-label">Entry</div>
-                        <div class="pos-card-price-val">${entryText}</div>
+                        <div class="pos-card-price-val">${d.entryText}</div>
                     </div>
                     <div class="pos-card-price-col">
                         <div class="pos-card-price-label">Current</div>
-                        <div class="pos-card-price-val current">${curText}</div>
+                        <div class="pos-card-price-val current">${d.curText}</div>
                     </div>
                     <div class="pos-card-price-col">
                         <div class="pos-card-price-label">Target</div>
-                        <div class="pos-card-price-val">${targetVal}</div>
+                        <div class="pos-card-price-val">${d.targetVal}</div>
                     </div>
                 </div>
                 <div class="pos-card-footer">
-                    <span>Stop: <strong>${stopVal}</strong></span>
-                    ${upside ? `<span>Upside: <span class="upside">${upside}</span></span>` : ''}
-                    ${rrStr  ? `<span>R/R: <span class="rr">${rrStr}</span></span>` : ''}
-                    <span>P/L: <span class="${plClass}">${plDol}</span></span>
+                    <span>Stop: <strong>${d.stopVal}</strong></span>
+                    ${d.upside ? `<span>Upside: <span class="upside">${d.upside}</span></span>` : ''}
+                    ${d.rrStr  ? `<span>R/R: <span class="rr">${d.rrStr}</span></span>`          : ''}
+                    <span>Size: <strong>${d.allocText}</strong></span>
+                    <span>P/L: <span class="${d.plClass}">${d.plDol}</span></span>
                 </div>`;
 
             card.addEventListener('click', () => {
                 const wasSelected = row.classList.contains('row-selected');
                 tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
                 cardGrid.querySelectorAll('.pos-card.row-selected').forEach(c => c.classList.remove('row-selected'));
-                if (!wasSelected) {
-                    row.classList.add('row-selected');
-                    card.classList.add('row-selected');
-                }
+                if (!wasSelected) { row.classList.add('row-selected'); card.classList.add('row-selected'); }
+                openPositionModal(d);
             });
 
             cardGrid.appendChild(card);
@@ -362,7 +437,7 @@
         });
 
         cardViewBtn.addEventListener('click', () => {
-            if (!cardsBuilt) { buildPositionCards(); cardsBuilt = true; }
+            buildPositionCards();
             cardViewBtn.classList.add('active');
             cardViewBtn.setAttribute('aria-pressed', 'true');
             tableViewBtn.classList.remove('active');
