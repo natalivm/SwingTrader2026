@@ -438,25 +438,36 @@
         });
     }
 
-    if (tableViewBtn && cardViewBtn && tableContainer && cardGrid) {
-        tableViewBtn.addEventListener('click', () => {
-            tableViewBtn.classList.add('active');
-            tableViewBtn.setAttribute('aria-pressed', 'true');
-            cardViewBtn.classList.remove('active');
-            cardViewBtn.setAttribute('aria-pressed', 'false');
-            tableContainer.hidden = false;
-            cardGrid.hidden = true;
-        });
+    function activateCardView() {
+        buildPositionCards();
+        cardViewBtn.classList.add('active');
+        cardViewBtn.setAttribute('aria-pressed', 'true');
+        tableViewBtn.classList.remove('active');
+        tableViewBtn.setAttribute('aria-pressed', 'false');
+        tableContainer.hidden = true;
+        cardGrid.hidden = false;
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('posView', 'card');
+    }
 
-        cardViewBtn.addEventListener('click', () => {
-            buildPositionCards();
-            cardViewBtn.classList.add('active');
-            cardViewBtn.setAttribute('aria-pressed', 'true');
-            tableViewBtn.classList.remove('active');
-            tableViewBtn.setAttribute('aria-pressed', 'false');
-            tableContainer.hidden = true;
-            cardGrid.hidden = false;
-        });
+    function activateTableView() {
+        tableViewBtn.classList.add('active');
+        tableViewBtn.setAttribute('aria-pressed', 'true');
+        cardViewBtn.classList.remove('active');
+        cardViewBtn.setAttribute('aria-pressed', 'false');
+        tableContainer.hidden = false;
+        cardGrid.hidden = true;
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('posView', 'table');
+    }
+
+    if (tableViewBtn && cardViewBtn && tableContainer && cardGrid) {
+        tableViewBtn.addEventListener('click', activateTableView);
+        cardViewBtn.addEventListener('click', activateCardView);
+
+        if (localStorage.getItem('posView') === 'card') {
+            activateCardView();
+        }
     }
 
 })();
