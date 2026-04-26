@@ -43,6 +43,12 @@
     --badge-short-bg: #fff1f2;
     --badge-short-text: #be123c;
     --badge-short-border: #fecdd3;
+    --badge-call-bg: #f0fdf4;
+    --badge-call-text: #15803d;
+    --badge-call-border: #bbf7d0;
+    --badge-put-bg: #fff7ed;
+    --badge-put-text: #c2410c;
+    --badge-put-border: #fed7aa;
 
     /* Progress */
     --progress-track: #e2e8f0;
@@ -82,6 +88,12 @@ body.dark-mode {
     --badge-pending-bg: rgba(217, 119, 6, 0.15);
     --badge-pending-text: #fbbf24;
     --badge-pending-border: rgba(251, 191, 36, 0.3);
+    --badge-call-bg: rgba(21, 128, 61, 0.15);
+    --badge-call-text: #4ade80;
+    --badge-call-border: rgba(74, 222, 128, 0.3);
+    --badge-put-bg: rgba(194, 65, 12, 0.15);
+    --badge-put-text: #fb923c;
+    --badge-put-border: rgba(251, 146, 60, 0.3);
 }
 
 /* Hardcoded backgrounds that don't pick up variable overrides */
@@ -779,6 +791,79 @@ body {
     border-color: #fca5a5;
     font-weight: 700;
 }
+
+.badge.long-call {
+    background-color: var(--badge-call-bg);
+    color: var(--badge-call-text);
+    border-color: var(--badge-call-border);
+}
+
+.badge.long-put {
+    background-color: var(--badge-put-bg);
+    color: var(--badge-put-text);
+    border-color: var(--badge-put-border);
+}
+
+/* ── Options section ─────────────────────────────────────────────────────── */
+.options-section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.options-header {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+body.dark-mode .options-header {
+    background: linear-gradient(135deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.6) 100%);
+}
+
+.options-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.options-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.options-table thead tr {
+    background-color: var(--table-header-bg);
+    border-bottom: 2px solid var(--border);
+}
+
+.options-table th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.options-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-color);
+    white-space: nowrap;
+}
+
+.options-table tbody tr:last-child td { border-bottom: none; }
+
+.options-table tbody tr:hover { background-color: var(--row-hover); }
 
 /* ── Allocation column ───────────────────────────────────────────────────── */
 .alloc-pct { font-weight: 600; }
