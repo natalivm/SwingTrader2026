@@ -1071,69 +1071,93 @@ body {
     box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
 }
 
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
+@keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pricePulse {
+    0%, 100% { text-shadow: none; }
+    50%       { text-shadow: 0 0 20px rgba(129, 140, 248, 0.7); }
+}
+@keyframes overlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.88) translateY(28px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+@keyframes metricStagger {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Position cards grid ─────────────────────────────────────────────────── */
 .positions-card-grid {
-    padding: 24px;
+    padding: 28px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    gap: 22px;
     background: linear-gradient(160deg, #0d1117 0%, #0f172a 100%);
 }
 
 .pos-card {
     background: #1a2336;
     border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 14px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 26px 28px;
     cursor: pointer;
-    transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, background 0.2s;
+    transition: box-shadow 0.25s, transform 0.18s, border-color 0.2s, background 0.2s;
+    animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .pos-card:hover {
     background: #1f2d45;
     border-color: rgba(255, 255, 255, 0.14);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    transform: translateY(-3px);
 }
 .pos-card.row-selected {
     border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 
 .pos-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     gap: 8px;
 }
 .pos-card-sym-wrap {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     min-width: 0;
 }
 .pos-card-symbol {
-    font-size: 22px;
-    font-weight: 800;
+    font-size: 40px;
+    font-weight: 900;
     color: #f1f5f9;
     line-height: 1;
+    letter-spacing: -0.5px;
 }
 .pos-card-pl {
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
-    padding: 3px 10px;
+    padding: 5px 14px;
     border-radius: 20px;
     white-space: nowrap;
     flex-shrink: 0;
 }
-.pos-card-pl.profit { background: rgba(16, 185, 129, 0.18); color: #34d399; }
-.pos-card-pl.loss   { background: rgba(239,  68,  68, 0.18); color: #f87171; }
+.pos-card-pl.profit  { background: rgba(16, 185, 129, 0.18); color: #34d399; }
+.pos-card-pl.loss    { background: rgba(239,  68,  68, 0.18); color: #f87171; }
 .pos-card-pl.neutral { background: rgba(255, 255, 255, 0.07); color: #64748b; }
 
 .pos-card-status {
-    font-size: 12.5px;
+    font-size: 18px;
     color: #64748b;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     line-height: 1.45;
 }
 
@@ -1142,37 +1166,41 @@ body {
     grid-template-columns: repeat(3, 1fr);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 14px;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
     gap: 4px;
 }
 .pos-card-price-col { min-width: 0; }
 .pos-card-price-label {
-    font-size: 9.5px;
+    font-size: 11px;
     font-weight: 700;
     color: #3d526b;
     text-transform: uppercase;
     letter-spacing: 0.7px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 .pos-card-price-val {
-    font-size: 13.5px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 800;
     color: #cbd5e1;
+    font-variant-numeric: tabular-nums;
 }
-.pos-card-price-val.current { color: #818cf8; }
+.pos-card-price-val.current {
+    color: #818cf8;
+    animation: pricePulse 3s ease-in-out infinite;
+}
 
 .pos-card-footer {
     display: flex;
-    gap: 14px;
-    font-size: 12px;
+    gap: 18px;
+    font-size: 16px;
     color: #475569;
     flex-wrap: wrap;
-    padding-top: 12px;
+    padding-top: 14px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
-.pos-card-footer span { white-space: nowrap; }
+.pos-card-footer span   { white-space: nowrap; }
 .pos-card-footer strong { color: #94a3b8; font-weight: 600; }
 .pos-card-footer .upside { color: #34d399; font-weight: 700; }
 .pos-card-footer .rr     { color: #e2e8f0; font-weight: 700; }
@@ -1184,11 +1212,187 @@ body {
     background-color: rgba(59, 130, 246, 0.15);
     color: #60a5fa;
     border-color: rgba(59, 130, 246, 0.3);
+    font-size: 13px;
 }
 .pos-card .badge.short-trade {
     background-color: rgba(244, 63, 94, 0.15);
     color: #fb7185;
     border-color: rgba(244, 63, 94, 0.3);
+    font-size: 13px;
+}
+
+/* ── Position detail modal ───────────────────────────────────────────────── */
+.pos-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000;
+    padding: 24px;
+    animation: overlayIn 0.2s ease;
+}
+
+.pos-modal {
+    background: linear-gradient(160deg, #1a2336 0%, #141c2c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+    padding: 40px 44px;
+    width: 100%;
+    max-width: 540px;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(99, 102, 241, 0.12);
+    animation: modalIn 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pos-modal-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.pos-modal-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.pos-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    gap: 12px;
+}
+.pos-modal-sym-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.pos-modal-symbol {
+    font-size: 54px;
+    font-weight: 900;
+    color: #f1f5f9;
+    line-height: 1;
+    letter-spacing: -1.5px;
+}
+.pos-modal-pl {
+    font-size: 18px;
+    font-weight: 800;
+    padding: 7px 18px;
+    border-radius: 24px;
+    white-space: nowrap;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+.pos-modal-pl.profit  { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.pos-modal-pl.loss    { background: rgba(239,  68,  68, 0.2); color: #f87171; }
+.pos-modal-pl.neutral { background: rgba(255, 255, 255, 0.07); color: #64748b; }
+
+.pos-modal-status {
+    font-size: 17px;
+    color: #94a3b8;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    min-height: 1.5em;
+}
+
+.pos-modal-prices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+.pos-modal-price-col {
+    padding: 20px 16px;
+    text-align: center;
+}
+.pos-modal-price-col + .pos-modal-price-col {
+    border-left: 1px solid rgba(255, 255, 255, 0.07);
+}
+.pos-modal-price-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3d526b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+}
+.pos-modal-price-val {
+    font-size: 30px;
+    font-weight: 900;
+    color: #e2e8f0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+}
+.pos-modal-price-val.current {
+    color: #818cf8;
+    text-shadow: 0 0 24px rgba(129, 140, 248, 0.45);
+}
+
+.pos-modal-metrics {
+    display: flex;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    overflow: hidden;
+}
+.pos-modal-metric {
+    flex: 1;
+    padding: 16px 10px;
+    text-align: center;
+    animation: metricStagger 0.4s ease both;
+}
+.pos-modal-metric + .pos-modal-metric {
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+.pos-modal-metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #3d526b;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 8px;
+}
+.pos-modal-metric-val {
+    font-size: 17px;
+    font-weight: 700;
+    color: #94a3b8;
+    font-variant-numeric: tabular-nums;
+}
+.pos-modal-metric-val.upside { color: #34d399; }
+.pos-modal-metric-val.rr     { color: #e2e8f0; }
+.pos-modal-metric-val.profit { color: #34d399; }
+.pos-modal-metric-val.loss   { color: #f87171; }
+
+/* Badge overrides inside modal */
+.pos-modal .badge.swing-trade {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.3);
+    font-size: 14px;
+    padding: 4px 12px;
+}
+.pos-modal .badge.short-trade {
+    background-color: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    border-color: rgba(244, 63, 94, 0.3);
+    font-size: 14px;
+    padding: 4px 12px;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
@@ -1269,6 +1473,25 @@ body {
     .alert-outcome-cell { min-width: 160px; }
     .alert-notes { max-width: 200px; }
     .positions-card-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; }
+    .pos-card { padding: 18px; animation: none; }
+    .pos-card-symbol { font-size: 22px; }
+    .pos-card-pl { font-size: 12px; padding: 3px 9px; }
+    .pos-card-status { font-size: 13px; margin-bottom: 14px; }
+    .pos-card-prices { padding: 10px 12px; margin-bottom: 12px; }
+    .pos-card-price-label { font-size: 9px; }
+    .pos-card-price-val { font-size: 14px; }
+    .pos-card-footer { font-size: 12px; gap: 10px; padding-top: 10px; }
+    .pos-card .badge.swing-trade,
+    .pos-card .badge.short-trade { font-size: 11px; }
+
+    .pos-modal { padding: 28px 22px; }
+    .pos-modal-symbol { font-size: 40px; }
+    .pos-modal-pl { font-size: 15px; padding: 5px 14px; }
+    .pos-modal-status { font-size: 15px; margin-bottom: 22px; }
+    .pos-modal-price-col { padding: 16px 10px; }
+    .pos-modal-price-val { font-size: 22px; }
+    .pos-modal-metric { padding: 14px 8px; }
+    .pos-modal-metric-val { font-size: 15px; }
 }
 
 @media (max-width: 480px) {
@@ -1281,4 +1504,11 @@ body {
     .section-title { font-size: 17px; margin-bottom: 10px; }
     .filter-btns { flex-wrap: wrap; }
     .positions-card-grid { grid-template-columns: 1fr; gap: 12px; padding: 14px; }
+    .pos-modal { padding: 22px 16px; border-radius: 18px; }
+    .pos-modal-symbol { font-size: 32px; }
+    .pos-modal-price-val { font-size: 18px; }
+    .pos-modal-metrics { flex-wrap: wrap; }
+    .pos-modal-metric { flex: none; width: 50%; }
+    .pos-modal-metric:nth-child(2n) { border-left: 1px solid rgba(255,255,255,0.06); }
+    .pos-modal-metric:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,0.06); }
 }
