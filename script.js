@@ -110,14 +110,20 @@
         }
     }
 
-    // ── Remove TO STOP % and TO TARGET % columns ────────────────────────────
+    // ── Column visibility: hide TO TARGET %, remove TO STOP % ──────────────
     if (table && tbody) {
         const ths = Array.from(table.querySelectorAll('thead th'));
-        [11, 10].forEach(idx => {
-            if (ths[idx]) ths[idx].remove();
-            Array.from(tbody.rows).forEach(row => {
-                if (row.cells[idx]) row.cells[idx].remove();
-            });
+
+        // Hide TO TARGET % (index 11) — kept in DOM for proximity alert logic
+        if (ths[11]) ths[11].style.display = 'none';
+        Array.from(tbody.rows).forEach(row => {
+            if (row.cells[11]) row.cells[11].style.display = 'none';
+        });
+
+        // Remove TO STOP % (index 10) — not needed
+        if (ths[10]) ths[10].remove();
+        Array.from(tbody.rows).forEach(row => {
+            if (row.cells[10]) row.cells[10].remove();
         });
     }
 
