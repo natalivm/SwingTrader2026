@@ -57,6 +57,33 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 [hidden] { display: none !important; }
 
+/* ── Dark mode (active during card view) ─────────────────────────────────── */
+body.dark-mode {
+    --bg: #0d1117;
+    --card-bg: #161b22;
+    --border: rgba(255, 255, 255, 0.08);
+    --table-header-bg: #161b22;
+    --row-alt: #0d1117;
+    --hover-bg: rgba(99, 102, 241, 0.12);
+    --active-bg: rgba(99, 102, 241, 0.2);
+    --text-color: #e2e8f0;
+    --text-light: #94a3b8;
+    --text-muted: #64748b;
+    --progress-track: rgba(255, 255, 255, 0.1);
+    --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+    --shadow-lg: 0 12px 28px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3);
+    --badge-swing-bg: rgba(37, 99, 235, 0.15);
+    --badge-swing-text: #60a5fa;
+    --badge-swing-border: rgba(59, 130, 246, 0.3);
+    --badge-short-bg: rgba(190, 18, 60, 0.15);
+    --badge-short-text: #fb7185;
+    --badge-short-border: rgba(244, 63, 94, 0.3);
+    --badge-pending-bg: rgba(217, 119, 6, 0.15);
+    --badge-pending-text: #fbbf24;
+    --badge-pending-border: rgba(251, 191, 36, 0.3);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -65,6 +92,7 @@ body {
     color: var(--text-color);
     background-color: var(--bg);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 :focus-visible {
@@ -316,6 +344,20 @@ body {
 .ticker-item.setup .ticker-title { color: rgba(255, 255, 255, 0.85); font-weight: 700; }
 
 .ticker-body { color: rgba(255, 255, 255, 0.7); }
+
+/* ── Tier dots (tables) ──────────────────────────────────────────────────── */
+.tier-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+.tier-dot.warning      { background: #fbbf24; }
+.tier-dot.high-potential { background: #a855f7; animation: blink-arrow 1.2s ease-in-out infinite; }
+.tier-dot.setup        { background: rgba(255, 255, 255, 0.3); }
 .ticker-body strong { color: #ffffff; font-weight: 700; }
 
 /* ── Performance Metrics ─────────────────────────────────────────────────── */
@@ -568,6 +610,19 @@ body {
     border-left: 3px solid transparent;
     transition: background-color 0.15s ease, border-left-color 0.15s ease;
     cursor: pointer;
+}
+
+/* Tier-based left border on both tables */
+.positions-table tbody tr[data-tier="warning"],
+.alerts-table    tbody tr[data-tier="warning"]        { border-left-color: #fbbf24; }
+.positions-table tbody tr[data-tier="high-potential"],
+.alerts-table    tbody tr[data-tier="high-potential"] { border-left-color: #a855f7; }
+.positions-table tbody tr[data-tier="setup"],
+.alerts-table    tbody tr[data-tier="setup"]          { border-left-color: rgba(255, 255, 255, 0.2); }
+
+.alerts-table tbody tr {
+    border-left: 3px solid transparent;
+    transition: border-left-color 0.15s;
 }
 
 .positions-table tbody tr:last-child,
@@ -1099,6 +1154,21 @@ body {
     0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 0 0 rgba(248, 113, 113, 0); }
     50%       { box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 22px 4px rgba(248, 113, 113, 0.28); }
 }
+
+@keyframes glowPulsePurple {
+    0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 0 rgba(168, 85, 247, 0); }
+    50%       { box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 30px 8px rgba(168, 85, 247, 0.28), 0 0 60px 20px rgba(236, 72, 153, 0.1); }
+}
+
+@keyframes glowPulseYellow {
+    0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 0 rgba(251, 191, 36, 0); }
+    50%       { box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 28px 6px rgba(251, 191, 36, 0.28), 0 0 50px 16px rgba(249, 115, 22, 0.1); }
+}
+
+@keyframes shimmerBar {
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
 @keyframes pricePulse {
     0%, 100% { text-shadow: none; }
     50%       { text-shadow: 0 0 20px rgba(129, 140, 248, 0.7); }
@@ -1131,8 +1201,38 @@ body {
     border-radius: 16px;
     padding: 26px 28px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: box-shadow 0.25s, transform 0.18s, border-color 0.2s, background 0.2s;
     animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Tier top bar */
+.pos-card[data-tier]::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+}
+.pos-card[data-tier="high-potential"]::before {
+    background: linear-gradient(90deg, #a855f7, #ec4899, #a855f7);
+    background-size: 200%;
+    animation: shimmerBar 2.5s ease infinite;
+}
+.pos-card[data-tier="warning"]::before {
+    background: linear-gradient(90deg, #f59e0b, #f97316, #f59e0b);
+}
+.pos-card[data-tier="setup"]::before {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.pos-card[data-tier="high-potential"] {
+    background: linear-gradient(145deg, #1a2336 0%, #1d1438 55%, #1a2036 100%);
+    border-color: rgba(168, 85, 247, 0.2);
+}
+.pos-card[data-tier="warning"] {
+    background: linear-gradient(145deg, #1a2336 0%, #1e1820 55%, #1a2030 100%);
+    border-color: rgba(251, 191, 36, 0.2);
 }
 .pos-card:hover {
     background: #1f2d45;

@@ -338,15 +338,15 @@
                 <div class="pos-modal-prices">
                     <div class="pos-modal-price-col">
                         <div class="pos-modal-price-label">Entry</div>
-                        <div class="pos-modal-price-val" ${d.entNum > 0 ? `data-n="${d.entNum}"` : ''}>${d.entryText}</div>
+                        <div class="pos-modal-price-val">${d.entryText}</div>
                     </div>
                     <div class="pos-modal-price-col">
                         <div class="pos-modal-price-label">Current</div>
-                        <div class="pos-modal-price-val current" ${d.curNum > 0 ? `data-n="${d.curNum}"` : ''}>${d.curText}</div>
+                        <div class="pos-modal-price-val current">${d.curText}</div>
                     </div>
                     <div class="pos-modal-price-col">
                         <div class="pos-modal-price-label">Target</div>
-                        <div class="pos-modal-price-val" ${d.tgtNum > 0 ? `data-n="${d.tgtNum}"` : ''}>${d.targetVal}</div>
+                        <div class="pos-modal-price-val">${d.targetVal}</div>
                     </div>
                 </div>
                 <div class="pos-modal-metrics">${metricsHTML}</div>
@@ -365,13 +365,6 @@
 
         typeWriter(overlay.querySelector('.pos-modal-status'), d.status, 22);
 
-        overlay.querySelectorAll('.pos-modal-price-val[data-n]').forEach((el, i) => {
-            const n = parseFloat(el.dataset.n);
-            if (!isNaN(n) && n > 0) {
-                const dec = (String(n).split('.')[1] ?? '').length;
-                setTimeout(() => countUp(el, n, '$', dec, 700), i * 90 + 100);
-            }
-        });
     }
 
     // ── Build card grid from table rows ──────────────────────────────────────
@@ -380,11 +373,17 @@
         cardGrid.innerHTML = '';
         Array.from(tbody.rows).forEach((row, idx) => {
             const d = rowToCardData(row);
+            const tier = row.dataset.tier ?? '';
             const card = document.createElement('div');
             const glowClass = d.plClass === 'profit' ? ' glow-profit' : d.plClass === 'loss' ? ' glow-loss' : '';
             card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '') + glowClass;
+            if (tier) card.dataset.tier = tier;
             const entranceDelay = `${idx * 50}ms`;
-            const glowAnim = d.plClass === 'profit'
+            const glowAnim = tier === 'high-potential'
+                ? `, glowPulsePurple 2.5s 600ms ease-in-out infinite`
+                : tier === 'warning'
+                ? `, glowPulseYellow 2.5s 600ms ease-in-out infinite`
+                : d.plClass === 'profit'
                 ? `, glowPulseGreen 2.5s 600ms ease-in-out infinite`
                 : d.plClass === 'loss'
                 ? `, glowPulseRed 2.5s 600ms ease-in-out infinite`
@@ -395,10 +394,11 @@
                 : d.plClass === 'loss'
                 ? '<span class="pl-arrow arrow-down">▼</span>'
                 : '';
+            const tierDot = tier ? `<span class="tier-dot ${tier}"></span>` : '';
             card.innerHTML = `
                 <div class="pos-card-header">
                     <div class="pos-card-sym-wrap">
-                        <span class="pos-card-symbol">${d.sym}</span>
+                        ${tierDot}<span class="pos-card-symbol">${d.sym}</span>
                         <span class="badge ${d.isShort ? 'short-trade' : 'swing-trade'}">${d.cat}</span>
                     </div>
                     <span class="pos-card-pl ${d.plClass}">${arrowHtml}${d.plPct}</span>
@@ -438,25 +438,36 @@
         });
     }
 
-    if (tableViewBtn && cardViewBtn && tableContainer && cardGrid) {
-        tableViewBtn.addEventListener('click', () => {
-            tableViewBtn.classList.add('active');
-            tableViewBtn.setAttribute('aria-pressed', 'true');
-            cardViewBtn.classList.remove('active');
-            cardViewBtn.setAttribute('aria-pressed', 'false');
-            tableContainer.hidden = false;
-            cardGrid.hidden = true;
-        });
+    function activateCardView() {
+        buildPositionCards();
+        cardViewBtn.classList.add('active');
+        cardViewBtn.setAttribute('aria-pressed', 'true');
+        tableViewBtn.classList.remove('active');
+        tableViewBtn.setAttribute('aria-pressed', 'false');
+        tableContainer.hidden = true;
+        cardGrid.hidden = false;
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('posView', 'card');
+    }
 
-        cardViewBtn.addEventListener('click', () => {
-            buildPositionCards();
-            cardViewBtn.classList.add('active');
-            cardViewBtn.setAttribute('aria-pressed', 'true');
-            tableViewBtn.classList.remove('active');
-            tableViewBtn.setAttribute('aria-pressed', 'false');
-            tableContainer.hidden = true;
-            cardGrid.hidden = false;
-        });
+    function activateTableView() {
+        tableViewBtn.classList.add('active');
+        tableViewBtn.setAttribute('aria-pressed', 'true');
+        cardViewBtn.classList.remove('active');
+        cardViewBtn.setAttribute('aria-pressed', 'false');
+        tableContainer.hidden = false;
+        cardGrid.hidden = true;
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('posView', 'table');
+    }
+
+    if (tableViewBtn && cardViewBtn && tableContainer && cardGrid) {
+        tableViewBtn.addEventListener('click', activateTableView);
+        cardViewBtn.addEventListener('click', activateCardView);
+
+        if (localStorage.getItem('posView') === 'card') {
+            activateCardView();
+        }
     }
 
 })();
