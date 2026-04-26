@@ -301,7 +301,7 @@ body {
 .ticker-icon { font-size: 13px; flex-shrink: 0; }
 
 .ticker-item.warning .ticker-icon,
-.ticker-item.warning .ticker-title { color: #fca5a5; font-weight: 700; }
+.ticker-item.warning .ticker-title { color: #fbbf24; font-weight: 700; }
 
 .ticker-item.buy-zone .ticker-title { color: #6ee7b7; font-weight: 700; }
 
