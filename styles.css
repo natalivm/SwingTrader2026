@@ -657,6 +657,9 @@ body {
     font-weight: 700;
 }
 
+/* ── Allocation column ───────────────────────────────────────────────────── */
+.alloc-pct { font-weight: 600; }
+
 /* ── Value styles ────────────────────────────────────────────────────────── */
 .loss    { color: var(--accent-red);    font-weight: 600; }
 .profit  { color: var(--accent-green);  font-weight: 600; }

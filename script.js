@@ -95,6 +95,40 @@
         countEl.textContent = `(${tbody.rows.length})`;
     }
 
+    // ── Portfolio allocation percentages ────────────────────────────────────
+    if (tbody) {
+        const portfolioValueEl = Array.from(document.querySelectorAll('.stat-label'))
+            .find(el => el.textContent.trim() === 'Portfolio Value')
+            ?.nextElementSibling;
+        const totalPortfolio = portfolioValueEl
+            ? parseFloat(portfolioValueEl.textContent.replace(/[$,]/g, ''))
+            : NaN;
+
+        if (totalPortfolio && !isNaN(totalPortfolio)) {
+            Array.from(tbody.rows).forEach(row => {
+                const allocCell = row.querySelector('.alloc-pct');
+                if (!allocCell) return;
+                const plPctText = row.cells[7]?.textContent.trim();
+                const plDolText = row.cells[8]?.textContent.trim();
+                if (!plPctText || !plDolText ||
+                    plPctText === 'n/a' || plPctText === '—' ||
+                    plDolText === 'n/a' || plDolText === '—') {
+                    allocCell.classList.add('neutral');
+                    return;
+                }
+                const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
+                const plDol = parseFloat(plDolText.replace(/[+$\s]/g, ''));
+                if (!plPct || isNaN(plPct) || isNaN(plDol)) {
+                    allocCell.classList.add('neutral');
+                    return;
+                }
+                const costBasis = Math.abs(plDol) / Math.abs(plPct);
+                const currentValue = costBasis + plDol;
+                allocCell.textContent = (currentValue / totalPortfolio * 100).toFixed(1) + '%';
+            });
+        }
+    }
+
     // ── Row selection for open positions ────────────────────────────────────
     if (tbody) {
         tbody.addEventListener('click', e => {
