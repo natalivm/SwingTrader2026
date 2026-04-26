@@ -420,16 +420,16 @@
             card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '') + glowClass;
             if (tier) card.dataset.tier = tier;
             const entranceDelay = `${idx * 50}ms`;
-            const glowAnim = tier === 'high-potential'
-                ? `, glowPulsePurple 2.5s 600ms ease-in-out infinite`
+            const borderAnim = tier === 'high-potential'
+                ? `, rotateBorderAngle 3s linear infinite`
                 : tier === 'warning'
-                ? `, glowPulseYellow 2.5s 600ms ease-in-out infinite`
-                : d.plClass === 'profit'
-                ? `, glowPulseGreen 2.5s 600ms ease-in-out infinite`
-                : d.plClass === 'loss'
-                ? `, glowPulseRed 2.5s 600ms ease-in-out infinite`
+                ? `, rotateBorderAngle 4s linear infinite`
+                : tier === 'setup'
+                ? `, rotateBorderAngle 10s linear infinite`
+                : (d.plClass === 'profit' || d.plClass === 'loss')
+                ? `, rotateBorderAngle 5s linear infinite`
                 : '';
-            card.style.animation = `cardEntrance 0.5s ${entranceDelay} cubic-bezier(0.16, 1, 0.3, 1) both${glowAnim}`;
+            card.style.animation = `cardEntrance 0.5s ${entranceDelay} cubic-bezier(0.16, 1, 0.3, 1) both${borderAnim}`;
             const arrowHtml = d.plClass === 'profit'
                 ? '<span class="pl-arrow arrow-up">▲</span>'
                 : d.plClass === 'loss'
