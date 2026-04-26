@@ -301,9 +301,19 @@ body {
 .ticker-icon { font-size: 13px; flex-shrink: 0; }
 
 .ticker-item.warning .ticker-icon,
-.ticker-item.warning .ticker-title { color: #fca5a5; font-weight: 700; }
+.ticker-item.warning .ticker-title { color: #fbbf24; font-weight: 700; }
 
 .ticker-item.buy-zone .ticker-title { color: #6ee7b7; font-weight: 700; }
+
+@keyframes blink-arrow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+.ticker-item.high-potential .ticker-icon { color: #6ee7b7; animation: blink-arrow 1.2s ease-in-out infinite; }
+.ticker-item.high-potential .ticker-title { color: #6ee7b7; font-weight: 700; }
+
+.ticker-item.setup .ticker-icon,
+.ticker-item.setup .ticker-title { color: rgba(255, 255, 255, 0.85); font-weight: 700; }
 
 .ticker-body { color: rgba(255, 255, 255, 0.7); }
 .ticker-body strong { color: #ffffff; font-weight: 700; }
