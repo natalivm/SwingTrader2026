@@ -461,40 +461,12 @@
 
 })();
 
-// ── Ticker smooth scroll ─────────────────────────────────────────────────────
+// ── Ticker mobile tap to pause/resume ───────────────────────────────────────
 (function initTicker() {
     const track = document.querySelector('.ticker-track');
     if (!track) return;
-
-    const SPEED = 40; // px per second
-    let pos = 0;
-    let halfWidth = 0;
-    let lastTs = null;
-    let paused = false;
-
-    track.addEventListener('mouseenter', () => { paused = true; });
-    track.addEventListener('mouseleave', () => { paused = false; });
-
-    function tick(ts) {
-        if (!lastTs) lastTs = ts;
-        const dt = ts - lastTs;
-        lastTs = ts;
-
-        if (!halfWidth) {
-            const items = track.querySelectorAll('.ticker-item');
-            const half = Math.floor(items.length / 2);
-            if (items[half]) halfWidth = items[half].offsetLeft;
-        }
-
-        if (!paused && halfWidth) {
-            pos += SPEED * dt / 1000;
-            if (pos >= halfWidth) pos -= halfWidth;
-            track.style.transform = `translateX(-${pos}px)`;
-        }
-
-        requestAnimationFrame(tick);
-    }
-
-    requestAnimationFrame(tick);
+    track.addEventListener('touchstart', () => {
+        track.classList.toggle('paused');
+    }, { passive: true });
 }());
 
