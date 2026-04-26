@@ -285,6 +285,14 @@ body {
     display: flex;
     align-items: center;
     white-space: nowrap;
+    animation: ticker-scroll 90s linear infinite;
+}
+
+.ticker-track:hover { animation-play-state: paused; }
+
+@keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 .ticker-item {
@@ -1249,13 +1257,15 @@ body {
     background-color: rgba(59, 130, 246, 0.15);
     color: #60a5fa;
     border-color: rgba(59, 130, 246, 0.3);
-    font-size: 13px;
+    font-size: 15px;
+    padding: 5px 14px;
 }
 .pos-card .badge.short-trade {
     background-color: rgba(244, 63, 94, 0.15);
     color: #fb7185;
     border-color: rgba(244, 63, 94, 0.3);
-    font-size: 13px;
+    font-size: 15px;
+    padding: 5px 14px;
 }
 
 /* ── Position detail modal ───────────────────────────────────────────────── */
@@ -1519,7 +1529,7 @@ body {
     .pos-card-price-val { font-size: 14px; }
     .pos-card-footer { font-size: 12px; gap: 10px; padding-top: 10px; }
     .pos-card .badge.swing-trade,
-    .pos-card .badge.short-trade { font-size: 11px; }
+    .pos-card .badge.short-trade { font-size: 13px; padding: 4px 11px; }
 
     .pos-modal { padding: 28px 22px; }
     .pos-modal-symbol { font-size: 40px; }
