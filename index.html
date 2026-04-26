@@ -114,6 +114,14 @@
                 <div class="positions-section">
                     <div class="positions-header">
                         <h3 class="positions-title">Open Positions <span class="position-count">(20)</span></h3>
+                        <div class="view-toggle" role="group" aria-label="Positions view">
+                            <button class="view-btn active" id="tableViewBtn" title="Table view" aria-label="Table view" aria-pressed="true">
+                                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="1" width="16" height="3" rx="1"/><rect x="0" y="6.5" width="16" height="3" rx="1"/><rect x="0" y="12" width="16" height="3" rx="1"/></svg>
+                            </button>
+                            <button class="view-btn" id="cardViewBtn" title="Card view" aria-label="Card view" aria-pressed="false">
+                                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="7" height="7" rx="1.5"/><rect x="9" y="0" width="7" height="7" rx="1.5"/><rect x="0" y="9" width="7" height="7" rx="1.5"/><rect x="9" y="9" width="7" height="7" rx="1.5"/></svg>
+                            </button>
+                        </div>
                     </div>
                     <div class="table-container">
                         <table class="positions-table" aria-label="Open trading positions">
@@ -618,6 +626,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <div id="positionsCardGrid" class="positions-card-grid" hidden></div>
                 </div>
 
                 <!-- Portfolio Stats Cards -->

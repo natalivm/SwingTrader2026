@@ -242,4 +242,134 @@
     makeSorter(table, tbody, true, true);
     makeSorter(tradesTable, tradesBody, false, false);
 
+    // ── Positions card view ─────────────────────────────────────────────────
+    const tableViewBtn    = document.getElementById('tableViewBtn');
+    const cardViewBtn     = document.getElementById('cardViewBtn');
+    const tableContainer  = document.querySelector('.positions-section .table-container');
+    const cardGrid        = document.getElementById('positionsCardGrid');
+    let cardsBuilt        = false;
+
+    function buildPositionCards() {
+        if (!tbody || !cardGrid) return;
+        cardGrid.innerHTML = '';
+
+        const parseP = s => parseFloat((s || '').replace(/[$,\s]/g, ''));
+
+        Array.from(tbody.rows).forEach(row => {
+            const sym    = row.querySelector('.symbol')?.textContent.trim() ?? '';
+            const isShort = !!row.querySelector('.badge.short-trade');
+            const cat    = row.querySelector('.badge')?.textContent.trim() ?? '';
+
+            // After column manipulation: indices 3–8 are ENTRY, STOP, CURRENT, TARGET, PL%, PL$
+            const entryText  = row.cells[3]?.textContent.trim() ?? '—';
+            const stopText   = row.cells[4]?.textContent.trim() ?? '—';
+            const curSpan    = row.cells[5]?.querySelector('.current-price');
+            const curRaw     = curSpan?.textContent.trim().replace(',', '.') ?? null;
+            const curText    = curRaw ? '$' + curRaw : '—';
+            const targetText = row.cells[6]?.textContent.trim() ?? '—';
+            const plPct      = row.cells[7]?.textContent.trim() ?? '—';
+            const plDol      = row.cells[8]?.textContent.trim() ?? '—';
+
+            const curNum  = curRaw ? parseFloat(curRaw) : NaN;
+            const tgtNum  = parseP(targetText);
+            const stpNum  = parseP(stopText);
+
+            let upside = null, rrStr = null;
+            if (!isNaN(curNum) && !isNaN(tgtNum) && tgtNum !== 0) {
+                const uVal = isShort
+                    ? (curNum - tgtNum) / curNum * 100
+                    : (tgtNum - curNum) / curNum * 100;
+                if (uVal > 0) upside = uVal.toFixed(1) + '%';
+            }
+            if (!isNaN(curNum) && !isNaN(tgtNum) && !isNaN(stpNum) && stpNum !== 0) {
+                const rrNum = isShort
+                    ? (curNum - tgtNum) / (stpNum - curNum)
+                    : (tgtNum - curNum) / (curNum - stpNum);
+                if (rrNum > 0 && isFinite(rrNum)) rrStr = rrNum.toFixed(1) + '×';
+            }
+
+            const plNum    = parseFloat(plPct.replace(/[+%\s]/g, ''));
+            const plClass  = plPct.startsWith('+') ? 'profit' : plPct.startsWith('-') ? 'loss' : 'neutral';
+            let status;
+            const plAbs = Math.abs(plNum).toFixed(1);
+            if (isNaN(plNum) || plPct === '—') {
+                status = 'No P/L data available.';
+            } else if (Math.abs(plNum) < 1) {
+                status = `Trading right at entry (${plPct} from entry).`;
+            } else if (plNum > 0) {
+                status = `Up ${plAbs}% from entry.`;
+            } else {
+                status = `Down ${plAbs}% from entry.`;
+            }
+
+            const stopVal   = (stopText === 'n/a' || stopText === '—') ? '—' : stopText;
+            const targetVal = (targetText === 'n/a' || targetText === '—') ? '—' : targetText;
+
+            const card = document.createElement('div');
+            card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '');
+            card.innerHTML = `
+                <div class="pos-card-header">
+                    <div class="pos-card-sym-wrap">
+                        <span class="pos-card-symbol">${sym}</span>
+                        <span class="badge ${isShort ? 'short-trade' : 'swing-trade'}">${cat}</span>
+                    </div>
+                    <span class="pos-card-pl ${plClass}">${plPct}</span>
+                </div>
+                <div class="pos-card-status">${status}</div>
+                <div class="pos-card-prices">
+                    <div class="pos-card-price-col">
+                        <div class="pos-card-price-label">Entry</div>
+                        <div class="pos-card-price-val">${entryText}</div>
+                    </div>
+                    <div class="pos-card-price-col">
+                        <div class="pos-card-price-label">Current</div>
+                        <div class="pos-card-price-val current">${curText}</div>
+                    </div>
+                    <div class="pos-card-price-col">
+                        <div class="pos-card-price-label">Target</div>
+                        <div class="pos-card-price-val">${targetVal}</div>
+                    </div>
+                </div>
+                <div class="pos-card-footer">
+                    <span>Stop: <strong>${stopVal}</strong></span>
+                    ${upside ? `<span>Upside: <span class="upside">${upside}</span></span>` : ''}
+                    ${rrStr  ? `<span>R/R: <span class="rr">${rrStr}</span></span>` : ''}
+                    <span>P/L: <span class="${plClass}">${plDol}</span></span>
+                </div>`;
+
+            card.addEventListener('click', () => {
+                const wasSelected = row.classList.contains('row-selected');
+                tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
+                cardGrid.querySelectorAll('.pos-card.row-selected').forEach(c => c.classList.remove('row-selected'));
+                if (!wasSelected) {
+                    row.classList.add('row-selected');
+                    card.classList.add('row-selected');
+                }
+            });
+
+            cardGrid.appendChild(card);
+        });
+    }
+
+    if (tableViewBtn && cardViewBtn && tableContainer && cardGrid) {
+        tableViewBtn.addEventListener('click', () => {
+            tableViewBtn.classList.add('active');
+            tableViewBtn.setAttribute('aria-pressed', 'true');
+            cardViewBtn.classList.remove('active');
+            cardViewBtn.setAttribute('aria-pressed', 'false');
+            tableContainer.hidden = false;
+            cardGrid.hidden = true;
+        });
+
+        cardViewBtn.addEventListener('click', () => {
+            if (!cardsBuilt) { buildPositionCards(); cardsBuilt = true; }
+            cardViewBtn.classList.add('active');
+            cardViewBtn.setAttribute('aria-pressed', 'true');
+            tableViewBtn.classList.remove('active');
+            tableViewBtn.setAttribute('aria-pressed', 'false');
+            tableContainer.hidden = true;
+            cardGrid.hidden = false;
+        });
+    }
+
 })();
