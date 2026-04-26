@@ -224,7 +224,6 @@ body {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.page-container { background-color: transparent; padding: 0; }
 
 /* ── Section Title ───────────────────────────────────────────────────────── */
 .section-title {
@@ -469,8 +468,9 @@ body {
 .stat-value.profit { color: #ffffff; }
 .stat-value.loss   { color: #fca5a5; }
 
-/* ── Positions Section ───────────────────────────────────────────────────── */
-.positions-section {
+/* ── Positions / Trades Section ─────────────────────────────────────────── */
+.positions-section,
+.trades-section {
     background-color: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -509,14 +509,18 @@ body {
 .table-container { overflow-x: auto; }
 
 .positions-table,
-.trades-table {
+.trades-table,
+.monthly-table,
+.alerts-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 13.5px;
 }
 
 .positions-table thead tr,
-.trades-table thead tr {
+.trades-table thead tr,
+.monthly-table thead tr,
+.alerts-table thead tr {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border-bottom: 2px solid var(--border);
 }
@@ -562,19 +566,27 @@ body {
 }
 
 .positions-table tbody tr:last-child,
-.trades-table tbody tr:last-child { border-bottom: none; }
+.trades-table tbody tr:last-child,
+.monthly-table tbody tr:last-child,
+.alerts-table tbody tr:last-child { border-bottom: none; }
 
 .positions-table tbody tr:nth-child(odd),
-.trades-table tbody tr:nth-child(odd)  { background-color: #fafbff; }
+.trades-table tbody tr:nth-child(odd),
+.monthly-table tbody tr:nth-child(odd),
+.alerts-table tbody tr:nth-child(odd)  { background-color: #fafbff; }
 
 .positions-table tbody tr:nth-child(even),
-.trades-table tbody tr:nth-child(even) { background-color: var(--card-bg); }
+.trades-table tbody tr:nth-child(even),
+.monthly-table tbody tr:nth-child(even),
+.alerts-table tbody tr:nth-child(even) { background-color: var(--card-bg); }
 
 .positions-table tbody tr:hover,
-.trades-table tbody tr:hover {
-    background-color: var(--hover-bg) !important;
-    border-left-color: var(--primary-color);
-}
+.trades-table tbody tr:hover,
+.monthly-table tbody tr:hover,
+.alerts-table tbody tr:hover { background-color: var(--hover-bg) !important; }
+
+.positions-table tbody tr:hover,
+.trades-table tbody tr:hover { border-left-color: var(--primary-color); }
 
 .positions-table tbody tr.row-selected {
     background-color: var(--active-bg) !important;
@@ -656,6 +668,9 @@ body {
     border-color: #fca5a5;
     font-weight: 700;
 }
+
+/* ── Allocation column ───────────────────────────────────────────────────── */
+.alloc-pct { font-weight: 600; }
 
 /* ── Value styles ────────────────────────────────────────────────────────── */
 .loss    { color: var(--accent-red);    font-weight: 600; }
@@ -758,14 +773,6 @@ body {
 }
 
 .symbol-search::placeholder { color: var(--text-muted); }
-
-.trades-section {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-}
 
 .trades-table td.trade-return {
     font-size: 14.5px;
@@ -898,7 +905,8 @@ body {
     font-weight: 500;
 }
 
-.monthly-table-card {
+.monthly-table-card,
+.alerts-table-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -906,47 +914,9 @@ body {
     overflow: hidden;
 }
 
-.monthly-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-}
-
-.monthly-table thead tr {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-bottom: 2px solid var(--border);
-}
-
-.monthly-table th {
-    padding: 11px 20px;
-    text-align: left;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    font-size: 10.5px;
-    letter-spacing: 0.8px;
-    white-space: nowrap;
-}
-
+.monthly-table th { padding: 11px 20px; }
 .monthly-table th.text-right { text-align: right; }
-
-.monthly-table tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background-color 0.15s;
-}
-
-.monthly-table tbody tr:last-child { border-bottom: none; }
-
-.monthly-table tbody tr:nth-child(odd)  { background-color: #fafbff; }
-.monthly-table tbody tr:nth-child(even) { background-color: var(--card-bg); }
-
-.monthly-table tbody tr:hover { background-color: var(--hover-bg) !important; }
-
-.monthly-table td {
-    padding: 16px 20px;
-    color: var(--text-light);
-    white-space: nowrap;
-}
+.monthly-table td { padding: 16px 20px; color: var(--text-light); white-space: nowrap; }
 
 .monthly-name {
     font-weight: 700;
@@ -977,55 +947,9 @@ body {
 }
 
 /* ── Trade Alerts Dashboard ──────────────────────────────────────────────── */
-.alerts-table-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-}
-
-.alerts-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-}
-
-.alerts-table thead tr {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-bottom: 2px solid var(--border);
-}
-
-.alerts-table th {
-    padding: 11px 16px;
-    text-align: left;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    font-size: 10.5px;
-    letter-spacing: 0.8px;
-    white-space: nowrap;
-}
-
+.alerts-table th { padding: 11px 16px; }
 .alerts-table th.text-right { text-align: right; }
-
-.alerts-table tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background-color 0.15s;
-}
-
-.alerts-table tbody tr:last-child { border-bottom: none; }
-
-.alerts-table tbody tr:nth-child(odd)  { background-color: #fafbff; }
-.alerts-table tbody tr:nth-child(even) { background-color: var(--card-bg); }
-
-.alerts-table tbody tr:hover { background-color: var(--hover-bg) !important; }
-
-.alerts-table td {
-    padding: 15px 16px;
-    color: var(--text-light);
-    vertical-align: middle;
-}
+.alerts-table td { padding: 15px 16px; color: var(--text-light); vertical-align: middle; }
 
 .alert-date {
     white-space: nowrap;
