@@ -107,6 +107,22 @@
                 plValueEl.textContent = (totalPL < 0 ? '-$' : '+$') + abs.toLocaleString('en-US');
                 plValueEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
             }
+
+            const portLabelEl = Array.from(document.querySelectorAll('.stat-label'))
+                .find(el => el.textContent.trim() === 'Portfolio Value');
+            const portfolioVal = portLabelEl
+                ? parseFloat(portLabelEl.nextElementSibling.textContent.replace(/[$,]/g, ''))
+                : NaN;
+            if (!isNaN(portfolioVal) && portfolioVal) {
+                const plPctLabelEl = Array.from(document.querySelectorAll('.stat-label'))
+                    .find(el => el.textContent.trim() === 'Total P&L %');
+                if (plPctLabelEl) {
+                    const plPctValueEl = plPctLabelEl.nextElementSibling;
+                    const pct = (totalPL / portfolioVal * 100).toFixed(1);
+                    plPctValueEl.textContent = (totalPL < 0 ? '' : '+') + pct + '%';
+                    plPctValueEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
+                }
+            }
         }
     }
 
@@ -144,7 +160,7 @@
                 const plDolText = row.cells[8]?.textContent.trim();
                 if (na(plPctText) || na(plDolText)) { allocCell.classList.add('neutral'); return; }
                 const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
-                const plDol = parseFloat(plDolText.replace(/[+$\s]/g, ''));
+                const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
                 if (!plPct || isNaN(plPct) || isNaN(plDol)) { allocCell.classList.add('neutral'); return; }
                 allocCell.textContent =
                     ((Math.abs(plDol) / Math.abs(plPct) + plDol) / totalPortfolio * 100).toFixed(1) + '%';
