@@ -84,6 +84,17 @@ body.dark-mode {
     --badge-pending-border: rgba(251, 191, 36, 0.3);
 }
 
+/* Hardcoded backgrounds that don't pick up variable overrides */
+body.dark-mode .positions-header {
+    background: linear-gradient(135deg, #161b22 0%, #1a2336 100%);
+}
+body.dark-mode .positions-table thead tr,
+body.dark-mode .trades-table thead tr,
+body.dark-mode .monthly-table thead tr,
+body.dark-mode .alerts-table thead tr {
+    background: linear-gradient(135deg, #161b22 0%, #1a2336 100%);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -1423,8 +1434,39 @@ body {
     width: 100%;
     max-width: 540px;
     position: relative;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(99, 102, 241, 0.12);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
     animation: modalIn 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pos-modal[data-tier="high-potential"] {
+    border: 3px solid transparent;
+    background:
+        linear-gradient(160deg, #1d1438, #141c2c) padding-box,
+        conic-gradient(from var(--border-angle),
+            #9333ea, #ec4899, #22d3ee, #ec4899, #9333ea) border-box;
+}
+.pos-modal[data-tier="warning"] {
+    border: 3px solid transparent;
+    background:
+        linear-gradient(160deg, #1e1820, #141c2c) padding-box,
+        conic-gradient(from var(--border-angle),
+            #f59e0b, #f97316, #ef4444, #f97316, #f59e0b) border-box;
+}
+.pos-modal[data-tier="setup"] {
+    border: 2px solid transparent;
+    background:
+        linear-gradient(160deg, #1a2336, #141c2c) padding-box,
+        conic-gradient(from var(--border-angle),
+            rgba(255,255,255,0.06), rgba(148,163,184,0.35), rgba(255,255,255,0.06)) border-box;
+}
+
+.pos-modal-tier-explanation {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .pos-modal-close {
