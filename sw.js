@@ -4,6 +4,7 @@ const ASSETS = [
   BASE,
   BASE + 'index.html',
   BASE + 'styles.css',
+  BASE + 'data.js',
   BASE + 'script.js',
   BASE + 'manifest.json',
   BASE + 'icon-192.png',

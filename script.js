@@ -10,6 +10,87 @@
     const tradesBody  = document.querySelector('.trades-table tbody');
     const tradesTable = document.querySelector('.trades-table');
 
+    // ── Data rendering ──────────────────────────────────────────────────────
+    function renderPositions() {
+        if (!tbody || typeof POSITIONS_DATA === 'undefined') return;
+        const fmtP  = n => '$' + n.toFixed(2);
+        const fmtCur = n => n.toFixed(2).replace('.', ',');
+        const naCell  = v  => v  != null ? `<td>${v}</td>`       : `<td class="neutral">n/a</td>`;
+        const naPCell = n  => n  != null ? `<td>${fmtP(n)}</td>` : `<td class="neutral">n/a</td>`;
+        tbody.innerHTML = POSITIONS_DATA.map(p => {
+            const isShort  = p.cat === 'Short';
+            const tierAttr = p.tier ? ` data-tier="${p.tier}"` : '';
+            const tierDot  = p.tier ? `<span class="tier-dot ${p.tier}"></span>` : '';
+            const plCls    = p.plPct.startsWith('+') ? 'profit' : p.plPct.startsWith('-') ? 'loss' : 'neutral';
+            const progCls  = p.progressV === 'n/a'        ? 'neutral'
+                           : p.progressV.startsWith('+')  ? 'profit'
+                           : p.progressV.startsWith('-')  ? 'loss' : 'neutral';
+            return `<tr${tierAttr}>
+                <td class="symbol">${tierDot}${p.symbol}</td>
+                <td><span class="badge ${isShort ? 'short-trade' : 'swing-trade'}">${p.cat}</span></td>
+                <td>${p.entered}</td>
+                <td>${fmtP(p.entry)}</td>
+                ${naPCell(p.stop)}
+                <td><span class="current-price">${fmtCur(p.current)}</span></td>
+                ${naPCell(p.target)}
+                <td class="${plCls}">${p.plPct}</td>
+                <td class="${plCls}">${p.plDol}</td>
+                <td class="alloc-pct">—</td>
+                ${naCell(p.toStop)}
+                ${naCell(p.toTarget)}
+                <td><div class="progress-cell"><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${p.progressW}%"></div></div><span class="progress-value ${progCls}">${p.progressV}</span></div></td>
+            </tr>`;
+        }).join('');
+    }
+
+    function renderOptions() {
+        const optBody = document.querySelector('.options-table tbody');
+        if (!optBody || typeof OPTIONS_DATA === 'undefined') return;
+        optBody.innerHTML = OPTIONS_DATA.map(o => {
+            const plCls = o.plPct.startsWith('-') ? 'loss' : 'profit';
+            return `<tr>
+                <td class="symbol">${o.symbol}</td>
+                <td><span class="badge ${o.typeCls}">${o.type}</span></td>
+                <td>${o.strike}</td>
+                <td>${o.expiry}</td>
+                <td>${o.contracts}</td>
+                <td>${o.avgPrice}</td>
+                <td>${o.current}</td>
+                <td class="${plCls}">${o.plPct}</td>
+                <td class="${plCls}">${o.plDol}</td>
+            </tr>`;
+        }).join('');
+        const countEl = document.querySelector('.options-title .position-count');
+        if (countEl) countEl.textContent = `(${OPTIONS_DATA.length})`;
+    }
+
+    function renderAlerts() {
+        const alertsBody = document.querySelector('.alerts-table tbody');
+        if (!alertsBody || typeof ALERTS_DATA === 'undefined') return;
+        alertsBody.innerHTML = ALERTS_DATA.map(a => {
+            const tierAttr = a.tier ? ` data-tier="${a.tier}"` : '';
+            const tierDot  = a.tier ? `<span class="tier-dot ${a.tier}"></span>` : '';
+            const catCls   = a.cat === 'Long' ? 'swing-trade' : 'short-trade';
+            const stopTd   = a.stop   ? `<td class="text-right">${a.stop}</td>`   : `<td class="text-right neutral">n/a</td>`;
+            const targetTd = a.target ? `<td class="text-right">${a.target}</td>` : `<td class="text-right neutral">n/a</td>`;
+            const detail   = a.outcomeDetail ? `<span class="outcome-text">${a.outcomeDetail}</span>` : '';
+            return `<tr${tierAttr}>
+                <td class="alert-date">${a.date}</td>
+                <td class="symbol">${tierDot}${a.symbol}</td>
+                <td><span class="badge ${catCls}">${a.cat}</span></td>
+                <td class="alert-entry text-right">${a.entry}</td>
+                ${stopTd}
+                ${targetTd}
+                <td><div class="alert-outcome-cell"><span class="badge ${a.outcomeCls}">${a.outcomeLabel}</span>${detail}</div></td>
+                <td class="alert-notes">${a.notes}</td>
+            </tr>`;
+        }).join('');
+    }
+
+    renderPositions();
+    renderOptions();
+    renderAlerts();
+
     // ── Tab activation ──────────────────────────────────────────────────────
     function activateTab(tabName) {
         const link = document.querySelector(`.nav-link[data-tab="${tabName}"]`);
@@ -535,6 +616,14 @@
 (function initTicker() {
     const track = document.querySelector('.ticker-track');
     if (!track) return;
+
+    // Populate from data and duplicate for seamless loop
+    if (typeof TICKER_DATA !== 'undefined' && TICKER_DATA.length) {
+        const html = TICKER_DATA.map(t =>
+            `<div class="ticker-item ${t.tier}"><span class="ticker-icon">${t.icon}</span><span class="ticker-title">${t.symbol}</span><span class="ticker-body">${t.body}</span></div><span class="ticker-sep">•</span>`
+        ).join('');
+        track.innerHTML = html + html;
+    }
 
     const SPEED = 40; // px per second
     let pos = 0;
