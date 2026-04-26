@@ -1723,8 +1723,30 @@ body {
     .stat-card { padding: 18px 20px; }
     .stat-value { font-size: 24px; }
     .section-title { font-size: 17px; margin-bottom: 10px; }
-    .filter-btns { flex-wrap: wrap; }
+    .filter-btns { flex-wrap: wrap; gap: 6px; }
+    .filter-btn { font-size: 11.5px; padding: 5px 10px; }
+
+    /* Card grid */
     .positions-card-grid { grid-template-columns: 1fr; gap: 12px; padding: 14px; }
+    .pos-card-footer { gap: 6px; font-size: 11px; }
+
+    /* Progress bar column */
+    .progress-cell { min-width: 90px; }
+
+    /* Chart - prevent horizontal overflow */
+    .chart-bars     { gap: 22px; min-width: 0; padding: 0 4px; }
+    .chart-bar      { width: 46px; }
+    .chart-month-row { gap: 22px; min-width: 0; padding: 0 4px; }
+    .chart-month-row span { width: 46px; }
+
+    /* Alerts table */
+    .alert-outcome-cell { min-width: 120px; }
+    .alert-notes { max-width: 130px; font-size: 11.5px; }
+
+    /* Tier explanation expand row */
+    .tier-explanation { padding: 10px 12px 10px 16px; }
+
+    /* Modal */
     .pos-modal { padding: 22px 16px; border-radius: 18px; }
     .pos-modal-symbol { font-size: 32px; }
     .pos-modal-price-val { font-size: 18px; }
@@ -1732,4 +1754,27 @@ body {
     .pos-modal-metric { flex: none; width: 50%; }
     .pos-modal-metric:nth-child(2n) { border-left: 1px solid rgba(255,255,255,0.06); }
     .pos-modal-metric:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,0.06); }
+    .pos-modal-tier-explanation { gap: 8px; margin-top: 18px; padding-top: 14px; }
+    .pos-modal-tier-explanation .exp-text { font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+    .main-content { padding: 10px 8px; }
+    .ticker-badge { padding: 0 8px; font-size: 8px; }
+    .ticker-item  { padding: 0 10px; font-size: 11px; }
+
+    .metrics-grid { gap: 6px; }
+    .metric-card  { padding: 12px 10px; }
+    .metric-value { font-size: 20px; }
+
+    .positions-card-grid { padding: 10px; gap: 10px; }
+    .pos-card { padding: 14px; }
+    .pos-card-symbol { font-size: 20px; }
+    .pos-card-price-val { font-size: 13px; }
+    .pos-card-price-label { font-size: 8px; }
+
+    .pos-modal { padding: 18px 12px; }
+    .pos-modal-symbol { font-size: 28px; }
+    .pos-modal-metric { width: 100%; }
+    .pos-modal-metric:nth-child(2n) { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
 }
