@@ -285,7 +285,7 @@ body {
     display: flex;
     align-items: center;
     white-space: nowrap;
-    animation: ticker-scroll 32s linear infinite;
+    animation: ticker-scroll 72s linear infinite;
 }
 
 .ticker-track:hover { animation-play-state: paused; }
@@ -1042,6 +1042,14 @@ body {
     flex-shrink: 0;
 }
 
+.badge.re-entry {
+    background-color: #fff7ed;
+    color: #c2410c;
+    border-color: #fdba74;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
 /* ── Positions view toggle ───────────────────────────────────────────────── */
 .view-toggle { display: flex; gap: 4px; }
 
@@ -1076,6 +1084,16 @@ body {
 @keyframes cardEntrance {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulseGreen {
+    0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 0 0 rgba(52, 211, 153, 0); }
+    50%       { box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 22px 4px rgba(52, 211, 153, 0.28); }
+}
+
+@keyframes glowPulseRed {
+    0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 0 0 rgba(248, 113, 113, 0); }
+    50%       { box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 22px 4px rgba(248, 113, 113, 0.28); }
 }
 @keyframes pricePulse {
     0%, 100% { text-shadow: none; }
@@ -1207,6 +1225,32 @@ body {
 .pos-card-footer .rr     { color: #e2e8f0; font-weight: 700; }
 .pos-card-footer .profit { color: #34d399; font-weight: 600; }
 .pos-card-footer .loss   { color: #f87171; font-weight: 600; }
+
+/* ── P/L direction arrows ────────────────────────────────────────────────── */
+.pl-arrow {
+    font-size: 11px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.arrow-up {
+    color: #34d399;
+    text-shadow: 0 0 8px rgba(52, 211, 153, 0.9), 0 0 16px rgba(52, 211, 153, 0.5);
+}
+
+.arrow-down {
+    color: #f87171;
+    text-shadow: 0 0 8px rgba(248, 113, 113, 0.9), 0 0 16px rgba(248, 113, 113, 0.5);
+}
+
+/* ── Card glow states ────────────────────────────────────────────────────── */
+.pos-card.glow-profit {
+    border-color: rgba(52, 211, 153, 0.18);
+}
+
+.pos-card.glow-loss {
+    border-color: rgba(248, 113, 113, 0.18);
+}
 
 /* Badge overrides inside dark cards */
 .pos-card .badge.swing-trade {

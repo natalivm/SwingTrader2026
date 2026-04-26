@@ -381,15 +381,27 @@
         Array.from(tbody.rows).forEach((row, idx) => {
             const d = rowToCardData(row);
             const card = document.createElement('div');
-            card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '');
-            card.style.animationDelay = `${idx * 50}ms`;
+            const glowClass = d.plClass === 'profit' ? ' glow-profit' : d.plClass === 'loss' ? ' glow-loss' : '';
+            card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '') + glowClass;
+            const entranceDelay = `${idx * 50}ms`;
+            const glowAnim = d.plClass === 'profit'
+                ? `, glowPulseGreen 2.5s 600ms ease-in-out infinite`
+                : d.plClass === 'loss'
+                ? `, glowPulseRed 2.5s 600ms ease-in-out infinite`
+                : '';
+            card.style.animation = `cardEntrance 0.5s ${entranceDelay} cubic-bezier(0.16, 1, 0.3, 1) both${glowAnim}`;
+            const arrowHtml = d.plClass === 'profit'
+                ? '<span class="pl-arrow arrow-up">▲</span>'
+                : d.plClass === 'loss'
+                ? '<span class="pl-arrow arrow-down">▼</span>'
+                : '';
             card.innerHTML = `
                 <div class="pos-card-header">
                     <div class="pos-card-sym-wrap">
                         <span class="pos-card-symbol">${d.sym}</span>
                         <span class="badge ${d.isShort ? 'short-trade' : 'swing-trade'}">${d.cat}</span>
                     </div>
-                    <span class="pos-card-pl ${d.plClass}">${d.plPct}</span>
+                    <span class="pos-card-pl ${d.plClass}">${arrowHtml}${d.plPct}</span>
                 </div>
                 <div class="pos-card-status">${d.status}</div>
                 <div class="pos-card-prices">
