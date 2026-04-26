@@ -348,7 +348,7 @@
     }
 
     // ── Open position detail modal ───────────────────────────────────────────
-    function openPositionModal(d) {
+    function openPositionModal(d, tier = '') {
         document.querySelector('.pos-modal-overlay')?.remove();
 
         const metricsHTML = [
@@ -363,10 +363,19 @@
                 <div class="pos-modal-metric-val ${m.cls}">${m.val}</div>
             </div>`).join('');
 
+        const tierExplainHTML = tier && TIER_INFO[tier] ? `
+            <div class="pos-modal-tier-explanation">
+                <span class="exp-dot ${tier}"></span>
+                <div>
+                    <div class="exp-label ${tier}">${TIER_INFO[tier].label}</div>
+                    <div class="exp-text">${TIER_INFO[tier].text}</div>
+                </div>
+            </div>` : '';
+
         const overlay = document.createElement('div');
         overlay.className = 'pos-modal-overlay';
         overlay.innerHTML = `
-            <div class="pos-modal" role="dialog" aria-modal="true">
+            <div class="pos-modal" role="dialog" aria-modal="true"${tier ? ` data-tier="${tier}"` : ''}>
                 <button class="pos-modal-close" aria-label="Close">✕</button>
                 <div class="pos-modal-header">
                     <div class="pos-modal-sym-row">
@@ -391,7 +400,16 @@
                     </div>
                 </div>
                 <div class="pos-modal-metrics">${metricsHTML}</div>
+                ${tierExplainHTML}
             </div>`;
+
+        const borderSpeed = tier === 'high-potential' ? 3
+            : tier === 'warning' ? 4
+            : tier === 'setup'   ? 10 : null;
+        if (borderSpeed) {
+            const posModal = overlay.querySelector('.pos-modal');
+            posModal.style.animation = `modalIn 0.38s cubic-bezier(0.16, 1, 0.3, 1), rotateBorderAngle ${borderSpeed}s linear infinite`;
+        }
 
         document.body.appendChild(overlay);
 
@@ -472,7 +490,7 @@
                 tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
                 cardGrid.querySelectorAll('.pos-card.row-selected').forEach(c => c.classList.remove('row-selected'));
                 if (!wasSelected) { row.classList.add('row-selected'); card.classList.add('row-selected'); }
-                openPositionModal(d);
+                openPositionModal(d, tier);
             });
 
             cardGrid.appendChild(card);
