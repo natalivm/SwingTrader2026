@@ -487,6 +487,7 @@
         tableViewBtn.setAttribute('aria-pressed', 'false');
         tableContainer.hidden = true;
         cardGrid.hidden = false;
+        document.body.classList.add('dark-mode');
         localStorage.setItem('posView', 'card');
     }
 
@@ -497,6 +498,7 @@
         cardViewBtn.setAttribute('aria-pressed', 'false');
         tableContainer.hidden = false;
         cardGrid.hidden = true;
+        document.body.classList.remove('dark-mode');
         localStorage.setItem('posView', 'table');
     }
 

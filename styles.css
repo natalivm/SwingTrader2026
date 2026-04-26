@@ -84,6 +84,17 @@ body.dark-mode {
     --badge-pending-border: rgba(251, 191, 36, 0.3);
 }
 
+/* Hardcoded backgrounds that don't pick up variable overrides */
+body.dark-mode .positions-header {
+    background: linear-gradient(135deg, #161b22 0%, #1a2336 100%);
+}
+body.dark-mode .positions-table thead tr,
+body.dark-mode .trades-table thead tr,
+body.dark-mode .monthly-table thead tr,
+body.dark-mode .alerts-table thead tr {
+    background: linear-gradient(135deg, #161b22 0%, #1a2336 100%);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
