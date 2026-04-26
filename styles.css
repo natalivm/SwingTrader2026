@@ -1041,6 +1041,138 @@ body {
     flex-shrink: 0;
 }
 
+/* ── Positions view toggle ───────────────────────────────────────────────── */
+.view-toggle { display: flex; gap: 4px; }
+
+.view-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.view-btn svg { width: 15px; height: 15px; pointer-events: none; }
+.view-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: var(--hover-bg);
+}
+.view-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+}
+
+/* ── Position cards grid ─────────────────────────────────────────────────── */
+.positions-card-grid {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 16px;
+}
+
+.pos-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.15s, border-color 0.15s;
+}
+.pos-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+.pos-card.row-selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.pos-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+.pos-card-sym-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.pos-card-symbol {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-color);
+    line-height: 1;
+}
+.pos-card-pl {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.pos-card-pl.profit { background: #ecfdf5; color: var(--accent-green); }
+.pos-card-pl.loss   { background: #fef2f2; color: var(--accent-red); }
+.pos-card-pl.neutral { background: var(--table-header-bg); color: var(--text-muted); }
+
+.pos-card-status {
+    font-size: 12.5px;
+    color: var(--text-light);
+    margin-bottom: 14px;
+    line-height: 1.45;
+}
+
+.pos-card-prices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--table-header-bg);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    gap: 4px;
+}
+.pos-card-price-col { min-width: 0; }
+.pos-card-price-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 3px;
+}
+.pos-card-price-val {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+.pos-card-price-val.current { color: var(--primary-color); }
+
+.pos-card-footer {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--text-light);
+    flex-wrap: wrap;
+}
+.pos-card-footer span { white-space: nowrap; }
+.pos-card-footer strong { color: var(--text-color); }
+.pos-card-footer .upside { color: var(--accent-green); font-weight: 600; }
+.pos-card-footer .rr     { font-weight: 700; color: var(--text-color); }
+.pos-card-footer .profit { color: var(--accent-green); font-weight: 600; }
+.pos-card-footer .loss   { color: var(--accent-red);   font-weight: 600; }
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
     .metrics-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
