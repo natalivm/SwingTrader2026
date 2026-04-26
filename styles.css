@@ -620,10 +620,10 @@ body {
 .badge {
     display: inline-flex;
     align-items: center;
-    padding: 3px 10px;
+    padding: 2px 8px;
     border-radius: 20px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 11.5px;
     white-space: nowrap;
     border: 1px solid transparent;
     transition: transform 0.15s;
@@ -675,6 +675,12 @@ body {
 /* ── Value styles ────────────────────────────────────────────────────────── */
 .loss    { color: var(--accent-red);    font-weight: 600; }
 .profit  { color: var(--accent-green);  font-weight: 600; }
+
+/* Override table td color specificity for P/L cells */
+.positions-table td.loss,
+.trades-table td.loss   { color: var(--accent-red); }
+.positions-table td.profit,
+.trades-table td.profit { color: var(--accent-green); }
 .to-stop-close { color: var(--accent-orange); font-weight: 700; }
 .neutral { color: var(--text-muted); }
 .text-right { text-align: right; }
