@@ -63,10 +63,14 @@
     let deferredInstallPrompt = null;
     const installBtn = document.getElementById('installBtn');
 
+    const isInstalled = () =>
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
+
     window.addEventListener('beforeinstallprompt', e => {
         e.preventDefault();
         deferredInstallPrompt = e;
-        if (installBtn) installBtn.hidden = false;
+        if (installBtn && !isInstalled()) installBtn.hidden = false;
     });
 
     if (installBtn) {
