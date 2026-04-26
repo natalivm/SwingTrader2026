@@ -312,6 +312,9 @@ body {
 .ticker-item.high-potential .ticker-icon { color: #6ee7b7; animation: blink-arrow 1.2s ease-in-out infinite; }
 .ticker-item.high-potential .ticker-title { color: #6ee7b7; font-weight: 700; }
 
+.ticker-item.setup .ticker-icon,
+.ticker-item.setup .ticker-title { color: rgba(255, 255, 255, 0.85); font-weight: 700; }
+
 .ticker-body { color: rgba(255, 255, 255, 0.7); }
 .ticker-body strong { color: #ffffff; font-weight: 700; }
 
