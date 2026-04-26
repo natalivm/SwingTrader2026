@@ -289,7 +289,6 @@ body {
     animation: ticker-scroll 90s linear infinite;
 }
 
-.ticker-track:hover,
 .ticker-track.paused { animation-play-state: paused; }
 
 @keyframes ticker-scroll {
