@@ -149,9 +149,9 @@
         const ths = Array.from(table.querySelectorAll('thead th'));
 
         // Hide TO TARGET % (index 11) — kept in DOM for proximity alert logic
-        if (ths[11]) ths[11].style.display = 'none';
+        if (ths[11]) ths[11].hidden = true;
         Array.from(tbody.rows).forEach(row => {
-            if (row.cells[11]) row.cells[11].style.display = 'none';
+            if (row.cells[11]) row.cells[11].hidden = true;
         });
 
         // Remove TO STOP % (index 10) — not needed
@@ -247,7 +247,6 @@
     const cardViewBtn    = document.getElementById('cardViewBtn');
     const tableContainer = document.querySelector('.positions-section .table-container');
     const cardGrid       = document.getElementById('positionsCardGrid');
-    let cardsBuilt       = false;
 
     // ── Animation helpers ────────────────────────────────────────────────────
     function countUp(el, target, prefix, decimals, duration) {
@@ -339,15 +338,15 @@
                 <div class="pos-modal-prices">
                     <div class="pos-modal-price-col">
                         <div class="pos-modal-price-label">Entry</div>
-                        <div class="pos-modal-price-val" data-n="${d.entNum}">${d.entryText}</div>
+                        <div class="pos-modal-price-val" ${d.entNum > 0 ? `data-n="${d.entNum}"` : ''}>${d.entryText}</div>
                     </div>
                     <div class="pos-modal-price-col">
                         <div class="pos-modal-price-label">Current</div>
-                        <div class="pos-modal-price-val current" data-n="${d.curNum}">${d.curText}</div>
+                        <div class="pos-modal-price-val current" ${d.curNum > 0 ? `data-n="${d.curNum}"` : ''}>${d.curText}</div>
                     </div>
                     <div class="pos-modal-price-col">
                         <div class="pos-modal-price-label">Target</div>
-                        <div class="pos-modal-price-val" data-n="${d.tgtNum}">${d.targetVal}</div>
+                        <div class="pos-modal-price-val" ${d.tgtNum > 0 ? `data-n="${d.tgtNum}"` : ''}>${d.targetVal}</div>
                     </div>
                 </div>
                 <div class="pos-modal-metrics">${metricsHTML}</div>
@@ -438,7 +437,7 @@
         });
 
         cardViewBtn.addEventListener('click', () => {
-            if (!cardsBuilt) { buildPositionCards(); cardsBuilt = true; }
+            buildPositionCards();
             cardViewBtn.classList.add('active');
             cardViewBtn.setAttribute('aria-pressed', 'true');
             tableViewBtn.classList.remove('active');
