@@ -89,40 +89,58 @@
     const countEl = document.querySelector('.position-count');
     if (tbody && countEl) countEl.textContent = `(${tbody.rows.length})`;
 
-    // ── Total P&L $ — compute from table and color stat card ────────────────
+    // ── Totals + allocation — single pass over rows ─────────────────────────
     if (tbody) {
-        let totalPL = 0, hasValue = false;
-        Array.from(tbody.rows).forEach(row => {
+        const naVal = s => !s || s === 'n/a' || s === '—';
+        const findStat = label => {
+            const el = Array.from(document.querySelectorAll('.stat-label'))
+                .find(e => e.textContent.trim() === label);
+            return el?.nextElementSibling ?? null;
+        };
+
+        let totalPL = 0, totalPortfolio = 0, hasData = false;
+        const rows = Array.from(tbody.rows);
+        const posData = rows.map(row => {
+            const plPctText = row.cells[7]?.textContent.trim();
             const plDolText = row.cells[8]?.textContent.trim();
-            if (!plDolText) return;
-            const val = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
-            if (!isNaN(val)) { totalPL += val; hasValue = true; }
+            if (naVal(plPctText) || naVal(plDolText)) return null;
+            const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
+            const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
+            if (!plPct || isNaN(plPct) || isNaN(plDol)) return null;
+            const mktVal = Math.abs(plDol) / Math.abs(plPct) + plDol;
+            totalPL += plDol;
+            totalPortfolio += mktVal;
+            hasData = true;
+            return { mktVal };
         });
-        if (hasValue) {
-            const plLabelEl = Array.from(document.querySelectorAll('.stat-label'))
-                .find(el => el.textContent.trim() === 'Total P&L $');
-            if (plLabelEl) {
-                const plValueEl = plLabelEl.nextElementSibling;
-                const abs = Math.abs(Math.round(totalPL));
-                plValueEl.textContent = (totalPL < 0 ? '-$' : '+$') + abs.toLocaleString('en-US');
-                plValueEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
+
+        if (hasData) {
+            const portEl = findStat('Portfolio Value');
+            if (portEl) {
+                portEl.textContent = '$' + Math.round(totalPortfolio).toLocaleString('en-US');
+                portEl.className = 'stat-value';
             }
 
-            const portLabelEl = Array.from(document.querySelectorAll('.stat-label'))
-                .find(el => el.textContent.trim() === 'Portfolio Value');
-            const portfolioVal = portLabelEl
-                ? parseFloat(portLabelEl.nextElementSibling.textContent.replace(/[$,]/g, ''))
-                : NaN;
-            if (!isNaN(portfolioVal) && portfolioVal) {
-                const plPctLabelEl = Array.from(document.querySelectorAll('.stat-label'))
-                    .find(el => el.textContent.trim() === 'Total P&L %');
-                if (plPctLabelEl) {
-                    const plPctValueEl = plPctLabelEl.nextElementSibling;
-                    const pct = (totalPL / portfolioVal * 100).toFixed(1);
-                    plPctValueEl.textContent = (totalPL < 0 ? '' : '+') + pct + '%';
-                    plPctValueEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
-                }
+            const plDolEl = findStat('Total P&L $');
+            if (plDolEl) {
+                const abs = Math.abs(Math.round(totalPL));
+                plDolEl.textContent = (totalPL < 0 ? '-$' : '+$') + abs.toLocaleString('en-US');
+                plDolEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
             }
+
+            const plPctEl = findStat('Total P&L %');
+            if (plPctEl) {
+                const pct = (totalPL / totalPortfolio * 100).toFixed(1);
+                plPctEl.textContent = (totalPL < 0 ? '' : '+') + pct + '%';
+                plPctEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
+            }
+
+            posData.forEach((pos, i) => {
+                const allocCell = rows[i].querySelector('.alloc-pct');
+                if (!allocCell) return;
+                if (!pos) { allocCell.classList.add('neutral'); return; }
+                allocCell.textContent = (pos.mktVal / totalPortfolio * 100).toFixed(1) + '%';
+            });
         }
     }
 
@@ -141,31 +159,6 @@
         Array.from(tbody.rows).forEach(row => {
             if (row.cells[10]) row.cells[10].remove();
         });
-    }
-
-    // ── Portfolio allocation percentages ────────────────────────────────────
-    if (tbody) {
-        const portfolioLabelEl = Array.from(document.querySelectorAll('.stat-label'))
-            .find(el => el.textContent.trim() === 'Portfolio Value');
-        const totalPortfolio = portfolioLabelEl
-            ? parseFloat(portfolioLabelEl.nextElementSibling.textContent.replace(/[$,]/g, ''))
-            : NaN;
-
-        if (totalPortfolio && !isNaN(totalPortfolio)) {
-            const na = s => !s || s === 'n/a' || s === '—';
-            Array.from(tbody.rows).forEach(row => {
-                const allocCell = row.querySelector('.alloc-pct');
-                if (!allocCell) return;
-                const plPctText = row.cells[7]?.textContent.trim();
-                const plDolText = row.cells[8]?.textContent.trim();
-                if (na(plPctText) || na(plDolText)) { allocCell.classList.add('neutral'); return; }
-                const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
-                const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
-                if (!plPct || isNaN(plPct) || isNaN(plDol)) { allocCell.classList.add('neutral'); return; }
-                allocCell.textContent =
-                    ((Math.abs(plDol) / Math.abs(plPct) + plDol) / totalPortfolio * 100).toFixed(1) + '%';
-            });
-        }
     }
 
     // ── Row selection ───────────────────────────────────────────────────────
