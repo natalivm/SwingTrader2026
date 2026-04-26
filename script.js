@@ -89,6 +89,44 @@
     const countEl = document.querySelector('.position-count');
     if (tbody && countEl) countEl.textContent = `(${tbody.rows.length})`;
 
+    // ── Total P&L $ — compute from table and color stat card ────────────────
+    if (tbody) {
+        let totalPL = 0, hasValue = false;
+        Array.from(tbody.rows).forEach(row => {
+            const plDolText = row.cells[8]?.textContent.trim();
+            if (!plDolText) return;
+            const val = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
+            if (!isNaN(val)) { totalPL += val; hasValue = true; }
+        });
+        if (hasValue) {
+            const plLabelEl = Array.from(document.querySelectorAll('.stat-label'))
+                .find(el => el.textContent.trim() === 'Total P&L $');
+            if (plLabelEl) {
+                const plValueEl = plLabelEl.nextElementSibling;
+                const abs = Math.abs(Math.round(totalPL));
+                plValueEl.textContent = (totalPL < 0 ? '-$' : '+$') + abs.toLocaleString('en-US');
+                plValueEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
+            }
+        }
+    }
+
+    // ── Column visibility: hide TO TARGET %, remove TO STOP % ──────────────
+    if (table && tbody) {
+        const ths = Array.from(table.querySelectorAll('thead th'));
+
+        // Hide TO TARGET % (index 11) — kept in DOM for proximity alert logic
+        if (ths[11]) ths[11].style.display = 'none';
+        Array.from(tbody.rows).forEach(row => {
+            if (row.cells[11]) row.cells[11].style.display = 'none';
+        });
+
+        // Remove TO STOP % (index 10) — not needed
+        if (ths[10]) ths[10].remove();
+        Array.from(tbody.rows).forEach(row => {
+            if (row.cells[10]) row.cells[10].remove();
+        });
+    }
+
     // ── Portfolio allocation percentages ────────────────────────────────────
     if (tbody) {
         const portfolioLabelEl = Array.from(document.querySelectorAll('.stat-label'))
