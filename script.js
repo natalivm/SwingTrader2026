@@ -89,6 +89,38 @@
     const countEl = document.querySelector('.position-count');
     if (tbody && countEl) countEl.textContent = `(${tbody.rows.length})`;
 
+    // ── Total P&L $ — compute from table and color stat card ────────────────
+    if (tbody) {
+        let totalPL = 0, hasValue = false;
+        Array.from(tbody.rows).forEach(row => {
+            const plDolText = row.cells[8]?.textContent.trim();
+            if (!plDolText) return;
+            const val = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
+            if (!isNaN(val)) { totalPL += val; hasValue = true; }
+        });
+        if (hasValue) {
+            const plLabelEl = Array.from(document.querySelectorAll('.stat-label'))
+                .find(el => el.textContent.trim() === 'Total P&L $');
+            if (plLabelEl) {
+                const plValueEl = plLabelEl.nextElementSibling;
+                const abs = Math.abs(Math.round(totalPL));
+                plValueEl.textContent = (totalPL < 0 ? '-$' : '+$') + abs.toLocaleString('en-US');
+                plValueEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
+            }
+        }
+    }
+
+    // ── Remove TO STOP % and TO TARGET % columns ────────────────────────────
+    if (table && tbody) {
+        const ths = Array.from(table.querySelectorAll('thead th'));
+        [11, 10].forEach(idx => {
+            if (ths[idx]) ths[idx].remove();
+            Array.from(tbody.rows).forEach(row => {
+                if (row.cells[idx]) row.cells[idx].remove();
+            });
+        });
+    }
+
     // ── Portfolio allocation percentages ────────────────────────────────────
     if (tbody) {
         const portfolioLabelEl = Array.from(document.querySelectorAll('.stat-label'))
