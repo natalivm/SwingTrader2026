@@ -161,14 +161,55 @@
         });
     }
 
+    // ── Tier explanation content ────────────────────────────────────────────
+    const TIER_INFO = {
+        warning: {
+            label: 'Near Entry — Act Now',
+            text: 'Price is still close to our original entry. Time-sensitive window — the setup is valid but may not stay at this level for long.',
+        },
+        'high-potential': {
+            label: 'High Potential',
+            text: 'Strong setup with significant upside still to target. Risk/reward is compelling — short entry conditions remain intact with 20%+ downside ahead.',
+        },
+        setup: {
+            label: 'Setup Intact',
+            text: 'Entry conditions are still valid. No confirmed percentage gap yet — monitoring for the ideal entry point.',
+        },
+    };
+
+    function buildExplainRow(tier, colCount) {
+        const { label, text } = TIER_INFO[tier];
+        const tr = document.createElement('tr');
+        tr.className = 'expand-row';
+        const td = document.createElement('td');
+        td.colSpan = colCount;
+        td.innerHTML = `<div class="tier-explanation">
+            <span class="exp-dot ${tier}"></span>
+            <div>
+                <div class="exp-label ${tier}">${label}</div>
+                <div class="exp-text">${text}</div>
+            </div>
+        </div>`;
+        tr.appendChild(td);
+        return tr;
+    }
+
     // ── Row selection ───────────────────────────────────────────────────────
     if (tbody) {
         tbody.addEventListener('click', e => {
             const row = e.target.closest('tr');
-            if (!row) return;
+            if (!row || row.classList.contains('expand-row')) return;
+
+            const tier = row.dataset.tier;
             const wasSelected = row.classList.contains('row-selected');
+
+            tbody.querySelectorAll('.expand-row').forEach(r => r.remove());
             tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
-            if (!wasSelected) row.classList.add('row-selected');
+
+            if (!wasSelected) {
+                row.classList.add('row-selected');
+                if (tier) row.after(buildExplainRow(tier, row.cells.length));
+            }
         });
     }
 
@@ -379,16 +420,16 @@
             card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '') + glowClass;
             if (tier) card.dataset.tier = tier;
             const entranceDelay = `${idx * 50}ms`;
-            const glowAnim = tier === 'high-potential'
-                ? `, glowPulsePurple 2.5s 600ms ease-in-out infinite`
+            const borderAnim = tier === 'high-potential'
+                ? `, rotateBorderAngle 3s linear infinite`
                 : tier === 'warning'
-                ? `, glowPulseYellow 2.5s 600ms ease-in-out infinite`
-                : d.plClass === 'profit'
-                ? `, glowPulseGreen 2.5s 600ms ease-in-out infinite`
-                : d.plClass === 'loss'
-                ? `, glowPulseRed 2.5s 600ms ease-in-out infinite`
+                ? `, rotateBorderAngle 4s linear infinite`
+                : tier === 'setup'
+                ? `, rotateBorderAngle 10s linear infinite`
+                : (d.plClass === 'profit' || d.plClass === 'loss')
+                ? `, rotateBorderAngle 5s linear infinite`
                 : '';
-            card.style.animation = `cardEntrance 0.5s ${entranceDelay} cubic-bezier(0.16, 1, 0.3, 1) both${glowAnim}`;
+            card.style.animation = `cardEntrance 0.5s ${entranceDelay} cubic-bezier(0.16, 1, 0.3, 1) both${borderAnim}`;
             const arrowHtml = d.plClass === 'profit'
                 ? '<span class="pl-arrow arrow-up">▲</span>'
                 : d.plClass === 'loss'
