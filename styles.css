@@ -1073,27 +1073,30 @@ body {
 
 /* ── Position cards grid ─────────────────────────────────────────────────── */
 .positions-card-grid {
-    padding: 20px;
+    padding: 24px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    background: linear-gradient(160deg, #0d1117 0%, #0f172a 100%);
 }
 
 .pos-card {
-    background: var(--card-bg);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 18px;
+    background: #1a2336;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    padding: 20px;
     cursor: pointer;
-    transition: box-shadow 0.2s, transform 0.15s, border-color 0.15s;
+    transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, background 0.2s;
 }
 .pos-card:hover {
-    box-shadow: var(--shadow-md);
+    background: #1f2d45;
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
 }
 .pos-card.row-selected {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-glow);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .pos-card-header {
@@ -1112,66 +1115,81 @@ body {
 .pos-card-symbol {
     font-size: 22px;
     font-weight: 800;
-    color: var(--text-color);
+    color: #f1f5f9;
     line-height: 1;
 }
 .pos-card-pl {
     font-size: 12px;
     font-weight: 700;
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 20px;
     white-space: nowrap;
     flex-shrink: 0;
 }
-.pos-card-pl.profit { background: #ecfdf5; color: var(--accent-green); }
-.pos-card-pl.loss   { background: #fef2f2; color: var(--accent-red); }
-.pos-card-pl.neutral { background: var(--table-header-bg); color: var(--text-muted); }
+.pos-card-pl.profit { background: rgba(16, 185, 129, 0.18); color: #34d399; }
+.pos-card-pl.loss   { background: rgba(239,  68,  68, 0.18); color: #f87171; }
+.pos-card-pl.neutral { background: rgba(255, 255, 255, 0.07); color: #64748b; }
 
 .pos-card-status {
     font-size: 12.5px;
-    color: var(--text-light);
-    margin-bottom: 14px;
+    color: #64748b;
+    margin-bottom: 16px;
     line-height: 1.45;
 }
 
 .pos-card-prices {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    background: var(--table-header-bg);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
     gap: 4px;
 }
 .pos-card-price-col { min-width: 0; }
 .pos-card-price-label {
     font-size: 9.5px;
     font-weight: 700;
-    color: var(--text-muted);
+    color: #3d526b;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-bottom: 3px;
+    letter-spacing: 0.7px;
+    margin-bottom: 4px;
 }
 .pos-card-price-val {
     font-size: 13.5px;
     font-weight: 700;
-    color: var(--text-color);
+    color: #cbd5e1;
 }
-.pos-card-price-val.current { color: var(--primary-color); }
+.pos-card-price-val.current { color: #818cf8; }
 
 .pos-card-footer {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     font-size: 12px;
-    color: var(--text-light);
+    color: #475569;
     flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .pos-card-footer span { white-space: nowrap; }
-.pos-card-footer strong { color: var(--text-color); }
-.pos-card-footer .upside { color: var(--accent-green); font-weight: 600; }
-.pos-card-footer .rr     { font-weight: 700; color: var(--text-color); }
-.pos-card-footer .profit { color: var(--accent-green); font-weight: 600; }
-.pos-card-footer .loss   { color: var(--accent-red);   font-weight: 600; }
+.pos-card-footer strong { color: #94a3b8; font-weight: 600; }
+.pos-card-footer .upside { color: #34d399; font-weight: 700; }
+.pos-card-footer .rr     { color: #e2e8f0; font-weight: 700; }
+.pos-card-footer .profit { color: #34d399; font-weight: 600; }
+.pos-card-footer .loss   { color: #f87171; font-weight: 600; }
+
+/* Badge overrides inside dark cards */
+.pos-card .badge.swing-trade {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.3);
+}
+.pos-card .badge.short-trade {
+    background-color: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    border-color: rgba(244, 63, 94, 0.3);
+}
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
@@ -1250,6 +1268,7 @@ body {
     .alerts-table td { padding: 11px 12px; }
     .alert-outcome-cell { min-width: 160px; }
     .alert-notes { max-width: 200px; }
+    .positions-card-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -1261,4 +1280,5 @@ body {
     .stat-value { font-size: 24px; }
     .section-title { font-size: 17px; margin-bottom: 10px; }
     .filter-btns { flex-wrap: wrap; }
+    .positions-card-grid { grid-template-columns: 1fr; gap: 12px; padding: 14px; }
 }
