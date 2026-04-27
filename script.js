@@ -28,8 +28,12 @@
             const progCls  = p.progressV === 'n/a'        ? 'neutral'
                            : p.progressV.startsWith('+')  ? 'profit'
                            : p.progressV.startsWith('-')  ? 'loss' : 'neutral';
-            const progColor = progCls === 'profit' ? 'rgba(16,185,129,0.09)' : progCls === 'loss' ? 'rgba(239,68,68,0.09)' : 'rgba(100,116,139,0.06)';
-            return `<tr${tierAttr} style="background-image:linear-gradient(to right,${progColor} ${p.progressW}%,transparent ${p.progressW}%)">
+            const progColor = progCls === 'loss' ? 'rgba(239,68,68,0.09)' : 'rgba(100,116,139,0.06)';
+            const rowProgressClass = progCls === 'profit' ? ' class="row-profit-prog"' : '';
+            const rowProgressStyle = progCls === 'profit'
+                ? `--pw:${p.progressW}%`
+                : `background-image:linear-gradient(to right,${progColor} ${p.progressW}%,transparent ${p.progressW}%)`;
+            return `<tr${tierAttr}${rowProgressClass} style="${rowProgressStyle}">
                 <td class="symbol">${tierDot}${p.symbol}</td>
                 <td><span class="badge ${isShort ? 'short-trade' : 'swing-trade'}">${p.cat}</span></td>
                 <td class="${plCls}">${p.plPct}</td>
