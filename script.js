@@ -587,8 +587,12 @@
     }
 
     // ── Open position detail modal ───────────────────────────────────────────
-    function openPositionModal(d, tier = '') {
+    function openPositionModal(allRows, idx) {
         document.querySelector('.pos-modal-overlay')?.remove();
+
+        const row  = allRows[idx];
+        const d    = rowToCardData(row);
+        const tier = row.dataset.tier ?? '';
 
         const metricsHTML = [
             { label: 'Stop',   val: d.stopVal,   cls: '' },
@@ -614,6 +618,7 @@
         const overlay = document.createElement('div');
         overlay.className = 'pos-modal-overlay';
         overlay.innerHTML = `
+            <button class="pos-modal-nav pos-modal-prev" aria-label="Previous"${idx === 0 ? ' disabled' : ''}>&#8592;</button>
             <div class="pos-modal" role="dialog" aria-modal="true"${tier ? ` data-tier="${tier}"` : ''}>
                 <button class="pos-modal-close" aria-label="Close">✕</button>
                 <div class="pos-modal-header">
@@ -640,7 +645,8 @@
                 </div>
                 <div class="pos-modal-metrics">${metricsHTML}</div>
                 ${tierExplainHTML}
-            </div>`;
+            </div>
+            <button class="pos-modal-nav pos-modal-next" aria-label="Next"${idx === allRows.length - 1 ? ' disabled' : ''}>&#8594;</button>`;
 
         const borderSpeed = TIER_BORDER_SPEED[tier];
         if (borderSpeed) {
@@ -656,11 +662,24 @@
         };
         overlay.querySelector('.pos-modal-close').addEventListener('click', close);
         overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-        const onEsc = e => { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onEsc); } };
-        document.addEventListener('keydown', onEsc);
+
+        overlay.querySelector('.pos-modal-prev').addEventListener('click', e => {
+            e.stopPropagation();
+            if (idx > 0) openPositionModal(allRows, idx - 1);
+        });
+        overlay.querySelector('.pos-modal-next').addEventListener('click', e => {
+            e.stopPropagation();
+            if (idx < allRows.length - 1) openPositionModal(allRows, idx + 1);
+        });
+
+        const onKey = e => {
+            if (e.key === 'ArrowLeft')  { if (idx > 0)                    { openPositionModal(allRows, idx - 1); document.removeEventListener('keydown', onKey); } }
+            else if (e.key === 'ArrowRight') { if (idx < allRows.length - 1) { openPositionModal(allRows, idx + 1); document.removeEventListener('keydown', onKey); } }
+            else if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); }
+        };
+        document.addEventListener('keydown', onKey);
 
         typeWriter(overlay.querySelector('.pos-modal-status'), d.status, 22);
-
     }
 
     // ── Build card grid from table rows ──────────────────────────────────────
@@ -730,7 +749,7 @@
                 );
                 cardGrid.querySelectorAll('.pos-card.row-selected').forEach(c => c.classList.remove('row-selected'));
                 if (!wasSelected) { row.classList.add('row-selected'); card.classList.add('row-selected'); }
-                openPositionModal(d, tier);
+                openPositionModal(allCardRows, idx);
             });
 
             cardGrid.appendChild(card);
