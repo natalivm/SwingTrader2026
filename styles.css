@@ -564,17 +564,15 @@ body {
 
 .stat-card:nth-child(3) {
     background: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%);
-    box-shadow: var(--shadow);
-    border-bottom: 2px solid #047857;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.32);
 }
-.stat-card:nth-child(3):hover { box-shadow: var(--shadow-md); }
+.stat-card:nth-child(3):hover { box-shadow: 0 8px 28px rgba(16, 185, 129, 0.44); }
 
 .stat-card:nth-child(4) {
     background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    box-shadow: var(--shadow);
-    border-bottom: 2px solid #065f46;
+    box-shadow: 0 4px 20px rgba(5, 150, 105, 0.32);
 }
-.stat-card:nth-child(4):hover { box-shadow: var(--shadow-md); }
+.stat-card:nth-child(4):hover { box-shadow: 0 8px 28px rgba(5, 150, 105, 0.44); }
 
 .stat-icon {
     font-size: 22px;
@@ -979,35 +977,15 @@ body.dark-mode .options-header {
     text-align: right;
 }
 
-/* ── Profit row progress shimmer ─────────────────────────────────────────── */
-@keyframes shimmer-streak {
-    0%   { background-position: -40% 0, 0 0, 0 0; }
-    100% { background-position: 140% 0, 0 0, 0 0; }
-}
-
+/* ── Profit row progress fill ─────────────────────────────────────────────── */
 tr.row-profit-prog {
     background-image:
-        /* Sparkle streak that sweeps across the row */
-        linear-gradient(105deg,
-            transparent 38%,
-            rgba(187,247,208,0.45) 47%,
-            rgba(255,255,255,0.85) 50%,
-            rgba(187,247,208,0.45) 53%,
-            transparent 62%),
-        /* Leading-edge glow at the progress tip */
-        radial-gradient(ellipse 28% 110% at var(--pw, 0%) 50%,
-            rgba(52,211,153,0.55) 0%,
-            rgba(52,211,153,0) 100%),
-        /* Main emerald → mint fill, stops at --pw */
         linear-gradient(90deg,
             rgba(5,150,105,0.18) 0%,
             rgba(16,185,129,0.32) 45%,
             rgba(52,211,153,0.45) var(--pw, 0%),
             transparent var(--pw, 0%));
-    background-size: 200% 100%, 100% 100%, 100% 100%;
-    background-repeat: no-repeat;
-    background-position: -40% 0, 0 0, 0 0;
-    animation: shimmer-streak 3.2s linear infinite;
+    box-shadow: inset 0 -2px 0 #047857;
 }
 
 /* ── Trade History tab ───────────────────────────────────────────────────── */
