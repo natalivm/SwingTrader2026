@@ -202,7 +202,7 @@
             if (naVal(plPctText) || naVal(plDolText)) return null;
             const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
             const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
-            if (!plPct || isNaN(plPct) || isNaN(plDol)) return null;
+            if (isNaN(plPct) || isNaN(plDol)) return null;
             const mktVal = Math.abs(plDol) / Math.abs(plPct) + plDol;
             totalPL += plDol;
             totalPortfolio += mktVal;
@@ -389,15 +389,6 @@
     const cardGrid        = document.getElementById('positionsCardGrid');
 
     // ── Animation helpers ────────────────────────────────────────────────────
-    function countUp(el, target, prefix, decimals, duration) {
-        const t0 = performance.now();
-        (function step(now) {
-            const p = Math.min((now - t0) / duration, 1);
-            el.textContent = prefix + (target * (1 - Math.pow(1 - p, 3))).toFixed(decimals);
-            if (p < 1) requestAnimationFrame(step);
-        })(t0);
-    }
-
     function typeWriter(el, text, charDelay) {
         el.textContent = '';
         [...text].forEach((ch, i) => setTimeout(() => { el.textContent += ch; }, i * charDelay));
