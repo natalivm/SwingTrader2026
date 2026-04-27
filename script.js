@@ -27,20 +27,21 @@
             const progCls  = p.progressV === 'n/a'        ? 'neutral'
                            : p.progressV.startsWith('+')  ? 'profit'
                            : p.progressV.startsWith('-')  ? 'loss' : 'neutral';
-            return `<tr${tierAttr}>
+            const progColor = progCls === 'profit' ? 'rgba(16,185,129,0.09)' : progCls === 'loss' ? 'rgba(239,68,68,0.09)' : 'rgba(100,116,139,0.06)';
+            return `<tr${tierAttr} style="background-image:linear-gradient(to right,${progColor} ${p.progressW}%,transparent ${p.progressW}%)">
                 <td class="symbol">${tierDot}${p.symbol}</td>
                 <td><span class="badge ${isShort ? 'short-trade' : 'swing-trade'}">${p.cat}</span></td>
-                <td>${p.entered}</td>
-                <td>${fmtP(p.entry)}</td>
-                ${naPCell(p.stop)}
-                <td><span class="current-price">${fmtCur(p.current)}</span></td>
-                ${naPCell(p.target)}
                 <td class="${plCls}">${p.plPct}</td>
                 <td class="${plCls}">${p.plDol}</td>
+                <td><span class="current-price">${fmtCur(p.current)}</span></td>
+                ${naPCell(p.target)}
+                <td>${fmtP(p.entry)}</td>
+                ${naPCell(p.stop)}
                 <td class="alloc-pct">—</td>
+                <td>${p.entered}</td>
                 ${naCell(p.toStop)}
                 ${naCell(p.toTarget)}
-                <td><div class="progress-cell"><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${p.progressW}%"></div></div><span class="progress-value ${progCls}">${p.progressV}</span></div></td>
+                <td class="${progCls}">${p.progressV}</td>
             </tr>`;
         }).join('');
     }
@@ -196,8 +197,8 @@
         let totalPL = 0, totalPortfolio = 0, hasData = false;
         const allRows = allTbodies.flatMap(tb => Array.from(tb.rows));
         const posData = allRows.map(row => {
-            const plPctText = row.cells[7]?.textContent.trim();
-            const plDolText = row.cells[8]?.textContent.trim();
+            const plPctText = row.cells[2]?.textContent.trim();
+            const plDolText = row.cells[3]?.textContent.trim();
             if (naVal(plPctText) || naVal(plDolText)) return null;
             const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
             const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
@@ -376,8 +377,8 @@
         });
     }
 
-    makeSorter(table, tbody, true, true);
-    makeSorter(table2, tbody2, true, true);
+    makeSorter(table, tbody, false, true);
+    makeSorter(table2, tbody2, false, true);
     makeSorter(tradesTable, tradesBody, false, false);
 
     // ── Positions card view ─────────────────────────────────────────────────
@@ -408,14 +409,14 @@
         const sym      = row.querySelector('.symbol')?.textContent.trim() ?? '';
         const isShort  = !!row.querySelector('.badge.short-trade');
         const cat      = row.querySelector('.badge')?.textContent.trim() ?? '';
-        const entryText = row.cells[3]?.textContent.trim() ?? '—';
-        const stopRaw   = row.cells[4]?.textContent.trim() ?? '—';
-        const curRaw    = row.cells[5]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
+        const entryText = row.cells[6]?.textContent.trim() ?? '—';
+        const stopRaw   = row.cells[7]?.textContent.trim() ?? '—';
+        const curRaw    = row.cells[4]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
         const curText   = curRaw ? '$' + curRaw : '—';
-        const targetRaw = row.cells[6]?.textContent.trim() ?? '—';
-        const plPct     = row.cells[7]?.textContent.trim() ?? '—';
-        const plDol     = row.cells[8]?.textContent.trim() ?? '—';
-        const allocText = row.cells[9]?.textContent.trim() ?? '—';
+        const targetRaw = row.cells[5]?.textContent.trim() ?? '—';
+        const plPct     = row.cells[2]?.textContent.trim() ?? '—';
+        const plDol     = row.cells[3]?.textContent.trim() ?? '—';
+        const allocText = row.cells[8]?.textContent.trim() ?? '—';
 
         const curNum = curRaw ? parseFloat(curRaw) : NaN;
         const tgtNum = parseP(targetRaw);
