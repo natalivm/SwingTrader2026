@@ -11,6 +11,7 @@
     const table2      = document.querySelector('.positions-table-2');
     const tradesBody  = document.querySelector('.trades-table tbody');
     const tradesTable = document.querySelector('.trades-table');
+    const alertsBody  = document.querySelector('.alerts-table tbody');
 
     // ── Data rendering ──────────────────────────────────────────────────────
     function renderPositionsInto(data, tbodyEl) {
@@ -70,7 +71,6 @@
     }
 
     function renderAlerts() {
-        const alertsBody = document.querySelector('.alerts-table tbody');
         if (!alertsBody || typeof ALERTS_DATA === 'undefined') return;
         alertsBody.innerHTML = ALERTS_DATA.map(a => {
             const tierAttr = a.tier ? ` data-tier="${a.tier}"` : '';
@@ -308,6 +308,7 @@
     }
     addRowSelectionHandler(tbody);
     addRowSelectionHandler(tbody2);
+    addRowSelectionHandler(alertsBody);
 
     // ── Trade History filter & search ───────────────────────────────────────
     const filterBtns   = document.querySelectorAll('.filter-btn');
