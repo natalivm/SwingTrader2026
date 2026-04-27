@@ -28,20 +28,21 @@
             const progCls  = p.progressV === 'n/a'        ? 'neutral'
                            : p.progressV.startsWith('+')  ? 'profit'
                            : p.progressV.startsWith('-')  ? 'loss' : 'neutral';
-            return `<tr${tierAttr}>
+            const progColor = progCls === 'profit' ? 'rgba(16,185,129,0.09)' : progCls === 'loss' ? 'rgba(239,68,68,0.09)' : 'rgba(100,116,139,0.06)';
+            return `<tr${tierAttr} style="background-image:linear-gradient(to right,${progColor} ${p.progressW}%,transparent ${p.progressW}%)">
                 <td class="symbol">${tierDot}${p.symbol}</td>
                 <td><span class="badge ${isShort ? 'short-trade' : 'swing-trade'}">${p.cat}</span></td>
-                <td>${p.entered}</td>
-                <td>${fmtP(p.entry)}</td>
-                ${naPCell(p.stop)}
-                <td><span class="current-price">${fmtCur(p.current)}</span></td>
-                ${naPCell(p.target)}
                 <td class="${plCls}">${p.plPct}</td>
                 <td class="${plCls}">${p.plDol}</td>
+                <td><span class="current-price">${fmtCur(p.current)}</span></td>
+                ${naPCell(p.target)}
+                <td>${fmtP(p.entry)}</td>
+                ${naPCell(p.stop)}
                 <td class="alloc-pct">—</td>
+                <td>${p.entered}</td>
                 ${naCell(p.toStop)}
                 ${naCell(p.toTarget)}
-                <td><div class="progress-cell"><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${p.progressW}%"></div></div><span class="progress-value ${progCls}">${p.progressV}</span></div></td>
+                <td class="${progCls}">${p.progressV}</td>
             </tr>`;
         }).join('');
     }
@@ -53,7 +54,7 @@
         const optBody = document.querySelector('.options-table tbody');
         if (!optBody || typeof OPTIONS_DATA === 'undefined') return;
         optBody.innerHTML = OPTIONS_DATA.map(o => {
-            const plCls = o.plPct.startsWith('-') ? 'loss' : 'profit';
+            const plCls = o.plPct.startsWith('+') ? 'profit' : o.plPct.startsWith('-') ? 'loss' : 'neutral';
             return `<tr>
                 <td class="symbol">${o.symbol}</td>
                 <td><span class="badge ${o.typeCls}">${o.type}</span></td>
@@ -329,12 +330,12 @@
         let totalPL = 0, totalPortfolio = 0, hasData = false;
         const allRows = allTbodies.flatMap(tb => Array.from(tb.rows));
         const posData = allRows.map(row => {
-            const plPctText = row.cells[7]?.textContent.trim();
-            const plDolText = row.cells[8]?.textContent.trim();
+            const plPctText = row.cells[2]?.textContent.trim();
+            const plDolText = row.cells[3]?.textContent.trim();
             if (naVal(plPctText) || naVal(plDolText)) return null;
             const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
             const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
-            if (!plPct || isNaN(plPct) || isNaN(plDol)) return null;
+            if (isNaN(plPct) || isNaN(plDol)) return null;
             const mktVal = Math.abs(plDol) / Math.abs(plPct) + plDol;
             totalPL += plDol;
             totalPortfolio += mktVal;
@@ -473,11 +474,10 @@
     const MONTHS = { Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6,
                      Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12 };
 
-    function parseCell(row, idx, progress, useInfinity) {
+    function parseCell(row, idx, useInfinity) {
         const cell = row.cells[idx];
         if (!cell) return '';
-        const span = progress ? cell.querySelector('.progress-value') : null;
-        const raw  = (span ? span.textContent : cell.textContent).trim();
+        const raw = cell.textContent.trim();
         if (useInfinity && (raw === '—' || raw === 'n/a')) return Infinity;
         const dm = raw.match(/^(\w{3})\s+(\d{1,2})(?:\s+'(\d{2}))?$/);
         if (dm) return new Date(dm[3] ? 2000 + +dm[3] : 2026, (MONTHS[dm[1]] || 1) - 1, +dm[2]).getTime();
@@ -485,7 +485,7 @@
         return isNaN(n) ? raw.toLowerCase() : n;
     }
 
-    function makeSorter(tableEl, bodyEl, progress, useInfinity) {
+    function makeSorter(tableEl, bodyEl, useInfinity) {
         if (!tableEl || !bodyEl) return;
         let col = -1, asc = true;
         tableEl.querySelectorAll('thead th').forEach((th, idx) => {
@@ -494,8 +494,8 @@
                 col = idx;
                 Array.from(bodyEl.rows)
                     .sort((a, b) => {
-                        const av = parseCell(a, idx, progress, useInfinity);
-                        const bv = parseCell(b, idx, progress, useInfinity);
+                        const av = parseCell(a, idx, useInfinity);
+                        const bv = parseCell(b, idx, useInfinity);
                         if (av === bv) return 0;
                         if (av === Infinity) return 1;
                         if (bv === Infinity) return -1;
@@ -510,9 +510,9 @@
         });
     }
 
-    makeSorter(table, tbody, true, true);
-    makeSorter(table2, tbody2, true, true);
-    makeSorter(tradesTable, tradesBody, false, false);
+    makeSorter(table, tbody, true);
+    makeSorter(table2, tbody2, true);
+    makeSorter(tradesTable, tradesBody, false);
 
     // ── Positions card view ─────────────────────────────────────────────────
     const tableViewBtn    = document.getElementById('tableViewBtn');
@@ -522,15 +522,6 @@
     const cardGrid        = document.getElementById('positionsCardGrid');
 
     // ── Animation helpers ────────────────────────────────────────────────────
-    function countUp(el, target, prefix, decimals, duration) {
-        const t0 = performance.now();
-        (function step(now) {
-            const p = Math.min((now - t0) / duration, 1);
-            el.textContent = prefix + (target * (1 - Math.pow(1 - p, 3))).toFixed(decimals);
-            if (p < 1) requestAnimationFrame(step);
-        })(t0);
-    }
-
     function typeWriter(el, text, charDelay) {
         el.textContent = '';
         [...text].forEach((ch, i) => setTimeout(() => { el.textContent += ch; }, i * charDelay));
@@ -542,14 +533,14 @@
         const sym      = row.querySelector('.symbol')?.textContent.trim() ?? '';
         const isShort  = !!row.querySelector('.badge.short-trade');
         const cat      = row.querySelector('.badge')?.textContent.trim() ?? '';
-        const entryText = row.cells[3]?.textContent.trim() ?? '—';
-        const stopRaw   = row.cells[4]?.textContent.trim() ?? '—';
-        const curRaw    = row.cells[5]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
+        const entryText = row.cells[6]?.textContent.trim() ?? '—';
+        const stopRaw   = row.cells[7]?.textContent.trim() ?? '—';
+        const curRaw    = row.cells[4]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
         const curText   = curRaw ? '$' + curRaw : '—';
-        const targetRaw = row.cells[6]?.textContent.trim() ?? '—';
-        const plPct     = row.cells[7]?.textContent.trim() ?? '—';
-        const plDol     = row.cells[8]?.textContent.trim() ?? '—';
-        const allocText = row.cells[9]?.textContent.trim() ?? '—';
+        const targetRaw = row.cells[5]?.textContent.trim() ?? '—';
+        const plPct     = row.cells[2]?.textContent.trim() ?? '—';
+        const plDol     = row.cells[3]?.textContent.trim() ?? '—';
+        const allocText = row.cells[8]?.textContent.trim() ?? '—';
 
         const curNum = curRaw ? parseFloat(curRaw) : NaN;
         const tgtNum = parseP(targetRaw);

@@ -926,7 +926,7 @@ body.dark-mode .options-header {
 
 .options-table tbody tr:last-child td { border-bottom: none; }
 
-.options-table tbody tr:hover { background-color: var(--row-hover); }
+.options-table tbody tr:hover { background-color: var(--hover-bg); }
 
 /* ── Allocation column ───────────────────────────────────────────────────── */
 .alloc-pct { font-weight: 600; }
