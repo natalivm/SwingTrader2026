@@ -19,7 +19,6 @@ const TICKER_DATA = [
 const POSITIONS_DATA = [
   { symbol: 'Q',     cat: 'Long',  entered: "Apr 21 '26", entry: 136.76, stop: 132.00, current: 144.60, target: 165.00, plPct: '+5.7%',  plDol: '+$31',    toStop: '8.7%',  toTarget: '14.1%', progressW: 28, progressV: '+28%', tier: null },
   { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 498.36, stop: null,   current: 494.32, target: null,   plPct: '+0.8%',  plDol: '+$53',    toStop: null,    toTarget: null,    progressW: 0,  progressV: 'n/a',  tier: 'warning' },
-  { symbol: 'COHR',  cat: 'Short', entered: "Apr 17 '26", entry: 343.24, stop: null,   current: 335.70, target: 310.00, plPct: '+2.2%',  plDol: '+$75',    toStop: null,    toTarget: '7.7%',  progressW: 23, progressV: '+23%', tier: 'high-potential' },
   { symbol: 'PANW',  cat: 'Long',  entered: "Apr 23 '26", entry: 170.28, stop: 159.00, current: 178.40, target: 210.00, plPct: '+4.8%',  plDol: '+$81',    toStop: '10.9%', toTarget: '17.7%', progressW: 20, progressV: '+20%', tier: null },
   { symbol: 'KMB',   cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null,   current:  98.15, target: 132.00, plPct: '+2.2%',  plDol: '+$118',   toStop: null,    toTarget: '34.5%', progressW:  6, progressV: '+6%',  tier: null },
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  16.60, target:  20.00, plPct: '+5.2%',  plDol: '+$135',   toStop: '12.7%', toTarget: '20.5%', progressW: 19, progressV: '+19%', tier: null },
@@ -33,13 +32,11 @@ const POSITIONS_DATA = [
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 232.50, target: 185.00, plPct: '-4.0%',  plDol: '-$375',   toStop: null,    toTarget: '20.4%', progressW:  0, progressV: '-23%', tier: 'high-potential' },
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 208.10, target: null,   plPct: '-3.9%',  plDol: '-$368',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
   { symbol: 'SOFI',  cat: 'Long',  entered: "Jan 30 '26", entry:  23.14, stop: null,   current:  18.49, target: null,   plPct: '-20.1%', plDol: '-$279',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
-  { symbol: 'CIEN',  cat: 'Short', entered: "Apr 23 '26", entry: 512.99, stop: null,   current: 519.90, target: null,   plPct: '-1.3%',  plDol: '-$117',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'NET',   cat: 'Long',  entered: "Apr 27 '26", entry: 205.52, stop: 189.00, current: 205.46, target: 240.00, plPct: '-0.0%',  plDol: '-$0',     toStop: '8.0%',  toTarget: '16.8%', progressW:  0, progressV: '0%',   tier: null },
 ];
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
-  { symbol: 'CRDO', cat: 'Short', entered: "Apr 24 '26", entry: 196.32, stop: null, current: 194.69, target: null,   plPct: '+0.8%',  plDol: '+$3',     toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 348.84, target: 285.00, plPct: '-13.3%', plDol: '-$1,186', toStop: null, toTarget: '18.3%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 163.06, target: null,   plPct: '-2.1%',  plDol: '-$57',    toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 234.53, target: 174.00, plPct: '-13.8%', plDol: '-$909',   toStop: null, toTarget: '25.8%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
@@ -56,6 +53,9 @@ const OPTIONS_DATA = [
 
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
+  { symbol: 'CRDO', closeDate: 'Apr 27', result: 'gain', returnPct: '+8.6%',  plDol: '+$33'    },
+  { symbol: 'CIEN', closeDate: 'Apr 27', result: 'gain', returnPct: '+4.5%',  plDol: '+$232'   },
+  { symbol: 'COHR', closeDate: 'Apr 27', result: 'gain', returnPct: '+9.6%',  plDol: '+$328'   },
   { symbol: 'POET', closeDate: 'Apr 27', result: 'gain', returnPct: '+35.4%', plDol: '+$1,012' },
 ];
 
