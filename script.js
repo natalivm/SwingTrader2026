@@ -7,17 +7,19 @@
     const pages       = document.querySelectorAll('.page');
     const tbody       = document.querySelector('.positions-table tbody');
     const table       = document.querySelector('.positions-table');
+    const tbody2      = document.querySelector('.positions-table-2 tbody');
+    const table2      = document.querySelector('.positions-table-2');
     const tradesBody  = document.querySelector('.trades-table tbody');
     const tradesTable = document.querySelector('.trades-table');
 
     // ── Data rendering ──────────────────────────────────────────────────────
-    function renderPositions() {
-        if (!tbody || typeof POSITIONS_DATA === 'undefined') return;
-        const fmtP  = n => '$' + n.toFixed(2);
+    function renderPositionsInto(data, tbodyEl) {
+        if (!tbodyEl || typeof data === 'undefined') return;
+        const fmtP   = n => '$' + n.toFixed(2);
         const fmtCur = n => n.toFixed(2).replace('.', ',');
-        const naCell  = v  => v  != null ? `<td>${v}</td>`       : `<td class="neutral">n/a</td>`;
-        const naPCell = n  => n  != null ? `<td>${fmtP(n)}</td>` : `<td class="neutral">n/a</td>`;
-        tbody.innerHTML = POSITIONS_DATA.map(p => {
+        const naCell  = v => v  != null ? `<td>${v}</td>`       : `<td class="neutral">n/a</td>`;
+        const naPCell = n => n  != null ? `<td>${fmtP(n)}</td>` : `<td class="neutral">n/a</td>`;
+        tbodyEl.innerHTML = data.map(p => {
             const isShort  = p.cat === 'Short';
             const tierAttr = p.tier ? ` data-tier="${p.tier}"` : '';
             const tierDot  = p.tier ? `<span class="tier-dot ${p.tier}"></span>` : '';
@@ -42,6 +44,9 @@
             </tr>`;
         }).join('');
     }
+
+    function renderPositions()  { renderPositionsInto(POSITIONS_DATA,   tbody);  }
+    function renderPositions2() { renderPositionsInto(POSITIONS_DATA_2, tbody2); }
 
     function renderOptions() {
         const optBody = document.querySelector('.options-table tbody');
@@ -88,6 +93,7 @@
     }
 
     renderPositions();
+    renderPositions2();
     renderOptions();
     renderAlerts();
 
@@ -167,11 +173,19 @@
     });
 
     // ── Position count ──────────────────────────────────────────────────────
-    const countEl = document.querySelector('.position-count');
+    const countEl = document.querySelector('.positions-section:not(.positions-section-2) .position-count');
     if (tbody && countEl) countEl.textContent = `(${tbody.rows.length})`;
 
-    // ── Totals + allocation — single pass over rows ─────────────────────────
-    if (tbody) {
+    // ── Second table title ──────────────────────────────────────────────────
+    const title2El = document.getElementById('table2Title');
+    if (title2El && tbody2) {
+        const name = (typeof TABLE2_NAME !== 'undefined' && TABLE2_NAME) ? TABLE2_NAME : 'Positions';
+        title2El.innerHTML = `${name} <span class="position-count">(${tbody2.rows.length})</span>`;
+    }
+
+    // ── Totals + allocation — single pass over all rows ────────────────────
+    const allTbodies = [tbody, tbody2].filter(Boolean);
+    if (allTbodies.length > 0) {
         const naVal = s => !s || s === 'n/a' || s === '—';
         const findStat = label => {
             const el = Array.from(document.querySelectorAll('.stat-label'))
@@ -180,8 +194,8 @@
         };
 
         let totalPL = 0, totalPortfolio = 0, hasData = false;
-        const rows = Array.from(tbody.rows);
-        const posData = rows.map(row => {
+        const allRows = allTbodies.flatMap(tb => Array.from(tb.rows));
+        const posData = allRows.map(row => {
             const plPctText = row.cells[7]?.textContent.trim();
             const plDolText = row.cells[8]?.textContent.trim();
             if (naVal(plPctText) || naVal(plDolText)) return null;
@@ -217,7 +231,7 @@
             }
 
             posData.forEach((pos, i) => {
-                const allocCell = rows[i].querySelector('.alloc-pct');
+                const allocCell = allRows[i].querySelector('.alloc-pct');
                 if (!allocCell) return;
                 if (!pos) { allocCell.classList.add('neutral'); return; }
                 allocCell.textContent = (pos.mktVal / totalPortfolio * 100).toFixed(1) + '%';
@@ -226,21 +240,22 @@
     }
 
     // ── Column visibility: hide TO TARGET %, remove TO STOP % ──────────────
-    if (table && tbody) {
-        const ths = Array.from(table.querySelectorAll('thead th'));
-
+    function applyColumnVisibility(tbl, tb) {
+        if (!tbl || !tb) return;
+        const ths = Array.from(tbl.querySelectorAll('thead th'));
         // Hide TO TARGET % (index 11) — kept in DOM for proximity alert logic
         if (ths[11]) ths[11].hidden = true;
-        Array.from(tbody.rows).forEach(row => {
+        Array.from(tb.rows).forEach(row => {
             if (row.cells[11]) row.cells[11].hidden = true;
         });
-
         // Remove TO STOP % (index 10) — not needed
         if (ths[10]) ths[10].remove();
-        Array.from(tbody.rows).forEach(row => {
+        Array.from(tb.rows).forEach(row => {
             if (row.cells[10]) row.cells[10].remove();
         });
     }
+    applyColumnVisibility(table, tbody);
+    applyColumnVisibility(table2, tbody2);
 
     // ── Tier explanation content ────────────────────────────────────────────
     const TIER_INFO = {
@@ -276,23 +291,23 @@
     }
 
     // ── Row selection ───────────────────────────────────────────────────────
-    if (tbody) {
-        tbody.addEventListener('click', e => {
+    function addRowSelectionHandler(tb) {
+        if (!tb) return;
+        tb.addEventListener('click', e => {
             const row = e.target.closest('tr');
             if (!row || row.classList.contains('expand-row')) return;
-
             const tier = row.dataset.tier;
             const wasSelected = row.classList.contains('row-selected');
-
-            tbody.querySelectorAll('.expand-row').forEach(r => r.remove());
-            tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
-
+            tb.querySelectorAll('.expand-row').forEach(r => r.remove());
+            tb.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
             if (!wasSelected) {
                 row.classList.add('row-selected');
                 if (tier) row.after(buildExplainRow(tier, row.cells.length));
             }
         });
     }
+    addRowSelectionHandler(tbody);
+    addRowSelectionHandler(tbody2);
 
     // ── Trade History filter & search ───────────────────────────────────────
     const filterBtns   = document.querySelectorAll('.filter-btn');
@@ -362,13 +377,15 @@
     }
 
     makeSorter(table, tbody, true, true);
+    makeSorter(table2, tbody2, true, true);
     makeSorter(tradesTable, tradesBody, false, false);
 
     // ── Positions card view ─────────────────────────────────────────────────
-    const tableViewBtn   = document.getElementById('tableViewBtn');
-    const cardViewBtn    = document.getElementById('cardViewBtn');
-    const tableContainer = document.querySelector('.positions-section .table-container');
-    const cardGrid       = document.getElementById('positionsCardGrid');
+    const tableViewBtn    = document.getElementById('tableViewBtn');
+    const cardViewBtn     = document.getElementById('cardViewBtn');
+    const tableContainer  = document.querySelector('.positions-section:not(.positions-section-2) .table-container');
+    const tableContainer2 = document.querySelector('.positions-section-2 .table-container');
+    const cardGrid        = document.getElementById('positionsCardGrid');
 
     // ── Animation helpers ────────────────────────────────────────────────────
     function countUp(el, target, prefix, decimals, duration) {
@@ -509,9 +526,13 @@
 
     // ── Build card grid from table rows ──────────────────────────────────────
     function buildPositionCards() {
-        if (!tbody || !cardGrid) return;
+        if (!cardGrid) return;
         cardGrid.innerHTML = '';
-        Array.from(tbody.rows).forEach((row, idx) => {
+        const allCardRows = [
+            ...(tbody  ? Array.from(tbody.rows)  : []),
+            ...(tbody2 ? Array.from(tbody2.rows) : []),
+        ];
+        allCardRows.forEach((row, idx) => {
             const d = rowToCardData(row);
             const tier = row.dataset.tier ?? '';
             const card = document.createElement('div');
@@ -568,7 +589,9 @@
 
             card.addEventListener('click', () => {
                 const wasSelected = row.classList.contains('row-selected');
-                tbody.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'));
+                [tbody, tbody2].filter(Boolean).forEach(tb =>
+                    tb.querySelectorAll('.row-selected').forEach(r => r.classList.remove('row-selected'))
+                );
                 cardGrid.querySelectorAll('.pos-card.row-selected').forEach(c => c.classList.remove('row-selected'));
                 if (!wasSelected) { row.classList.add('row-selected'); card.classList.add('row-selected'); }
                 openPositionModal(d, tier);
@@ -585,6 +608,7 @@
         tableViewBtn.classList.remove('active');
         tableViewBtn.setAttribute('aria-pressed', 'false');
         tableContainer.hidden = true;
+        if (tableContainer2) tableContainer2.hidden = true;
         cardGrid.hidden = false;
         document.body.classList.add('dark-mode');
         localStorage.setItem('posView', 'card');
@@ -596,6 +620,7 @@
         cardViewBtn.classList.remove('active');
         cardViewBtn.setAttribute('aria-pressed', 'false');
         tableContainer.hidden = false;
+        if (tableContainer2) tableContainer2.hidden = false;
         cardGrid.hidden = true;
         document.body.classList.remove('dark-mode');
         localStorage.setItem('posView', 'table');
@@ -608,6 +633,24 @@
         if (localStorage.getItem('posView') === 'card') {
             activateCardView();
         }
+    }
+
+    // ── Portfolio Summary metrics toggle ────────────────────────────────────
+    const portfolioToggle = document.getElementById('portfolioSummaryTitle');
+    const metricsGridEl   = document.getElementById('metricsGrid');
+    if (portfolioToggle && metricsGridEl) {
+        function toggleMetrics() {
+            const expanded = metricsGridEl.classList.toggle('expanded');
+            portfolioToggle.classList.toggle('expanded', expanded);
+            portfolioToggle.setAttribute('aria-expanded', String(expanded));
+            metricsGridEl.setAttribute('aria-hidden', String(!expanded));
+            localStorage.setItem('metricsExpanded', expanded ? '1' : '0');
+        }
+        portfolioToggle.addEventListener('click', toggleMetrics);
+        portfolioToggle.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMetrics(); }
+        });
+        if (localStorage.getItem('metricsExpanded') === '1') toggleMetrics();
     }
 
 })();

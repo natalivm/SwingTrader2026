@@ -384,11 +384,47 @@ body {
 .ticker-body strong { color: #ffffff; font-weight: 700; }
 
 /* ── Performance Metrics ─────────────────────────────────────────────────── */
+.portfolio-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+.portfolio-toggle:hover .metrics-arrow {
+    color: var(--primary-color);
+}
+
+.metrics-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.portfolio-toggle.expanded .metrics-arrow {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+}
+
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 12px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    pointer-events: none;
+    transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.28s ease,
+                margin-bottom 0.35s ease;
+}
+
+.metrics-grid.expanded {
+    max-height: 600px;
+    opacity: 1;
     margin-bottom: 16px;
+    pointer-events: auto;
 }
 
 .metric-card {
