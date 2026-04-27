@@ -56,13 +56,16 @@ WATCHLIST = ["GDX", "SOXS", "SPXU"]
 
 def fetch_prices(symbols: list[str]) -> dict[str, float | None]:
     """Return {symbol: last_price} for each symbol via yfinance."""
-    tickers = yf.Tickers(" ".join(symbols))
     result: dict[str, float | None] = {}
     for sym in symbols:
+        print(f"  {sym}…", end=" ", flush=True)
         try:
-            result[sym] = round(tickers.tickers[sym].fast_info.last_price, 2)
-        except Exception:
+            price = yf.Ticker(sym).fast_info.last_price
+            result[sym] = round(price, 2) if price else None
+            print(result[sym])
+        except Exception as e:
             result[sym] = None
+            print(f"error ({e})")
     return result
 
 
