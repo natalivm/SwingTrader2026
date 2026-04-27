@@ -1,5 +1,5 @@
 // ── Second table name (optional — leave empty for no label) ──────────────────
-const TABLE2_NAME = '';
+const TABLE2_NAME = 'Optional trades';
 
 // ── Ticker alerts ────────────────────────────────────────────────────────────
 const TICKER_DATA = [
