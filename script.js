@@ -85,6 +85,120 @@
         }).join('');
     }
 
+    function renderMetrics() {
+        if (typeof CLOSED_TRADES_DATA === 'undefined' || CLOSED_TRADES_DATA.length === 0) return;
+        const pct    = s => parseFloat(s.replace(/[+%]/g, ''));
+        const gains  = CLOSED_TRADES_DATA.filter(t => t.result === 'gain');
+        const losses = CLOSED_TRADES_DATA.filter(t => t.result === 'loss');
+        const total  = CLOSED_TRADES_DATA.length;
+        const wr     = gains.length / total;
+
+        const avgGain = gains.length
+            ? gains.reduce((s, t) => s + pct(t.returnPct), 0) / gains.length : null;
+        const avgLoss = losses.length
+            ? losses.reduce((s, t) => s + pct(t.returnPct), 0) / losses.length : null;
+        const expectancy = wr * (avgGain ?? 0) + (1 - wr) * (avgLoss ?? 0);
+
+        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => pct(b.returnPct) - pct(a.returnPct));
+        const best   = sorted[0];
+        const worst  = sorted[sorted.length - 1];
+
+        const findMetric = label => {
+            const card = Array.from(document.querySelectorAll('.metric-card'))
+                .find(c => c.querySelector('.metric-label')?.textContent.trim() === label);
+            return { val: card?.querySelector('.metric-value') ?? null,
+                     sub: card?.querySelector('.metric-sub')   ?? null };
+        };
+        const set = (label, text, sub, cls) => {
+            const { val, sub: subEl } = findMetric(label);
+            if (val) { val.textContent = text; if (cls !== undefined) val.className = 'metric-value' + (cls ? ' ' + cls : ''); }
+            if (subEl && sub !== undefined) subEl.textContent = sub;
+        };
+
+        const fmt = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+        set('Total Trades', total, `${gains.length} wins · ${losses.length} losses`);
+        set('Win Rate',    (wr * 100).toFixed(1) + '%');
+        set('Avg Gain',    avgGain !== null ? fmt(avgGain) : 'n/a', undefined, avgGain !== null ? 'profit' : '');
+        set('Avg Loss',    avgLoss !== null ? fmt(avgLoss) : 'n/a', undefined, avgLoss !== null ? 'loss'   : '');
+        set('Expectancy',  fmt(expectancy), undefined, expectancy >= 0 ? 'profit' : 'loss');
+        set('Best Trade',  best  ? `${best.symbol} ${best.returnPct}`   : 'n/a', undefined, best  && pct(best.returnPct)  >= 0 ? 'profit' : 'loss');
+        set('Worst Trade', worst ? `${worst.symbol} ${worst.returnPct}` : 'n/a', undefined, worst && pct(worst.returnPct) >= 0 ? 'profit' : 'loss');
+    }
+
+    function renderMonthly() {
+        const monthlyBody = document.querySelector('.monthly-table tbody');
+        const monthlyFoot = document.querySelector('.monthly-table tfoot');
+        const chartBars   = document.querySelector('.chart-bars');
+        const chartMonths = document.querySelector('.chart-month-row');
+        if (!monthlyBody || typeof CLOSED_TRADES_DATA === 'undefined' || CLOSED_TRADES_DATA.length === 0) return;
+
+        const pct         = s => parseFloat(s.replace(/[+%]/g, ''));
+        const MONTH_ORDER = { Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12 };
+
+        const groups = {};
+        CLOSED_TRADES_DATA.forEach(t => {
+            const m = t.closeDate.split(' ')[0];
+            (groups[m] = groups[m] || []).push(t);
+        });
+        const months = Object.keys(groups).sort((a, b) => (MONTH_ORDER[a] || 0) - (MONTH_ORDER[b] || 0));
+
+        const stats = months.map(m => {
+            const ts     = groups[m];
+            const gains  = ts.filter(t => t.result === 'gain').length;
+            const losses = ts.filter(t => t.result === 'loss').length;
+            const pcts   = ts.map(t => pct(t.returnPct));
+            const sum    = pcts.reduce((s, v) => s + v, 0);
+            return { m, trades: ts.length, gains, losses, winRate: (gains / ts.length * 100).toFixed(0), avg: sum / ts.length, sum };
+        });
+
+        const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+        monthlyBody.innerHTML = stats.map(s => {
+            const sc = s.sum >= 0 ? 'profit' : 'loss';
+            return `<tr>
+                <td class="monthly-name">${s.m} 2026</td>
+                <td class="text-right">${s.trades}</td>
+                <td class="text-right profit">${s.gains}</td>
+                <td class="text-right ${s.losses ? 'loss' : ''}">${s.losses}</td>
+                <td class="text-right">${s.winRate}%</td>
+                <td class="text-right ${sc}">${fmtPct(s.avg)}</td>
+                <td class="text-right monthly-sum ${sc}">${fmtPct(s.sum)}</td>
+            </tr>`;
+        }).join('');
+
+        if (monthlyFoot) {
+            const all    = CLOSED_TRADES_DATA;
+            const ag     = all.filter(t => t.result === 'gain').length;
+            const al     = all.filter(t => t.result === 'loss').length;
+            const ytdSum = all.reduce((s, t) => s + pct(t.returnPct), 0);
+            const ytdAvg = ytdSum / all.length;
+            const ytdWR  = (ag / all.length * 100).toFixed(0);
+            const sc     = ytdSum >= 0 ? 'profit' : 'loss';
+            monthlyFoot.innerHTML = `<tr class="ytd-row">
+                <td class="ytd-label">YTD 2026</td>
+                <td class="text-right">${all.length}</td>
+                <td class="text-right profit">${ag}</td>
+                <td class="text-right ${al ? 'loss' : ''}">${al}</td>
+                <td class="text-right">${ytdWR}%</td>
+                <td class="text-right ${sc}">${fmtPct(ytdAvg)}</td>
+                <td class="text-right monthly-sum ${sc}">${fmtPct(ytdSum)}</td>
+            </tr>`;
+        }
+
+        if (chartBars && chartMonths) {
+            const maxAbs = Math.max(...stats.map(s => Math.abs(s.sum)), 1);
+            chartBars.innerHTML = stats.map(s => {
+                const h   = Math.max(Math.abs(s.sum) / maxAbs * 100, 4);
+                const cls = s.sum >= 0 ? 'bar-positive' : 'bar-negative';
+                const lCls = s.sum >= 0 ? 'profit' : 'loss';
+                return `<div class="chart-col">
+                    <div class="chart-bar-label ${lCls}">${fmtPct(s.sum)}</div>
+                    <div class="chart-bar ${cls}" style="height:${h}%"></div>
+                </div>`;
+            }).join('');
+            chartMonths.innerHTML = stats.map(s => `<span>${s.m}</span>`).join('');
+        }
+    }
+
     function renderAlerts() {
         if (!alertsBody || typeof ALERTS_DATA === 'undefined') return;
         alertsBody.innerHTML = ALERTS_DATA.map(a => {
@@ -111,6 +225,8 @@
     renderPositions2();
     renderOptions();
     renderTrades();
+    renderMetrics();
+    renderMonthly();
     renderAlerts();
 
     // ── Tab activation ──────────────────────────────────────────────────────
