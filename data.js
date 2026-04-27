@@ -42,7 +42,6 @@ const POSITIONS_DATA_2 = [
   { symbol: 'CRDO', cat: 'Short', entered: "Apr 24 '26", entry: 196.32, stop: null, current: 194.69, target: null,   plPct: '+0.8%',  plDol: '+$3',     toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 348.84, target: 285.00, plPct: '-13.3%', plDol: '-$1,186', toStop: null, toTarget: '18.3%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 163.06, target: null,   plPct: '-2.1%',  plDol: '-$57',    toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
-  { symbol: 'POET', cat: 'Short', entered: "Apr 24 '26", entry:  14.38, stop: null, current:  16.07, target: null,   plPct: '-11.7%', plDol: '-$296',   toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 234.53, target: 174.00, plPct: '-13.8%', plDol: '-$909',   toStop: null, toTarget: '25.8%', progressW: 0, progressV: '-88%', tier: 'high-potential' },
 ];
 
@@ -53,6 +52,11 @@ const OPTIONS_DATA = [
   { symbol: 'SOXS', type: 'Long Call', typeCls: 'long-call', strike: '$21.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.84', current: '$0.41', plPct: '-85.6%', plDol: '-$243' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$46.00', expiry: "May 1 '26",  contracts: 2, avgPrice: '$1.80', current: '$0.40', plPct: '-77.8%', plDol: '-$280' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$45.00', expiry: "May 15 '26", contracts: 2, avgPrice: '$2.80', current: '$1.30', plPct: '-53.6%', plDol: '-$300' },
+];
+
+// ── Closed trades ────────────────────────────────────────────────────────────
+const CLOSED_TRADES_DATA = [
+  { symbol: 'POET', closeDate: 'Apr 27', result: 'gain', returnPct: '+35.4%' },
 ];
 
 // ── Trade alerts table ────────────────────────────────────────────────────────
