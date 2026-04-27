@@ -394,7 +394,6 @@ body {
 }
 
 .metrics-arrow {
-    margin-left: auto;
     display: flex;
     align-items: center;
     color: var(--text-muted);
