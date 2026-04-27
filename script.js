@@ -336,6 +336,7 @@
             const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
             const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
             if (isNaN(plPct) || isNaN(plDol)) return null;
+            if (Math.abs(plPct) < 0.0001) return null;
             const mktVal = Math.abs(plDol) / Math.abs(plPct) + plDol;
             totalPL += plDol;
             totalPortfolio += mktVal;
