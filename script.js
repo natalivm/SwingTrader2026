@@ -635,6 +635,24 @@
         }
     }
 
+    // ── Portfolio Summary metrics toggle ────────────────────────────────────
+    const portfolioToggle = document.getElementById('portfolioSummaryTitle');
+    const metricsGridEl   = document.getElementById('metricsGrid');
+    if (portfolioToggle && metricsGridEl) {
+        function toggleMetrics() {
+            const expanded = metricsGridEl.classList.toggle('expanded');
+            portfolioToggle.classList.toggle('expanded', expanded);
+            portfolioToggle.setAttribute('aria-expanded', String(expanded));
+            metricsGridEl.setAttribute('aria-hidden', String(!expanded));
+            localStorage.setItem('metricsExpanded', expanded ? '1' : '0');
+        }
+        portfolioToggle.addEventListener('click', toggleMetrics);
+        portfolioToggle.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMetrics(); }
+        });
+        if (localStorage.getItem('metricsExpanded') === '1') toggleMetrics();
+    }
+
 })();
 
 // ── Ticker smooth scroll ─────────────────────────────────────────────────────
