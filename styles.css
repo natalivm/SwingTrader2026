@@ -564,15 +564,17 @@ body {
 
 .stat-card:nth-child(3) {
     background: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%);
-    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.32);
+    box-shadow: var(--shadow);
+    border-bottom: 2px solid #047857;
 }
-.stat-card:nth-child(3):hover { box-shadow: 0 8px 28px rgba(16, 185, 129, 0.44); }
+.stat-card:nth-child(3):hover { box-shadow: var(--shadow-md); }
 
 .stat-card:nth-child(4) {
     background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    box-shadow: 0 4px 20px rgba(5, 150, 105, 0.32);
+    box-shadow: var(--shadow);
+    border-bottom: 2px solid #065f46;
 }
-.stat-card:nth-child(4):hover { box-shadow: 0 8px 28px rgba(5, 150, 105, 0.44); }
+.stat-card:nth-child(4):hover { box-shadow: var(--shadow-md); }
 
 .stat-icon {
     font-size: 22px;
