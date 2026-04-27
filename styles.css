@@ -985,7 +985,6 @@ tr.row-profit-prog {
             rgba(16,185,129,0.32) 45%,
             rgba(52,211,153,0.45) var(--pw, 0%),
             transparent var(--pw, 0%));
-    box-shadow: inset 0 -2px 0 #047857;
 }
 
 /* ── Trade History tab ───────────────────────────────────────────────────── */
@@ -1643,6 +1642,29 @@ tr.row-profit-prog {
     border-color: rgba(239, 68, 68, 0.35);
 }
 
+.pos-modal-nav {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    margin: 0 12px;
+}
+.pos-modal-nav:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.28);
+}
+.pos-modal-nav:disabled {
+    opacity: 0.2;
+    cursor: default;
+}
+
 .pos-modal-header {
     display: flex;
     justify-content: space-between;
@@ -1935,4 +1957,5 @@ tr.row-profit-prog {
     .pos-modal-symbol { font-size: 28px; }
     .pos-modal-metric { width: 100%; }
     .pos-modal-metric:nth-child(2n) { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+    .pos-modal-nav { width: 36px; height: 36px; font-size: 15px; margin: 0 6px; }
 }
