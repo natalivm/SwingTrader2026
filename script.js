@@ -13,6 +13,26 @@
     const tradesTable = document.querySelector('.trades-table');
     const alertsBody  = document.querySelector('.alerts-table tbody');
 
+    // ── Shared helpers ──────────────────────────────────────────────────────
+    const signClass = s => s?.startsWith('+') ? 'profit' : s?.startsWith('-') ? 'loss' : 'neutral';
+    const parsePct  = s => parseFloat(s.replace(/[+%]/g, ''));
+    const splitByResult = trades => ({
+        gains:  trades.filter(t => t.result === 'gain'),
+        losses: trades.filter(t => t.result === 'loss'),
+    });
+    const upsidePct = (cur, target, isShort) =>
+        (isShort ? cur - target : target - cur) / cur * 100;
+    const riskReward = (cur, target, stop, isShort) =>
+        isShort ? (cur - target) / (stop - cur) : (target - cur) / (cur - stop);
+
+    // Positions table column indices (must match renderPositionsInto order).
+    // TO_STOP is removed by applyColumnVisibility; TO_TARGET is hidden.
+    const COL = { SYMBOL:0, CAT:1, PL_PCT:2, PL_DOL:3, CUR:4, TARGET:5,
+                  ENTRY:6, STOP:7, ALLOC:8, ENTERED:9, TO_STOP:10, TO_TARGET:11, PROGRESS:12 };
+
+    // Border-rotation animation speed (seconds) per tier.
+    const TIER_BORDER_SPEED = { 'high-potential': 3, warning: 4, setup: 10 };
+
     // ── Data rendering ──────────────────────────────────────────────────────
     function renderPositionsInto(data, tbodyEl) {
         if (!tbodyEl || typeof data === 'undefined') return;
@@ -24,10 +44,8 @@
             const isShort  = p.cat === 'Short';
             const tierAttr = p.tier ? ` data-tier="${p.tier}"` : '';
             const tierDot  = p.tier ? `<span class="tier-dot ${p.tier}"></span>` : '';
-            const plCls    = p.plPct.startsWith('+') ? 'profit' : p.plPct.startsWith('-') ? 'loss' : 'neutral';
-            const progCls  = p.progressV === 'n/a'        ? 'neutral'
-                           : p.progressV.startsWith('+')  ? 'profit'
-                           : p.progressV.startsWith('-')  ? 'loss' : 'neutral';
+            const plCls    = signClass(p.plPct);
+            const progCls  = signClass(p.progressV);
             const progColor = progCls === 'loss' ? 'rgba(239,68,68,0.09)' : 'rgba(100,116,139,0.06)';
             const rowProgressClass = progCls === 'profit' ? ' class="row-profit-prog"' : '';
             const rowProgressStyle = progCls === 'profit'
@@ -58,7 +76,7 @@
         const optBody = document.querySelector('.options-table tbody');
         if (!optBody || typeof OPTIONS_DATA === 'undefined') return;
         optBody.innerHTML = OPTIONS_DATA.map(o => {
-            const plCls = o.plPct.startsWith('+') ? 'profit' : o.plPct.startsWith('-') ? 'loss' : 'neutral';
+            const plCls = signClass(o.plPct);
             return `<tr>
                 <td class="symbol">${o.symbol}</td>
                 <td><span class="badge ${o.typeCls}">${o.type}</span></td>
@@ -93,19 +111,17 @@
 
     function renderMetrics() {
         if (typeof CLOSED_TRADES_DATA === 'undefined' || CLOSED_TRADES_DATA.length === 0) return;
-        const pct    = s => parseFloat(s.replace(/[+%]/g, ''));
-        const gains  = CLOSED_TRADES_DATA.filter(t => t.result === 'gain');
-        const losses = CLOSED_TRADES_DATA.filter(t => t.result === 'loss');
+        const { gains, losses } = splitByResult(CLOSED_TRADES_DATA);
         const total  = CLOSED_TRADES_DATA.length;
         const wr     = gains.length / total;
 
         const avgGain = gains.length
-            ? gains.reduce((s, t) => s + pct(t.returnPct), 0) / gains.length : null;
+            ? gains.reduce((s, t) => s + parsePct(t.returnPct), 0) / gains.length : null;
         const avgLoss = losses.length
-            ? losses.reduce((s, t) => s + pct(t.returnPct), 0) / losses.length : null;
+            ? losses.reduce((s, t) => s + parsePct(t.returnPct), 0) / losses.length : null;
         const expectancy = wr * (avgGain ?? 0) + (1 - wr) * (avgLoss ?? 0);
 
-        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => pct(b.returnPct) - pct(a.returnPct));
+        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => parsePct(b.returnPct) - parsePct(a.returnPct));
         const best   = sorted[0];
         const worst  = sorted[sorted.length - 1];
 
@@ -127,8 +143,8 @@
         set('Avg Gain',    avgGain !== null ? fmt(avgGain) : 'n/a', undefined, avgGain !== null ? 'profit' : '');
         set('Avg Loss',    avgLoss !== null ? fmt(avgLoss) : 'n/a', undefined, avgLoss !== null ? 'loss'   : '');
         set('Expectancy',  fmt(expectancy), undefined, expectancy >= 0 ? 'profit' : 'loss');
-        set('Best Trade',  best  ? `${best.symbol} ${best.returnPct}`   : 'n/a', undefined, best  && pct(best.returnPct)  >= 0 ? 'profit' : 'loss');
-        set('Worst Trade', worst ? `${worst.symbol} ${worst.returnPct}` : 'n/a', undefined, worst && pct(worst.returnPct) >= 0 ? 'profit' : 'loss');
+        set('Best Trade',  best  ? `${best.symbol} ${best.returnPct}`   : 'n/a', undefined, best  && parsePct(best.returnPct)  >= 0 ? 'profit' : 'loss');
+        set('Worst Trade', worst ? `${worst.symbol} ${worst.returnPct}` : 'n/a', undefined, worst && parsePct(worst.returnPct) >= 0 ? 'profit' : 'loss');
     }
 
     function renderMonthly() {
@@ -138,7 +154,6 @@
         const chartMonths = document.querySelector('.chart-month-row');
         if (!monthlyBody || typeof CLOSED_TRADES_DATA === 'undefined' || CLOSED_TRADES_DATA.length === 0) return;
 
-        const pct         = s => parseFloat(s.replace(/[+%]/g, ''));
         const MONTH_ORDER = { Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12 };
 
         const groups = {};
@@ -149,12 +164,12 @@
         const months = Object.keys(groups).sort((a, b) => (MONTH_ORDER[a] || 0) - (MONTH_ORDER[b] || 0));
 
         const stats = months.map(m => {
-            const ts     = groups[m];
-            const gains  = ts.filter(t => t.result === 'gain').length;
-            const losses = ts.filter(t => t.result === 'loss').length;
-            const pcts   = ts.map(t => pct(t.returnPct));
-            const sum    = pcts.reduce((s, v) => s + v, 0);
-            return { m, trades: ts.length, gains, losses, winRate: (gains / ts.length * 100).toFixed(0), avg: sum / ts.length, sum };
+            const ts          = groups[m];
+            const { gains, losses } = splitByResult(ts);
+            const sum         = ts.reduce((s, t) => s + parsePct(t.returnPct), 0);
+            return { m, trades: ts.length, gains: gains.length, losses: losses.length,
+                     winRate: (gains.length / ts.length * 100).toFixed(0),
+                     avg: sum / ts.length, sum };
         });
 
         const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
@@ -173,9 +188,10 @@
 
         if (monthlyFoot) {
             const all    = CLOSED_TRADES_DATA;
-            const ag     = all.filter(t => t.result === 'gain').length;
-            const al     = all.filter(t => t.result === 'loss').length;
-            const ytdSum = all.reduce((s, t) => s + pct(t.returnPct), 0);
+            const { gains, losses } = splitByResult(all);
+            const ag     = gains.length;
+            const al     = losses.length;
+            const ytdSum = all.reduce((s, t) => s + parsePct(t.returnPct), 0);
             const ytdAvg = ytdSum / all.length;
             const ytdWR  = (ag / all.length * 100).toFixed(0);
             const sc     = ytdSum >= 0 ? 'profit' : 'loss';
@@ -377,15 +393,15 @@
     function applyColumnVisibility(tbl, tb) {
         if (!tbl || !tb) return;
         const ths = Array.from(tbl.querySelectorAll('thead th'));
-        // Hide TO TARGET % (index 11) — kept in DOM for proximity alert logic
-        if (ths[11]) ths[11].hidden = true;
+        // Hide TO TARGET % — kept in DOM for proximity alert logic
+        if (ths[COL.TO_TARGET]) ths[COL.TO_TARGET].hidden = true;
         Array.from(tb.rows).forEach(row => {
-            if (row.cells[11]) row.cells[11].hidden = true;
+            if (row.cells[COL.TO_TARGET]) row.cells[COL.TO_TARGET].hidden = true;
         });
-        // Remove TO STOP % (index 10) — not needed
-        if (ths[10]) ths[10].remove();
+        // Remove TO STOP % — not needed
+        if (ths[COL.TO_STOP]) ths[COL.TO_STOP].remove();
         Array.from(tb.rows).forEach(row => {
-            if (row.cells[10]) row.cells[10].remove();
+            if (row.cells[COL.TO_STOP]) row.cells[COL.TO_STOP].remove();
         });
     }
     applyColumnVisibility(table, tbody);
@@ -531,16 +547,16 @@
     function rowToCardData(row) {
         const parseP = s => parseFloat((s || '').replace(/[$,\s]/g, ''));
         const sym      = row.querySelector('.symbol')?.textContent.trim() ?? '';
-        const isShort  = !!row.querySelector('.badge.short-trade');
-        const cat      = row.querySelector('.badge')?.textContent.trim() ?? '';
-        const entryText = row.cells[6]?.textContent.trim() ?? '—';
-        const stopRaw   = row.cells[7]?.textContent.trim() ?? '—';
-        const curRaw    = row.cells[4]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
+        const cat      = row.cells[COL.CAT]?.textContent.trim() ?? '';
+        const isShort  = cat === 'Short';
+        const entryText = row.cells[COL.ENTRY]?.textContent.trim() ?? '—';
+        const stopRaw   = row.cells[COL.STOP]?.textContent.trim() ?? '—';
+        const curRaw    = row.cells[COL.CUR]?.querySelector('.current-price')?.textContent.trim().replace(',', '.') ?? null;
         const curText   = curRaw ? '$' + curRaw : '—';
-        const targetRaw = row.cells[5]?.textContent.trim() ?? '—';
-        const plPct     = row.cells[2]?.textContent.trim() ?? '—';
-        const plDol     = row.cells[3]?.textContent.trim() ?? '—';
-        const allocText = row.cells[8]?.textContent.trim() ?? '—';
+        const targetRaw = row.cells[COL.TARGET]?.textContent.trim() ?? '—';
+        const plPct     = row.cells[COL.PL_PCT]?.textContent.trim() ?? '—';
+        const plDol     = row.cells[COL.PL_DOL]?.textContent.trim() ?? '—';
+        const allocText = row.cells[COL.ALLOC]?.textContent.trim() ?? '—';
 
         const curNum = curRaw ? parseFloat(curRaw) : NaN;
         const tgtNum = parseP(targetRaw);
@@ -549,16 +565,16 @@
 
         let upside = null, rrStr = null;
         if (!isNaN(curNum) && !isNaN(tgtNum) && tgtNum > 0) {
-            const uVal = isShort ? (curNum - tgtNum) / curNum * 100 : (tgtNum - curNum) / curNum * 100;
+            const uVal = upsidePct(curNum, tgtNum, isShort);
             if (uVal > 0) upside = uVal.toFixed(1) + '%';
         }
         if (!isNaN(curNum) && !isNaN(tgtNum) && !isNaN(stpNum) && stpNum > 0) {
-            const rr = isShort ? (curNum - tgtNum) / (stpNum - curNum) : (tgtNum - curNum) / (curNum - stpNum);
+            const rr = riskReward(curNum, tgtNum, stpNum, isShort);
             if (rr > 0 && isFinite(rr)) rrStr = rr.toFixed(1) + '×';
         }
 
         const plNum   = parseFloat(plPct.replace(/[+%\s]/g, ''));
-        const plClass = plPct.startsWith('+') ? 'profit' : plPct.startsWith('-') ? 'loss' : 'neutral';
+        const plClass = signClass(plPct);
         const plAbs   = Math.abs(plNum).toFixed(1);
         const status  = isNaN(plNum) || plPct === '—' ? 'No P/L data available.'
                       : Math.abs(plNum) < 1            ? `Trading right at entry (${plPct} from entry).`
@@ -626,9 +642,7 @@
                 ${tierExplainHTML}
             </div>`;
 
-        const borderSpeed = tier === 'high-potential' ? 3
-            : tier === 'warning' ? 4
-            : tier === 'setup'   ? 10 : null;
+        const borderSpeed = TIER_BORDER_SPEED[tier];
         if (borderSpeed) {
             const posModal = overlay.querySelector('.pos-modal');
             posModal.style.animation = `modalIn 0.38s cubic-bezier(0.16, 1, 0.3, 1), rotateBorderAngle ${borderSpeed}s linear infinite`;
@@ -665,12 +679,9 @@
             card.className = 'pos-card' + (row.classList.contains('row-selected') ? ' row-selected' : '') + glowClass;
             if (tier) card.dataset.tier = tier;
             const entranceDelay = `${idx * 50}ms`;
-            const borderAnim = tier === 'high-potential'
-                ? `, rotateBorderAngle 3s linear infinite`
-                : tier === 'warning'
-                ? `, rotateBorderAngle 4s linear infinite`
-                : tier === 'setup'
-                ? `, rotateBorderAngle 10s linear infinite`
+            const tierSpeed = TIER_BORDER_SPEED[tier];
+            const borderAnim = tierSpeed
+                ? `, rotateBorderAngle ${tierSpeed}s linear infinite`
                 : (d.plClass === 'profit' || d.plClass === 'loss')
                 ? `, rotateBorderAngle 5s linear infinite`
                 : '';
