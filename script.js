@@ -81,6 +81,7 @@
                 <td>${t.closeDate}</td>
                 <td><span class="badge ${badgeCls}">${t.result.toUpperCase()}</span></td>
                 <td class="text-right ${pctCls}">${t.returnPct}</td>
+                <td class="text-right ${pctCls}">${t.plDol ?? '—'}</td>
             </tr>`;
         }).join('');
     }

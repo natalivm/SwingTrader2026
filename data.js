@@ -56,7 +56,7 @@ const OPTIONS_DATA = [
 
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
-  { symbol: 'POET', closeDate: 'Apr 27', result: 'gain', returnPct: '+35.4%' },
+  { symbol: 'POET', closeDate: 'Apr 27', result: 'gain', returnPct: '+35.4%', plDol: '+$1,012' },
 ];
 
 // ── Trade alerts table ────────────────────────────────────────────────────────
