@@ -42,7 +42,7 @@
                 ${naPCell(p.target)}
                 <td>${fmtP(p.entry)}</td>
                 ${naPCell(p.stop)}
-                <td class="alloc-pct">—</td>
+                <td class="alloc-pct">${p.shares}</td>
                 <td>${p.entered}</td>
                 ${naCell(p.toStop)}
                 ${naCell(p.toTarget)}
@@ -321,34 +321,36 @@
         title2El.innerHTML = `${name} <span class="position-count">(${tbody2.rows.length})</span>`;
     }
 
-    // ── Totals + allocation — single pass over all rows ────────────────────
-    const allTbodies = [tbody, tbody2].filter(Boolean);
-    if (allTbodies.length > 0) {
-        const naVal = s => !s || s === 'n/a' || s === '—';
+    // ── Totals — portfolio = long market value + short P&L ─────────────────
+    {
+        const allData = [
+            ...(typeof POSITIONS_DATA   !== 'undefined' ? POSITIONS_DATA   : []),
+            ...(typeof POSITIONS_DATA_2 !== 'undefined' ? POSITIONS_DATA_2 : []),
+        ];
         const findStat = label => {
             const el = Array.from(document.querySelectorAll('.stat-label'))
                 .find(e => e.textContent.trim() === label);
             return el?.nextElementSibling ?? null;
         };
+        const parseDol = s => {
+            const sign = s.startsWith('-') ? -1 : 1;
+            return sign * parseFloat(s.replace(/[+\-$,\s]/g, ''));
+        };
 
-        let totalPL = 0, totalPortfolio = 0, hasData = false;
-        const allRows = allTbodies.flatMap(tb => Array.from(tb.rows));
-        const posData = allRows.map(row => {
-            const plPctText = row.cells[2]?.textContent.trim();
-            const plDolText = row.cells[3]?.textContent.trim();
-            if (naVal(plPctText) || naVal(plDolText)) return null;
-            const plPct = parseFloat(plPctText.replace(/[+%\s]/g, '')) / 100;
-            const plDol = parseFloat(plDolText.replace(/[+$,\s]/g, ''));
-            if (isNaN(plPct) || isNaN(plDol)) return null;
-            if (Math.abs(plPct) < 0.0001) return null;
-            const mktVal = Math.abs(plDol) / Math.abs(plPct) + plDol;
+        let totalPL = 0, longMktVal = 0, shortPL = 0;
+        for (const p of allData) {
+            const plDol = parseDol(p.plDol);
+            if (isNaN(plDol)) continue;
             totalPL += plDol;
-            totalPortfolio += mktVal;
-            hasData = true;
-            return { mktVal };
-        });
+            if (p.cat === 'Long') {
+                longMktVal += p.shares * p.current;
+            } else {
+                shortPL += plDol;
+            }
+        }
+        const totalPortfolio = longMktVal + shortPL;
 
-        if (hasData) {
+        if (totalPortfolio !== 0) {
             const portEl = findStat('Portfolio Value');
             if (portEl) {
                 portEl.textContent = '$' + Math.round(totalPortfolio).toLocaleString('en-US');
@@ -368,13 +370,6 @@
                 plPctEl.textContent = (totalPL < 0 ? '' : '+') + pct + '%';
                 plPctEl.className = 'stat-value ' + (totalPL < 0 ? 'loss' : 'profit');
             }
-
-            posData.forEach((pos, i) => {
-                const allocCell = allRows[i].querySelector('.alloc-pct');
-                if (!allocCell) return;
-                if (!pos) { allocCell.classList.add('neutral'); return; }
-                allocCell.textContent = (pos.mktVal / totalPortfolio * 100).toFixed(1) + '%';
-            });
         }
     }
 
