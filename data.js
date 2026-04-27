@@ -25,7 +25,6 @@ const POSITIONS_DATA = [
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  16.60, target:  20.00, plPct: '+5.2%',  plDol: '+$135',   toStop: '12.7%', toTarget: '20.5%', progressW: 19, progressV: '+19%', tier: null },
   { symbol: 'NBIS',  cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null,   current: 146.00, target: 128.39, plPct: '+10.8%', plDol: '+$373',   toStop: null,    toTarget: '12.1%', progressW: 50, progressV: '+50%', tier: null },
   { symbol: 'NXT',   cat: 'Long',  entered: "Apr 24 '26", entry: 124.70, stop: 113.50, current: 121.63, target: 160.00, plPct: '-2.5%',  plDol: '-$25',    toStop: '6.7%',  toTarget: '31.5%', progressW:  0, progressV: '-9%',  tier: null },
-  { symbol: 'CRDO',  cat: 'Short', entered: "Apr 24 '26", entry: 196.32, stop: null,   current: 194.69, target: null,   plPct: '+0.8%',  plDol: '+$3',     toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 415.98, stop: null,   current: 420.10, target: null,   plPct: '-1.0%',  plDol: '-$82',    toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 334.85, stop: null,   current: 343.59, target: null,   plPct: '-2.6%',  plDol: '-$114',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 216.15, target: null,   plPct: '-2.7%',  plDol: '-$135',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
@@ -39,6 +38,7 @@ const POSITIONS_DATA = [
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
+  { symbol: 'CRDO', cat: 'Short', entered: "Apr 24 '26", entry: 196.32, stop: null, current: 194.69, target: null,   plPct: '+0.8%',  plDol: '+$3',     toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 348.84, target: 285.00, plPct: '-13.3%', plDol: '-$1,186', toStop: null, toTarget: '18.3%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 163.06, target: null,   plPct: '-2.1%',  plDol: '-$57',    toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'POET', cat: 'Short', entered: "Apr 24 '26", entry:  14.38, stop: null, current:  16.07, target: null,   plPct: '-11.7%', plDol: '-$296',   toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
