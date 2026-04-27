@@ -34,6 +34,7 @@ const POSITIONS_DATA = [
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 208.10, target: null,   plPct: '-3.9%',  plDol: '-$368',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
   { symbol: 'SOFI',  cat: 'Long',  entered: "Jan 30 '26", entry:  23.14, stop: null,   current:  18.49, target: null,   plPct: '-20.1%', plDol: '-$279',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'CIEN',  cat: 'Short', entered: "Apr 23 '26", entry: 512.99, stop: null,   current: 519.90, target: null,   plPct: '-1.3%',  plDol: '-$117',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
+  { symbol: 'NET',   cat: 'Long',  entered: "Apr 27 '26", entry: 205.52, stop: 189.00, current: 205.46, target: 240.00, plPct: '-0.0%',  plDol: '-$0',     toStop: '8.0%',  toTarget: '16.8%', progressW:  0, progressV: '0%',   tier: null },
 ];
 
 // ── Second positions table ────────────────────────────────────────────────────
@@ -41,8 +42,7 @@ const POSITIONS_DATA_2 = [
   { symbol: 'CRDO', cat: 'Short', entered: "Apr 24 '26", entry: 196.32, stop: null, current: 194.69, target: null,   plPct: '+0.8%',  plDol: '+$3',     toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 348.84, target: 285.00, plPct: '-13.3%', plDol: '-$1,186', toStop: null, toTarget: '18.3%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 163.06, target: null,   plPct: '-2.1%',  plDol: '-$57',    toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
-  { symbol: 'POET', cat: 'Short', entered: "Apr 24 '26", entry:  14.38, stop: null, current:  16.07, target: null,   plPct: '-11.7%', plDol: '-$296',   toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',  tier: null },
-  { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 234.53, target: 174.00, plPct: '-13.8%', plDol: '-$909',   toStop: null, toTarget: '25.8%', progressW: 0, progressV: '0%',  tier: 'high-potential' },
+  { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 234.53, target: 174.00, plPct: '-13.8%', plDol: '-$909',   toStop: null, toTarget: '25.8%', progressW: 0, progressV: '0%',   tier: 'high-potential' },
 ];
 
 // ── Options positions ────────────────────────────────────────────────────────
@@ -54,20 +54,15 @@ const OPTIONS_DATA = [
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$45.00', expiry: "May 15 '26", contracts: 2, avgPrice: '$2.80', current: '$1.30', plPct: '-53.6%', plDol: '-$300' },
 ];
 
+// ── Closed trades ────────────────────────────────────────────────────────────
+const CLOSED_TRADES_DATA = [
+  { symbol: 'POET', closeDate: 'Apr 27', result: 'gain', returnPct: '+35.4%', plDol: '+$1,012' },
+];
+
 // ── Trade alerts table ────────────────────────────────────────────────────────
 const ALERTS_DATA = [
-  { date: "Apr 27 '26", symbol: 'NET',  tier: 'warning',        cat: 'Long',  entry: '$209.00', stop: '$189.00', target: '$240.00', outcomeCls: 'outcome-open',   outcomeLabel: 'Open',        outcomeDetail: 'sell on 5/7 close',   notes: 'CS software play with strongest EPS growth among major players · buying consolidation pattern up against RTL with fresh MACD buy signal' },
-  { date: "Apr 25 '26", symbol: 'NXT',  tier: 'warning',        cat: 'Long',  entry: '$124.70', stop: '$113.50', target: '$160.00', outcomeCls: 'near-stop',      outcomeLabel: 'Near Stop',   outcomeDetail: '6.7% away',           notes: 'Currently at $121.63, below entry' },
-  { date: "Apr 25 '26", symbol: 'COHR', tier: 'high-potential', cat: 'Short', entry: '$343.24', stop: null,      target: '$310.00', outcomeCls: 'near-target',    outcomeLabel: 'Near Target', outcomeDetail: '7.7% away',           notes: 'Currently at $335.70' },
-  { date: "Apr 26 '26", symbol: 'ARM',  tier: 'high-potential', cat: 'Short', entry: '$234.53', stop: null,      target: '$174.00', outcomeCls: 're-entry',       outcomeLabel: 'Still Valid', outcomeDetail: 'entry above our avg', notes: 'Original entry $206.11 · price ran to $234.53 · short setup still intact, 25.8% to target' },
-  { date: "Apr 26 '26", symbol: 'BE',   tier: 'high-potential', cat: 'Short', entry: '$232.50', stop: null,      target: '$185.00', outcomeCls: 're-entry',       outcomeLabel: 'Still Valid', outcomeDetail: 'entry above our avg', notes: 'Original entry $223.58 · current $232.50 · short setup intact, 20.4% to target' },
-  { date: "Apr 26 '26", symbol: 'STX',  tier: 'high-potential', cat: 'Short', entry: '$586.66', stop: null,      target: '$361.00', outcomeCls: 're-entry',       outcomeLabel: 'Still Valid', outcomeDetail: 'entry above our avg', notes: 'Original entry $521.53 · price extended to $586.66 · short setup still valid, 38.5% to target' },
-  { date: "Apr 26 '26", symbol: 'AMD',  tier: 'high-potential', cat: 'Short', entry: '$348.84', stop: null,      target: '$285.00', outcomeCls: 're-entry',       outcomeLabel: 'Still Valid', outcomeDetail: 'entry above our avg', notes: 'Original entry $307.96 · price ran to $348.84 · short setup still valid, 18.3% to target' },
-  { date: "Apr 26 '26", symbol: 'DELL', tier: 'setup',          cat: 'Short', entry: '$216.15', stop: null,      target: null,      outcomeCls: 're-entry',       outcomeLabel: 'Still Valid', outcomeDetail: 'entry above our avg', notes: 'Original entry $210.53 · current $216.15 · short setup still valid' },
-  { date: "Apr 26 '26", symbol: 'NVDA', tier: 'setup',          cat: 'Short', entry: '$208.10', stop: null,      target: null,      outcomeCls: 're-entry',       outcomeLabel: 'Still Valid', outcomeDetail: 'entry above our avg', notes: 'Original entry $200.27 · current $208.10 · short setup still valid' },
-  { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',          cat: 'Long',  entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open',   outcomeLabel: 'Open',        outcomeDetail: null,                  notes: 'HOLD' },
-  { date: "Apr 17 '26", symbol: 'ONDS', tier: 'setup',          cat: 'Long',  entry: '$10.40',  stop: '$9.80',   target: '$14.00',  outcomeCls: 'outcome-open',   outcomeLabel: 'Open',        outcomeDetail: null,                  notes: 'HOLD' },
-  { date: "Mar 26 '26", symbol: 'BWA',  tier: 'warning',        cat: 'Long',  entry: '$55.50',  stop: '$53.70',  target: '$70.00',  outcomeCls: 'outcome-open',   outcomeLabel: 'Raise Stop',  outcomeDetail: null,                  notes: 'Raise stop' },
-  { date: "Apr 24 '26", symbol: 'NXT',  tier: null,             cat: 'Long',  entry: '$124.70', stop: '$113.50', target: '$160.00', outcomeCls: 'outcome-closed', outcomeLabel: 'Filled',      outcomeDetail: null,                  notes: '' },
-  { date: "Apr 24 '26", symbol: 'CRDO', tier: null,             cat: 'Short', entry: '$196.32', stop: null,      target: null,      outcomeCls: 'outcome-closed', outcomeLabel: 'Filled',      outcomeDetail: null,                  notes: '' },
+  { date: "Apr 27 '26", symbol: 'NET',  tier: 'warning', cat: 'Long', entry: '$209.00', stop: '$189.00', target: '$240.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/7 close', notes: 'CS software play with strongest EPS growth among major players · buying consolidation pattern up against RTL with fresh MACD buy signal' },
+  { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',   cat: 'Long', entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
+  { date: "Apr 17 '26", symbol: 'ONDS', tier: 'setup',   cat: 'Long', entry: '$10.40',  stop: '$9.80',   target: '$14.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
+  { date: "Mar 26 '26", symbol: 'BWA',  tier: 'warning', cat: 'Long', entry: '$55.50',  stop: '$53.70',  target: '$70.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Raise Stop', outcomeDetail: null,            notes: 'Raise stop' },
 ];

@@ -773,7 +773,8 @@ body {
 .positions-table tbody tr:hover,
 .trades-table tbody tr:hover { border-left-color: var(--primary-color); }
 
-.positions-table tbody tr.row-selected {
+.positions-table tbody tr.row-selected,
+.alerts-table tbody tr.row-selected {
     background-color: var(--active-bg) !important;
     border-left-color: var(--primary-color);
 }
@@ -936,9 +937,11 @@ body.dark-mode .options-header {
 
 /* Override table td color specificity for P/L cells */
 .positions-table td.loss,
-.trades-table td.loss   { color: var(--accent-red); }
+.trades-table td.loss,
+.options-table td.loss   { color: var(--accent-red); }
 .positions-table td.profit,
-.trades-table td.profit { color: var(--accent-green); }
+.trades-table td.profit,
+.options-table td.profit { color: var(--accent-green); }
 .to-stop-close { color: var(--accent-orange); font-weight: 700; }
 .neutral { color: var(--text-muted); }
 .text-right { text-align: right; }
