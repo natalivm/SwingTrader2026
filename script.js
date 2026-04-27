@@ -53,7 +53,7 @@
         const optBody = document.querySelector('.options-table tbody');
         if (!optBody || typeof OPTIONS_DATA === 'undefined') return;
         optBody.innerHTML = OPTIONS_DATA.map(o => {
-            const plCls = o.plPct.startsWith('-') ? 'loss' : 'profit';
+            const plCls = o.plPct.startsWith('+') ? 'profit' : o.plPct.startsWith('-') ? 'loss' : 'neutral';
             return `<tr>
                 <td class="symbol">${o.symbol}</td>
                 <td><span class="badge ${o.typeCls}">${o.type}</span></td>
@@ -340,11 +340,10 @@
     const MONTHS = { Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6,
                      Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12 };
 
-    function parseCell(row, idx, progress, useInfinity) {
+    function parseCell(row, idx, useInfinity) {
         const cell = row.cells[idx];
         if (!cell) return '';
-        const span = progress ? cell.querySelector('.progress-value') : null;
-        const raw  = (span ? span.textContent : cell.textContent).trim();
+        const raw = cell.textContent.trim();
         if (useInfinity && (raw === '—' || raw === 'n/a')) return Infinity;
         const dm = raw.match(/^(\w{3})\s+(\d{1,2})(?:\s+'(\d{2}))?$/);
         if (dm) return new Date(dm[3] ? 2000 + +dm[3] : 2026, (MONTHS[dm[1]] || 1) - 1, +dm[2]).getTime();
@@ -352,7 +351,7 @@
         return isNaN(n) ? raw.toLowerCase() : n;
     }
 
-    function makeSorter(tableEl, bodyEl, progress, useInfinity) {
+    function makeSorter(tableEl, bodyEl, useInfinity) {
         if (!tableEl || !bodyEl) return;
         let col = -1, asc = true;
         tableEl.querySelectorAll('thead th').forEach((th, idx) => {
@@ -361,8 +360,8 @@
                 col = idx;
                 Array.from(bodyEl.rows)
                     .sort((a, b) => {
-                        const av = parseCell(a, idx, progress, useInfinity);
-                        const bv = parseCell(b, idx, progress, useInfinity);
+                        const av = parseCell(a, idx, useInfinity);
+                        const bv = parseCell(b, idx, useInfinity);
                         if (av === bv) return 0;
                         if (av === Infinity) return 1;
                         if (bv === Infinity) return -1;
@@ -377,9 +376,9 @@
         });
     }
 
-    makeSorter(table, tbody, false, true);
-    makeSorter(table2, tbody2, false, true);
-    makeSorter(tradesTable, tradesBody, false, false);
+    makeSorter(table, tbody, true);
+    makeSorter(table2, tbody2, true);
+    makeSorter(tradesTable, tradesBody, false);
 
     // ── Positions card view ─────────────────────────────────────────────────
     const tableViewBtn    = document.getElementById('tableViewBtn');
