@@ -179,8 +179,8 @@
     // ── Second table title ──────────────────────────────────────────────────
     const title2El = document.getElementById('table2Title');
     if (title2El && tbody2) {
-        const name = (typeof TABLE2_NAME !== 'undefined' && TABLE2_NAME) ? TABLE2_NAME + ' ' : '';
-        title2El.innerHTML = name + `<span class="position-count">(${tbody2.rows.length})</span>`;
+        const name = (typeof TABLE2_NAME !== 'undefined' && TABLE2_NAME) ? TABLE2_NAME : 'Positions';
+        title2El.innerHTML = `${name} <span class="position-count">(${tbody2.rows.length})</span>`;
     }
 
     // ── Totals + allocation — single pass over all rows ────────────────────
