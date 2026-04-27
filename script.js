@@ -70,6 +70,21 @@
         if (countEl) countEl.textContent = `(${OPTIONS_DATA.length})`;
     }
 
+    function renderTrades() {
+        if (!tradesBody || typeof CLOSED_TRADES_DATA === 'undefined') return;
+        tradesBody.innerHTML = CLOSED_TRADES_DATA.map(t => {
+            const isGain   = t.result === 'gain';
+            const badgeCls = isGain ? 'gain-badge' : 'loss-badge';
+            const pctCls   = isGain ? 'profit' : 'loss';
+            return `<tr data-result="${t.result}">
+                <td class="symbol">${t.symbol}</td>
+                <td>${t.closeDate}</td>
+                <td><span class="badge ${badgeCls}">${t.result.toUpperCase()}</span></td>
+                <td class="text-right ${pctCls}">${t.returnPct}</td>
+            </tr>`;
+        }).join('');
+    }
+
     function renderAlerts() {
         if (!alertsBody || typeof ALERTS_DATA === 'undefined') return;
         alertsBody.innerHTML = ALERTS_DATA.map(a => {
@@ -95,6 +110,7 @@
     renderPositions();
     renderPositions2();
     renderOptions();
+    renderTrades();
     renderAlerts();
 
     // ── Tab activation ──────────────────────────────────────────────────────
