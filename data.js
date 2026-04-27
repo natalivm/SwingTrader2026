@@ -34,6 +34,7 @@ const POSITIONS_DATA = [
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 208.10, target: null,   plPct: '-3.9%',  plDol: '-$368',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
   { symbol: 'SOFI',  cat: 'Long',  entered: "Jan 30 '26", entry:  23.14, stop: null,   current:  18.49, target: null,   plPct: '-20.1%', plDol: '-$279',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'CIEN',  cat: 'Short', entered: "Apr 23 '26", entry: 512.99, stop: null,   current: 519.90, target: null,   plPct: '-1.3%',  plDol: '-$117',   toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
+  { symbol: 'NET',   cat: 'Long',  entered: "Apr 27 '26", entry: 205.52, stop: 189.00, current: 205.46, target: 240.00, plPct: '-0.0%',  plDol: '-$0',     toStop: '8.0%',  toTarget: '16.8%', progressW:  0, progressV: '0%',   tier: null },
 ];
 
 // ── Second positions table ────────────────────────────────────────────────────
