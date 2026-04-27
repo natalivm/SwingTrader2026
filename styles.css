@@ -337,7 +337,14 @@ body {
     align-items: center;
     white-space: nowrap;
     width: max-content;
-    will-change: transform;
+    animation: ticker-scroll 90s linear infinite;
+}
+
+.ticker-track.paused { animation-play-state: paused; }
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }
 
 .ticker-item {
