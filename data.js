@@ -31,7 +31,6 @@ const POSITIONS_DATA = [
   { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 591.65, target: 361.00, plPct: '-13.4%', plDol: '-$1,473', shares:  21, toStop: null,    toTarget: '39.0%', progressW:  0, progressV: '-44%', tier: 'high-potential' },
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 234.53, target: 185.00, plPct: '-4.9%',  plDol: '-$460',   shares:  42, toStop: null,    toTarget: '21.1%', progressW:  0, progressV: '-28%', tier: 'high-potential' },
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 209.40, target: null,   plPct: '-4.6%',  plDol: '-$429',   shares:  47, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
-  { symbol: 'SOFI',  cat: 'Long',  entered: "Jan 30 '26", entry:  23.14, stop: null,   current:  18.80, target: null,   plPct: '-18.8%', plDol: '-$260',   shares:  60, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'NET',   cat: 'Long',  entered: "Apr 27 '26", entry: 205.52, stop: 189.00, current: 207.62, target: 240.00, plPct: '+1.0%',  plDol: '+$21',    shares:  10, toStop: '9.0%',  toTarget: '15.6%', progressW:  6, progressV: '+6%',  tier: null },
 ];
 
