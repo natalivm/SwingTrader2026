@@ -62,7 +62,7 @@ const CLOSED_TRADES_DATA = [
 // ── Trade alerts table ────────────────────────────────────────────────────────
 const ALERTS_DATA = [
   { date: "Apr 28 '26", symbol: 'FSLY', tier: 'warning', cat: 'Long', entry: '$26.00', stop: '$22.70', target: '$33.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/6 close', notes: 'Only software play still in uptrend after AI fear · excellent growth metrics · false headwind from Anthropic launch should see bounce into earnings · stop wide at $22.70 — go small!' },
-  { date: "Apr 27 '26", symbol: 'NET',  tier: 'warning', cat: 'Long', entry: '$209.00', stop: '$189.00', target: '$240.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/7 close', notes: 'CS software play with strongest EPS growth among major players · buying consolidation pattern up against RTL with fresh MACD buy signal' },
+
   { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',   cat: 'Long', entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
   { date: "Apr 17 '26", symbol: 'ONDS', tier: 'setup',   cat: 'Long', entry: '$10.40',  stop: '$9.80',   target: '$14.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
   { date: "Mar 26 '26", symbol: 'BWA',  tier: 'warning', cat: 'Long', entry: '$55.50',  stop: '$53.70',  target: '$70.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Raise Stop', outcomeDetail: null,            notes: 'Raise stop' },
