@@ -977,35 +977,14 @@ body.dark-mode .options-header {
     text-align: right;
 }
 
-/* ── Profit row progress shimmer ─────────────────────────────────────────── */
-@keyframes shimmer-streak {
-    0%   { background-position: -40% 0, 0 0, 0 0; }
-    100% { background-position: 140% 0, 0 0, 0 0; }
-}
-
+/* ── Profit row progress fill ─────────────────────────────────────────────── */
 tr.row-profit-prog {
     background-image:
-        /* Sparkle streak that sweeps across the row */
-        linear-gradient(105deg,
-            transparent 38%,
-            rgba(187,247,208,0.45) 47%,
-            rgba(255,255,255,0.85) 50%,
-            rgba(187,247,208,0.45) 53%,
-            transparent 62%),
-        /* Leading-edge glow at the progress tip */
-        radial-gradient(ellipse 28% 110% at var(--pw, 0%) 50%,
-            rgba(52,211,153,0.55) 0%,
-            rgba(52,211,153,0) 100%),
-        /* Main emerald → mint fill, stops at --pw */
         linear-gradient(90deg,
             rgba(5,150,105,0.18) 0%,
             rgba(16,185,129,0.32) 45%,
             rgba(52,211,153,0.45) var(--pw, 0%),
             transparent var(--pw, 0%));
-    background-size: 200% 100%, 100% 100%, 100% 100%;
-    background-repeat: no-repeat;
-    background-position: -40% 0, 0 0, 0 0;
-    animation: shimmer-streak 3.2s linear infinite;
 }
 
 /* ── Trade History tab ───────────────────────────────────────────────────── */
@@ -1663,6 +1642,29 @@ tr.row-profit-prog {
     border-color: rgba(239, 68, 68, 0.35);
 }
 
+.pos-modal-nav {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    margin: 0 12px;
+}
+.pos-modal-nav:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.28);
+}
+.pos-modal-nav:disabled {
+    opacity: 0.2;
+    cursor: default;
+}
+
 .pos-modal-header {
     display: flex;
     justify-content: space-between;
@@ -1955,4 +1957,5 @@ tr.row-profit-prog {
     .pos-modal-symbol { font-size: 28px; }
     .pos-modal-metric { width: 100%; }
     .pos-modal-metric:nth-child(2n) { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+    .pos-modal-nav { width: 36px; height: 36px; font-size: 15px; margin: 0 6px; }
 }
