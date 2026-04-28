@@ -3,6 +3,7 @@ const TABLE2_NAME = 'Optional trades';
 
 // ── Ticker alerts ────────────────────────────────────────────────────────────
 const TICKER_DATA = [
+  { tier: 'warning',        icon: '⚠', symbol: 'FSLY', body: 'Long · enter at <strong>$26.00</strong> · stop <strong>$22.70</strong> · target <strong>$33.00</strong> · go small!' },
   { tier: 'warning',        icon: '⚠', symbol: 'MU',   body: 'Short <strong>$498.36</strong> → current <strong>$521.26</strong> · moved against entry <strong>-4.6%</strong>' },
   { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$215.17</strong> · <strong>19.1%</strong> potential' },
   { tier: 'high-potential', icon: '↗', symbol: 'BE',   body: 'Short · enter at <strong>$234.53</strong> · <strong>21.1%</strong> potential' },
@@ -60,6 +61,7 @@ const CLOSED_TRADES_DATA = [
 
 // ── Trade alerts table ────────────────────────────────────────────────────────
 const ALERTS_DATA = [
+  { date: "Apr 28 '26", symbol: 'FSLY', tier: 'warning', cat: 'Long', entry: '$26.00', stop: '$22.70', target: '$33.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/6 close', notes: 'Only software play still in uptrend after AI fear · excellent growth metrics · false headwind from Anthropic launch should see bounce into earnings · stop wide at $22.70 — go small!' },
   { date: "Apr 27 '26", symbol: 'NET',  tier: 'warning', cat: 'Long', entry: '$209.00', stop: '$189.00', target: '$240.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/7 close', notes: 'CS software play with strongest EPS growth among major players · buying consolidation pattern up against RTL with fresh MACD buy signal' },
   { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',   cat: 'Long', entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
   { date: "Apr 17 '26", symbol: 'ONDS', tier: 'setup',   cat: 'Long', entry: '$10.40',  stop: '$9.80',   target: '$14.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
