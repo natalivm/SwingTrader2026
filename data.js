@@ -30,7 +30,6 @@ const POSITIONS_DATA_2 = [
   { symbol: 'TXN',  cat: 'Short', entered: "Apr 23 '26", entry: 276.10, stop: null, current: 279.20, target: 257.00, plPct: '-1.1%',  plDol: '-$31',   shares:  10, toStop: null, toTarget: '7.9%',  progressW:  0, progressV: '-16%',  tier: null },
   { symbol: 'CAG',  cat: 'Long',  entered: "Apr 30 '26", entry:  14.13, stop: null, current:  14.23, target: null,   plPct: '+0.7%',  plDol: '+$20',   shares: 200, toStop: null, toTarget: null,    progressW:  0, progressV: 'n/a',   tier: null },
   { symbol: 'KMB',  cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null, current:  97.42, target: 132.00, plPct: '+1.4%',  plDol: '+$77',   shares: 56, toStop: null, toTarget: '35.5%', progressW:  4, progressV: '+4%',   tier: null },
-  { symbol: 'NBIS', cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null, current: 137.60, target: 128.39, plPct: '+16.0%', plDol: '+$549',  shares: 21, toStop: null, toTarget: '6.7%',  progressW: 74, progressV: '+74%',  tier: null },
   { symbol: 'ROAD', cat: 'Long',  entered: "Apr 30 '26", entry: 116.35, stop: null, current: 122.85, target: null,   plPct: '+5.6%',  plDol: '+$33',   shares:  5, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 309.14, stop: null, current: 351.50, target: 285.00, plPct: '-13.7%', plDol: '-$1,313', shares: 31, toStop: null, toTarget: '18.9%', progressW: 0, progressV: '-176%', tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 164.65, target: null,   plPct: '-3.1%',  plDol: '-$84',   shares: 17, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
@@ -46,6 +45,7 @@ const OPTIONS_DATA = [
 
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
+  { symbol: 'NBIS', closeDate: 'Apr 30', result: 'gain', returnPct: '+15.7%', plDol: '+$436'   },
   { symbol: 'Q',    closeDate: 'Apr 30', result: 'gain', returnPct: '+3.0%',  plDol: '+$23'    },
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+1.0%',  plDol: '+$52'    },
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+0.4%',  plDol: '+$10'    },
