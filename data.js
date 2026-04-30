@@ -11,7 +11,6 @@ const TICKER_DATA = [
 //         target (null=n/a), plPct, plDol, shares, toStop (null=n/a), toTarget (null=n/a),
 //         progressW (bar width %), progressV (display value), tier (null|'warning'|'high-potential'|'setup')
 const POSITIONS_DATA = [
-  { symbol: 'Q',     cat: 'Long',  entered: "Apr 21 '26", entry: 136.76, stop: 132.00, current: 143.85, target: 165.00, plPct: '+5.2%',  plDol: '+$28',    shares:   4, toStop: '8.2%',  toTarget: '14.7%', progressW: 25, progressV: '+25%', tier: null },
   { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 518.25, stop: null,   current: 509.00, target: null,   plPct: '+1.8%',  plDol: '+$111',   shares:  12, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.71, stop:  14.50, current:  14.84, target:  20.00, plPct: '-5.5%',  plDol: '-$174',   shares: 200, toStop: '2.3%',  toTarget: '34.8%', progressW:  0, progressV: '-72%', tier: null },
   { symbol: 'NXT',   cat: 'Long',  entered: "Apr 24 '26", entry: 124.70, stop: 113.50, current: 122.58, target: 160.00, plPct: '-1.7%',  plDol: '-$17',    shares:   8, toStop: '7.4%',  toTarget: '30.5%', progressW:  0, progressV: '-6%',  tier: null },
@@ -47,6 +46,7 @@ const OPTIONS_DATA = [
 
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
+  { symbol: 'Q',    closeDate: 'Apr 30', result: 'gain', returnPct: '+3.0%',  plDol: '+$23'    },
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+1.0%',  plDol: '+$52'    },
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+0.4%',  plDol: '+$10'    },
   { symbol: 'AVGO', closeDate: 'Apr 28', result: 'gain', returnPct: '+2.3%',  plDol: '+$48'    },
