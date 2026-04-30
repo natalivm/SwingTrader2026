@@ -115,13 +115,20 @@
         const total  = CLOSED_TRADES_DATA.length;
         const wr     = gains.length / total;
 
+        const parseDolM = s => {
+            if (!s || s === '—') return 0;
+            const sign = s.includes('-') ? -1 : 1;
+            return sign * parseFloat(s.replace(/[+\-$,\s]/g, '')) || 0;
+        };
+        const fmtDolM = v => (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
         const avgGain = gains.length
-            ? gains.reduce((s, t) => s + parsePct(t.returnPct), 0) / gains.length : null;
+            ? gains.reduce((s, t) => s + parseDolM(t.plDol), 0) / gains.length : null;
         const avgLoss = losses.length
-            ? losses.reduce((s, t) => s + parsePct(t.returnPct), 0) / losses.length : null;
+            ? losses.reduce((s, t) => s + parseDolM(t.plDol), 0) / losses.length : null;
         const expectancy = wr * (avgGain ?? 0) + (1 - wr) * (avgLoss ?? 0);
 
-        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => parsePct(b.returnPct) - parsePct(a.returnPct));
+        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => parseDolM(b.plDol) - parseDolM(a.plDol));
         const best   = sorted[0];
         const worst  = sorted[sorted.length - 1];
 
@@ -137,14 +144,13 @@
             if (subEl && sub !== undefined) subEl.textContent = sub;
         };
 
-        const fmt = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
         set('Total Trades', total, `${gains.length} wins · ${losses.length} losses`);
-        set('Win Rate',    (wr * 100).toFixed(1) + '%');
-        set('Avg Gain',    avgGain !== null ? fmt(avgGain) : 'n/a', undefined, avgGain !== null ? 'profit' : '');
-        set('Avg Loss',    avgLoss !== null ? fmt(avgLoss) : 'n/a', undefined, avgLoss !== null ? 'loss'   : '');
-        set('Expectancy',  fmt(expectancy), undefined, expectancy >= 0 ? 'profit' : 'loss');
-        set('Best Trade',  best  ? `${best.symbol} ${best.returnPct}`   : 'n/a', undefined, best  && parsePct(best.returnPct)  >= 0 ? 'profit' : 'loss');
-        set('Worst Trade', worst ? `${worst.symbol} ${worst.returnPct}` : 'n/a', undefined, worst && parsePct(worst.returnPct) >= 0 ? 'profit' : 'loss');
+        set('Win Rate',     (wr * 100).toFixed(1) + '%');
+        set('Avg Gain',     avgGain !== null ? fmtDolM(avgGain) : 'n/a', undefined, avgGain !== null ? 'profit' : '');
+        set('Avg Loss',     avgLoss !== null ? fmtDolM(avgLoss) : 'n/a', undefined, avgLoss !== null ? 'loss'   : '');
+        set('Expectancy',   fmtDolM(expectancy), undefined, expectancy >= 0 ? 'profit' : 'loss');
+        set('Best Trade',   best  ? `${best.symbol} ${best.plDol ?? ''}`  : 'n/a', undefined, best  && parseDolM(best.plDol)  >= 0 ? 'profit' : 'loss');
+        set('Worst Trade',  worst ? `${worst.symbol} ${worst.plDol ?? ''}` : 'n/a', undefined, worst && parseDolM(worst.plDol) >= 0 ? 'profit' : 'loss');
     }
 
     function renderMonthly() {
