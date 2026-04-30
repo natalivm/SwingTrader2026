@@ -28,7 +28,7 @@ const POSITIONS_DATA = [
   { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 351.00, stop: null,   current: 383.60, target: null,   plPct: '-9.3%',  plDol: '-$1,043', shares:  32, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 205.64, target: null,   plPct: '+2.3%',  plDol: '+$117',   shares:  24, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
   { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 595.86, target: 361.00, plPct: '-14.3%', plDol: '-$1,561', shares:  21, toStop: null,    toTarget: '39.4%', progressW:  0, progressV: '-46%', tier: 'high-potential' },
-  { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 234.68, target: 185.00, plPct: '-5.0%',  plDol: '-$466',   shares:  42, toStop: null,    toTarget: '21.2%', progressW:  0, progressV: '-29%', tier: 'high-potential' },
+  { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 253.03, stop: null,   current: 279.48, target: 185.00, plPct: '-10.5%', plDol: '-$1,587', shares:  60, toStop: null,    toTarget: '33.8%', progressW:  0, progressV: '-39%', tier: 'high-potential' },
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 201.31, stop: null,   current: 199.63, target: null,   plPct: '+0.8%',  plDol: '+$20',    shares:  12, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
 ];
 
@@ -41,7 +41,7 @@ const POSITIONS_DATA_2 = [
   { symbol: 'KMB',  cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null, current:  97.42, target: 132.00, plPct: '+1.4%',  plDol: '+$77',   shares: 56, toStop: null, toTarget: '35.5%', progressW:  4, progressV: '+4%',   tier: null },
   { symbol: 'NBIS', cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null, current: 137.60, target: 128.39, plPct: '+16.0%', plDol: '+$549',  shares: 21, toStop: null, toTarget: '6.7%',  progressW: 74, progressV: '+74%',  tier: null },
   { symbol: 'ROAD', cat: 'Long',  entered: "Apr 30 '26", entry: 116.35, stop: null, current: 122.85, target: null,   plPct: '+5.6%',  plDol: '+$33',   shares:  5, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
-  { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 334.63, target: 285.00, plPct: '-8.7%',  plDol: '-$773',  shares: 29, toStop: null, toTarget: '14.8%', progressW: 0, progressV: '-116%', tier: 'high-potential' },
+  { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 309.14, stop: null, current: 351.50, target: 285.00, plPct: '-13.7%', plDol: '-$1,313', shares: 31, toStop: null, toTarget: '18.9%', progressW: 0, progressV: '-176%', tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 164.65, target: null,   plPct: '-3.1%',  plDol: '-$84',   shares: 17, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
   { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 214.60, target: 174.00, plPct: '-4.1%',  plDol: '-$272',  shares: 32, toStop: null, toTarget: '18.9%', progressW: 0, progressV: '-26%',  tier: 'high-potential' },
 ];
