@@ -20,7 +20,6 @@ const TICKER_DATA = [
 const POSITIONS_DATA = [
   { symbol: 'Q',     cat: 'Long',  entered: "Apr 21 '26", entry: 136.76, stop: 132.00, current: 143.85, target: 165.00, plPct: '+5.2%',  plDol: '+$28',    shares:   4, toStop: '8.2%',  toTarget: '14.7%', progressW: 25, progressV: '+25%', tier: null },
   { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 518.25, stop: null,   current: 509.00, target: null,   plPct: '+1.8%',  plDol: '+$111',   shares:  12, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
-  { symbol: 'KMB',   cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null,   current:  98.25, target: 132.00, plPct: '+2.3%',  plDol: '+$123',   shares:  56, toStop: null,    toTarget: '34.4%', progressW:  6, progressV: '+6%',  tier: null },
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  15.61, target:  20.00, plPct: '-1.1%',  plDol: '-$28',    shares: 166, toStop: '7.1%',  toTarget: '28.1%', progressW:  0, progressV: '-4%',  tier: null },
   { symbol: 'NXT',   cat: 'Long',  entered: "Apr 24 '26", entry: 124.70, stop: 113.50, current: 122.58, target: 160.00, plPct: '-1.7%',  plDol: '-$17',    shares:   8, toStop: '7.4%',  toTarget: '30.5%', progressW:  0, progressV: '-6%',  tier: null },
   { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 419.45, stop: null,   current: 418.20, target: null,   plPct: '+0.3%',  plDol: '+$19',    shares:  15, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
@@ -34,6 +33,7 @@ const POSITIONS_DATA = [
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
+  { symbol: 'KMB',  cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null, current:  97.42, target: 132.00, plPct: '+1.4%',  plDol: '+$77',   shares: 56, toStop: null, toTarget: '35.5%', progressW:  4, progressV: '+4%',   tier: null },
   { symbol: 'NBIS', cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null, current: 137.60, target: 128.39, plPct: '+16.0%', plDol: '+$549',  shares: 21, toStop: null, toTarget: '6.7%',  progressW: 74, progressV: '+74%',  tier: null },
   { symbol: 'ROAD', cat: 'Long',  entered: "Apr 30 '26", entry: 116.35, stop: null, current: 122.85, target: null,   plPct: '+5.6%',  plDol: '+$33',   shares:  5, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 334.63, target: 285.00, plPct: '-8.7%',  plDol: '-$773',  shares: 29, toStop: null, toTarget: '14.8%', progressW: 0, progressV: '-116%', tier: 'high-potential' },
