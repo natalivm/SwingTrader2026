@@ -33,6 +33,7 @@ const POSITIONS_DATA = [
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
+  { symbol: 'CAG',  cat: 'Long',  entered: "Apr 30 '26", entry:  14.13, stop: null, current:  14.23, target: null,   plPct: '+0.7%',  plDol: '+$20',   shares: 200, toStop: null, toTarget: null,    progressW:  0, progressV: 'n/a',   tier: null },
   { symbol: 'KMB',  cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null, current:  97.42, target: 132.00, plPct: '+1.4%',  plDol: '+$77',   shares: 56, toStop: null, toTarget: '35.5%', progressW:  4, progressV: '+4%',   tier: null },
   { symbol: 'NBIS', cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null, current: 137.60, target: 128.39, plPct: '+16.0%', plDol: '+$549',  shares: 21, toStop: null, toTarget: '6.7%',  progressW: 74, progressV: '+74%',  tier: null },
   { symbol: 'ROAD', cat: 'Long',  entered: "Apr 30 '26", entry: 116.35, stop: null, current: 122.85, target: null,   plPct: '+5.6%',  plDol: '+$33',   shares:  5, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
