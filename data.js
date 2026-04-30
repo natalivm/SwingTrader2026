@@ -5,7 +5,7 @@ const TABLE2_NAME = 'Optional trades';
 const TICKER_DATA = [
   { tier: 'warning',        icon: '⚠', symbol: 'FSLY', body: 'Long · enter at <strong>$26.00</strong> · stop <strong>$22.70</strong> · target <strong>$33.00</strong> · go small!' },
   { tier: 'warning',        icon: '⚠', symbol: 'MU',   body: 'Short <strong>$498.36</strong> → current <strong>$524.56</strong> · moved against entry <strong>-5.3%</strong>' },
-  { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$215.88</strong> · <strong>19.4%</strong> potential' },
+  { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$214.60</strong> · <strong>18.9%</strong> potential' },
   { tier: 'high-potential', icon: '↗', symbol: 'BE',   body: 'Short · enter at <strong>$234.68</strong> · <strong>21.2%</strong> potential' },
   { tier: 'high-potential', icon: '↗', symbol: 'STX',  body: 'Short · enter at <strong>$595.86</strong> · <strong>39.4%</strong> potential' },
   { tier: 'setup',          icon: '↗', symbol: 'AMD',  body: 'Short · enter at <strong>$334.63</strong> · setup intact' },
@@ -38,7 +38,7 @@ const POSITIONS_DATA_2 = [
   { symbol: 'ROAD', cat: 'Long',  entered: "Apr 30 '26", entry: 116.35, stop: null, current: 122.85, target: null,   plPct: '+5.6%',  plDol: '+$33',   shares:  5, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 334.63, target: 285.00, plPct: '-8.7%',  plDol: '-$773',  shares: 29, toStop: null, toTarget: '14.8%', progressW: 0, progressV: '-116%', tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 158.21, target: null,   plPct: '+0.9%',  plDol: '+$25',   shares: 17, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
-  { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 215.88, target: 174.00, plPct: '-4.7%',  plDol: '-$313',  shares: 32, toStop: null, toTarget: '19.4%', progressW: 0, progressV: '-30%',  tier: 'high-potential' },
+  { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 214.60, target: 174.00, plPct: '-4.1%',  plDol: '-$272',  shares: 32, toStop: null, toTarget: '18.9%', progressW: 0, progressV: '-26%',  tier: 'high-potential' },
 ];
 
 // ── Options positions ────────────────────────────────────────────────────────
