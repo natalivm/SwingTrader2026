@@ -115,13 +115,20 @@
         const total  = CLOSED_TRADES_DATA.length;
         const wr     = gains.length / total;
 
+        const parseDolM = s => {
+            if (!s || s === '—') return 0;
+            const sign = s.includes('-') ? -1 : 1;
+            return sign * parseFloat(s.replace(/[+\-$,\s]/g, '')) || 0;
+        };
+        const fmtDolM = v => (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
         const avgGain = gains.length
-            ? gains.reduce((s, t) => s + parsePct(t.returnPct), 0) / gains.length : null;
+            ? gains.reduce((s, t) => s + parseDolM(t.plDol), 0) / gains.length : null;
         const avgLoss = losses.length
-            ? losses.reduce((s, t) => s + parsePct(t.returnPct), 0) / losses.length : null;
+            ? losses.reduce((s, t) => s + parseDolM(t.plDol), 0) / losses.length : null;
         const expectancy = wr * (avgGain ?? 0) + (1 - wr) * (avgLoss ?? 0);
 
-        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => parsePct(b.returnPct) - parsePct(a.returnPct));
+        const sorted = [...CLOSED_TRADES_DATA].sort((a, b) => parseDolM(b.plDol) - parseDolM(a.plDol));
         const best   = sorted[0];
         const worst  = sorted[sorted.length - 1];
 
@@ -137,14 +144,13 @@
             if (subEl && sub !== undefined) subEl.textContent = sub;
         };
 
-        const fmt = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
         set('Total Trades', total, `${gains.length} wins · ${losses.length} losses`);
-        set('Win Rate',    (wr * 100).toFixed(1) + '%');
-        set('Avg Gain',    avgGain !== null ? fmt(avgGain) : 'n/a', undefined, avgGain !== null ? 'profit' : '');
-        set('Avg Loss',    avgLoss !== null ? fmt(avgLoss) : 'n/a', undefined, avgLoss !== null ? 'loss'   : '');
-        set('Expectancy',  fmt(expectancy), undefined, expectancy >= 0 ? 'profit' : 'loss');
-        set('Best Trade',  best  ? `${best.symbol} ${best.returnPct}`   : 'n/a', undefined, best  && parsePct(best.returnPct)  >= 0 ? 'profit' : 'loss');
-        set('Worst Trade', worst ? `${worst.symbol} ${worst.returnPct}` : 'n/a', undefined, worst && parsePct(worst.returnPct) >= 0 ? 'profit' : 'loss');
+        set('Win Rate',     (wr * 100).toFixed(1) + '%');
+        set('Avg Gain',     avgGain !== null ? fmtDolM(avgGain) : 'n/a', undefined, avgGain !== null ? 'profit' : '');
+        set('Avg Loss',     avgLoss !== null ? fmtDolM(avgLoss) : 'n/a', undefined, avgLoss !== null ? 'loss'   : '');
+        set('Expectancy',   fmtDolM(expectancy), undefined, expectancy >= 0 ? 'profit' : 'loss');
+        set('Best Trade',   best  ? `${best.symbol} ${best.plDol ?? ''}`  : 'n/a', undefined, best  && parseDolM(best.plDol)  >= 0 ? 'profit' : 'loss');
+        set('Worst Trade',  worst ? `${worst.symbol} ${worst.plDol ?? ''}` : 'n/a', undefined, worst && parseDolM(worst.plDol) >= 0 ? 'profit' : 'loss');
     }
 
     function renderMonthly() {
@@ -163,46 +169,57 @@
         });
         const months = Object.keys(groups).sort((a, b) => (MONTH_ORDER[a] || 0) - (MONTH_ORDER[b] || 0));
 
+        const parseDol = s => {
+            if (!s || s === '—') return 0;
+            const sign = s.includes('-') ? -1 : 1;
+            return sign * parseFloat(s.replace(/[+\-$,\s]/g, '')) || 0;
+        };
+        const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+        const fmtDol = v => (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+        const fmtRate = v => v.toFixed(0) + '%';
+
         const stats = months.map(m => {
-            const ts          = groups[m];
+            const ts              = groups[m];
             const { gains, losses } = splitByResult(ts);
-            const sum         = ts.reduce((s, t) => s + parsePct(t.returnPct), 0);
-            return { m, trades: ts.length, gains: gains.length, losses: losses.length,
-                     winRate: (gains.length / ts.length * 100).toFixed(0),
-                     avg: sum / ts.length, sum };
+            const sum             = ts.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const gainDol         = gains.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const lossDol         = losses.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const avgPct          = ts.reduce((s, t) => s + parsePct(t.returnPct), 0) / ts.length;
+            const winPct          = gains.length / ts.length * 100;
+            const lossPct         = losses.length / ts.length * 100;
+            return { m, trades: ts.length, winPct, lossPct, gainDol, lossDol, avg: avgPct, sum };
         });
 
-        const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
         monthlyBody.innerHTML = stats.map(s => {
             const sc = s.sum >= 0 ? 'profit' : 'loss';
             return `<tr>
                 <td class="monthly-name">${s.m} 2026</td>
                 <td class="text-right">${s.trades}</td>
-                <td class="text-right profit">${s.gains}</td>
-                <td class="text-right ${s.losses ? 'loss' : ''}">${s.losses}</td>
-                <td class="text-right">${s.winRate}%</td>
+                <td class="text-right profit">${fmtRate(s.winPct)} · ${fmtDol(s.gainDol)}</td>
+                <td class="text-right ${s.lossPct > 0 ? 'loss' : ''}">${fmtRate(s.lossPct)}${s.lossDol < 0 ? ' · ' + fmtDol(s.lossDol) : ''}</td>
                 <td class="text-right ${sc}">${fmtPct(s.avg)}</td>
-                <td class="text-right monthly-sum ${sc}">${fmtPct(s.sum)}</td>
+                <td class="text-right monthly-sum ${sc}">${fmtDol(s.sum)}</td>
             </tr>`;
         }).join('');
 
         if (monthlyFoot) {
-            const all    = CLOSED_TRADES_DATA;
+            const all             = CLOSED_TRADES_DATA;
             const { gains, losses } = splitByResult(all);
-            const ag     = gains.length;
-            const al     = losses.length;
-            const ytdSum = all.reduce((s, t) => s + parsePct(t.returnPct), 0);
-            const ytdAvg = ytdSum / all.length;
-            const ytdWR  = (ag / all.length * 100).toFixed(0);
-            const sc     = ytdSum >= 0 ? 'profit' : 'loss';
+            const ytdSum          = all.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const ytdGainDol      = gains.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const ytdLossDol      = losses.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const ytdAvg          = all.reduce((s, t) => s + parsePct(t.returnPct), 0) / all.length;
+            const ytdWinPct       = gains.length / all.length * 100;
+            const ytdLossPct      = losses.length / all.length * 100;
+            const sc              = ytdSum >= 0 ? 'profit' : 'loss';
             monthlyFoot.innerHTML = `<tr class="ytd-row">
                 <td class="ytd-label">YTD 2026</td>
                 <td class="text-right">${all.length}</td>
-                <td class="text-right profit">${ag}</td>
-                <td class="text-right ${al ? 'loss' : ''}">${al}</td>
-                <td class="text-right">${ytdWR}%</td>
+                <td class="text-right profit">${fmtRate(ytdWinPct)} · ${fmtDol(ytdGainDol)}</td>
+                <td class="text-right ${ytdLossPct > 0 ? 'loss' : ''}">${fmtRate(ytdLossPct)}${ytdLossDol < 0 ? ' · ' + fmtDol(ytdLossDol) : ''}</td>
                 <td class="text-right ${sc}">${fmtPct(ytdAvg)}</td>
-                <td class="text-right monthly-sum ${sc}">${fmtPct(ytdSum)}</td>
+                <td class="text-right monthly-sum ${sc}">${fmtDol(ytdSum)}</td>
             </tr>`;
         }
 
@@ -213,7 +230,7 @@
                 const cls = s.sum >= 0 ? 'bar-positive' : 'bar-negative';
                 const lCls = s.sum >= 0 ? 'profit' : 'loss';
                 return `<div class="chart-col">
-                    <div class="chart-bar-label ${lCls}">${fmtPct(s.sum)}</div>
+                    <div class="chart-bar-label ${lCls}">${fmtDol(s.sum)}</div>
                     <div class="chart-bar ${cls}" style="height:${h}%"></div>
                 </div>`;
             }).join('');
