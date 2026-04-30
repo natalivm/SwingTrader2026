@@ -38,7 +38,6 @@ const POSITIONS_DATA_2 = [
 
 // ── Options positions ────────────────────────────────────────────────────────
 const OPTIONS_DATA = [
-  { symbol: 'GDX',  type: 'Long Put',  typeCls: 'long-put',  strike: '$89.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.83', current: '$2.10', plPct: '-25.8%', plDol: '-$73'  },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$46.00', expiry: "May 1 '26",  contracts: 2, avgPrice: '$1.80', current: '$0.40', plPct: '-77.8%', plDol: '-$280' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$45.00', expiry: "May 15 '26", contracts: 2, avgPrice: '$2.80', current: '$1.30', plPct: '-53.6%', plDol: '-$300' },
 ];
@@ -46,6 +45,7 @@ const OPTIONS_DATA = [
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
   { symbol: 'NBIS', closeDate: 'Apr 30', result: 'gain', returnPct: '+15.7%', plDol: '+$436'   },
+  { symbol: 'GDX',  closeDate: 'Apr 28', result: 'gain', returnPct: '+36.7%', plDol: '+$104'   },
   { symbol: 'Q',    closeDate: 'Apr 30', result: 'gain', returnPct: '+3.0%',  plDol: '+$23'    },
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+1.0%',  plDol: '+$52'    },
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+0.4%',  plDol: '+$10'    },
