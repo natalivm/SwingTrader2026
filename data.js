@@ -25,7 +25,6 @@ const POSITIONS_DATA = [
   { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 419.45, stop: null,   current: 412.48, target: null,   plPct: '+1.62%', plDol: '+$105',   shares:  15, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 334.85, stop: null,   current: 350.34, target: null,   plPct: '-4.6%',  plDol: '-$201',   shares:  13, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 205.64, target: null,   plPct: '+2.3%',  plDol: '+$117',   shares:  24, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
-  { symbol: 'TXN',   cat: 'Short', entered: "Apr 23 '26", entry: 273.35, stop: null,   current: 269.50, target: 257.00, plPct: '+1.4%',  plDol: '+$135',   shares:  35, toStop: null,    toTarget: '4.6%',  progressW: 24, progressV: '+24%', tier: null },
   { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 595.86, target: 361.00, plPct: '-14.3%', plDol: '-$1,561', shares:  21, toStop: null,    toTarget: '39.4%', progressW:  0, progressV: '-46%', tier: 'high-potential' },
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 234.68, target: 185.00, plPct: '-5.0%',  plDol: '-$466',   shares:  42, toStop: null,    toTarget: '21.2%', progressW:  0, progressV: '-29%', tier: 'high-potential' },
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 201.31, stop: null,   current: 199.63, target: null,   plPct: '+0.8%',  plDol: '+$20',    shares:  12, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
@@ -33,6 +32,7 @@ const POSITIONS_DATA = [
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
+  { symbol: 'TXN',  cat: 'Short', entered: "Apr 23 '26", entry: 276.10, stop: null, current: 279.20, target: 257.00, plPct: '-1.1%',  plDol: '-$31',   shares:  10, toStop: null, toTarget: '7.9%',  progressW:  0, progressV: '-16%',  tier: null },
   { symbol: 'CAG',  cat: 'Long',  entered: "Apr 30 '26", entry:  14.13, stop: null, current:  14.23, target: null,   plPct: '+0.7%',  plDol: '+$20',   shares: 200, toStop: null, toTarget: null,    progressW:  0, progressV: 'n/a',   tier: null },
   { symbol: 'KMB',  cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null, current:  97.42, target: 132.00, plPct: '+1.4%',  plDol: '+$77',   shares: 56, toStop: null, toTarget: '35.5%', progressW:  4, progressV: '+4%',   tier: null },
   { symbol: 'NBIS', cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null, current: 137.60, target: 128.39, plPct: '+16.0%', plDol: '+$549',  shares: 21, toStop: null, toTarget: '6.7%',  progressW: 74, progressV: '+74%',  tier: null },
