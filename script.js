@@ -163,16 +163,24 @@
         });
         const months = Object.keys(groups).sort((a, b) => (MONTH_ORDER[a] || 0) - (MONTH_ORDER[b] || 0));
 
+        const parseDol = s => {
+            if (!s || s === '—') return 0;
+            const sign = s.includes('-') ? -1 : 1;
+            return sign * parseFloat(s.replace(/[+\-$,\s]/g, '')) || 0;
+        };
+        const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+        const fmtDol = v => (v >= 0 ? '+$' : '-$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
         const stats = months.map(m => {
             const ts          = groups[m];
             const { gains, losses } = splitByResult(ts);
-            const sum         = ts.reduce((s, t) => s + parsePct(t.returnPct), 0);
+            const sum         = ts.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const avgPct      = ts.reduce((s, t) => s + parsePct(t.returnPct), 0) / ts.length;
             return { m, trades: ts.length, gains: gains.length, losses: losses.length,
                      winRate: (gains.length / ts.length * 100).toFixed(0),
-                     avg: sum / ts.length, sum };
+                     avg: avgPct, sum };
         });
 
-        const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
         monthlyBody.innerHTML = stats.map(s => {
             const sc = s.sum >= 0 ? 'profit' : 'loss';
             return `<tr>
@@ -182,7 +190,7 @@
                 <td class="text-right ${s.losses ? 'loss' : ''}">${s.losses}</td>
                 <td class="text-right">${s.winRate}%</td>
                 <td class="text-right ${sc}">${fmtPct(s.avg)}</td>
-                <td class="text-right monthly-sum ${sc}">${fmtPct(s.sum)}</td>
+                <td class="text-right monthly-sum ${sc}">${fmtDol(s.sum)}</td>
             </tr>`;
         }).join('');
 
@@ -191,8 +199,8 @@
             const { gains, losses } = splitByResult(all);
             const ag     = gains.length;
             const al     = losses.length;
-            const ytdSum = all.reduce((s, t) => s + parsePct(t.returnPct), 0);
-            const ytdAvg = ytdSum / all.length;
+            const ytdSum = all.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const ytdAvg = all.reduce((s, t) => s + parsePct(t.returnPct), 0) / all.length;
             const ytdWR  = (ag / all.length * 100).toFixed(0);
             const sc     = ytdSum >= 0 ? 'profit' : 'loss';
             monthlyFoot.innerHTML = `<tr class="ytd-row">
@@ -202,7 +210,7 @@
                 <td class="text-right ${al ? 'loss' : ''}">${al}</td>
                 <td class="text-right">${ytdWR}%</td>
                 <td class="text-right ${sc}">${fmtPct(ytdAvg)}</td>
-                <td class="text-right monthly-sum ${sc}">${fmtPct(ytdSum)}</td>
+                <td class="text-right monthly-sum ${sc}">${fmtDol(ytdSum)}</td>
             </tr>`;
         }
 
@@ -213,7 +221,7 @@
                 const cls = s.sum >= 0 ? 'bar-positive' : 'bar-negative';
                 const lCls = s.sum >= 0 ? 'profit' : 'loss';
                 return `<div class="chart-col">
-                    <div class="chart-bar-label ${lCls}">${fmtPct(s.sum)}</div>
+                    <div class="chart-bar-label ${lCls}">${fmtDol(s.sum)}</div>
                     <div class="chart-bar ${cls}" style="height:${h}%"></div>
                 </div>`;
             }).join('');
