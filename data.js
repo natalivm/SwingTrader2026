@@ -8,7 +8,7 @@ const TICKER_DATA = [
   { tier: 'setup',          icon: '↗', symbol: 'MU',   body: 'Short <strong>$518.25</strong> → current <strong>$509.00</strong> · moved in favor <strong>+1.8%</strong>' },
   { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$214.60</strong> · <strong>18.9%</strong> potential' },
   { tier: 'high-potential', icon: '↗', symbol: 'BE',   body: 'Short · enter at <strong>$234.68</strong> · <strong>21.2%</strong> potential' },
-  { tier: 'high-potential', icon: '↗', symbol: 'STX',  body: 'Short · enter at <strong>$595.86</strong> · <strong>39.4%</strong> potential' },
+  { tier: 'high-potential', icon: '↗', symbol: 'STX',  body: 'Short · enter at <strong>$645.82</strong> · <strong>44.1%</strong> potential' },
   { tier: 'setup',          icon: '↗', symbol: 'AMD',  body: 'Short · enter at <strong>$334.63</strong> · setup intact' },
   { tier: 'setup',          icon: '↗', symbol: 'DELL', body: 'Short · enter at <strong>$215.97</strong> · setup intact' },
   { tier: 'setup',          icon: '↗', symbol: 'NVDA', body: 'Short · enter at <strong>$216.61</strong> · setup intact' },
@@ -27,7 +27,7 @@ const POSITIONS_DATA = [
   { symbol: 'INTC',  cat: 'Short', entered: "Apr 30 '26", entry:  91.96, stop: null,   current:  94.10, target: null,   plPct: '-2.3%',  plDol: '-$428',   shares: 200, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 351.00, stop: null,   current: 383.60, target: null,   plPct: '-9.3%',  plDol: '-$1,043', shares:  32, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 205.64, target: null,   plPct: '+2.3%',  plDol: '+$117',   shares:  24, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
-  { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 595.86, target: 361.00, plPct: '-14.3%', plDol: '-$1,561', shares:  21, toStop: null,    toTarget: '39.4%', progressW:  0, progressV: '-46%', tier: 'high-potential' },
+  { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 553.79, stop: null,   current: 645.82, target: 361.00, plPct: '-16.6%', plDol: '-$2,577', shares:  28, toStop: null,    toTarget: '44.1%', progressW:  0, progressV: '-48%', tier: 'high-potential' },
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 253.03, stop: null,   current: 279.48, target: 185.00, plPct: '-10.5%', plDol: '-$1,587', shares:  60, toStop: null,    toTarget: '33.8%', progressW:  0, progressV: '-39%', tier: 'high-potential' },
   { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 201.31, stop: null,   current: 199.63, target: null,   plPct: '+0.8%',  plDol: '+$20',    shares:  12, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
 ];
