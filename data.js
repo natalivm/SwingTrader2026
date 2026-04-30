@@ -4,7 +4,7 @@ const TABLE2_NAME = 'Optional trades';
 // ── Ticker alerts ────────────────────────────────────────────────────────────
 const TICKER_DATA = [
   { tier: 'warning',        icon: '⚠', symbol: 'FSLY', body: 'Long · enter at <strong>$26.00</strong> · stop <strong>$22.70</strong> · target <strong>$33.00</strong> · go small!' },
-  { tier: 'warning',        icon: '⚠', symbol: 'MU',   body: 'Short <strong>$498.36</strong> → current <strong>$524.56</strong> · moved against entry <strong>-5.3%</strong>' },
+  { tier: 'setup',          icon: '↗', symbol: 'MU',   body: 'Short <strong>$518.25</strong> → current <strong>$509.00</strong> · moved in favor <strong>+1.8%</strong>' },
   { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$214.60</strong> · <strong>18.9%</strong> potential' },
   { tier: 'high-potential', icon: '↗', symbol: 'BE',   body: 'Short · enter at <strong>$234.68</strong> · <strong>21.2%</strong> potential' },
   { tier: 'high-potential', icon: '↗', symbol: 'STX',  body: 'Short · enter at <strong>$595.86</strong> · <strong>39.4%</strong> potential' },
@@ -19,13 +19,13 @@ const TICKER_DATA = [
 //         progressW (bar width %), progressV (display value), tier (null|'warning'|'high-potential'|'setup')
 const POSITIONS_DATA = [
   { symbol: 'Q',     cat: 'Long',  entered: "Apr 21 '26", entry: 136.76, stop: 132.00, current: 143.85, target: 165.00, plPct: '+5.2%',  plDol: '+$28',    shares:   4, toStop: '8.2%',  toTarget: '14.7%', progressW: 25, progressV: '+25%', tier: null },
-  { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 498.36, stop: null,   current: 524.56, target: null,   plPct: '-5.3%',  plDol: '-$341',   shares:  13, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'warning' },
+  { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 518.25, stop: null,   current: 509.00, target: null,   plPct: '+1.8%',  plDol: '+$111',   shares:  12, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'KMB',   cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null,   current:  98.25, target: 132.00, plPct: '+2.3%',  plDol: '+$123',   shares:  56, toStop: null,    toTarget: '34.4%', progressW:  6, progressV: '+6%',  tier: null },
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  15.61, target:  20.00, plPct: '-1.1%',  plDol: '-$28',    shares: 166, toStop: '7.1%',  toTarget: '28.1%', progressW:  0, progressV: '-4%',  tier: null },
   { symbol: 'NXT',   cat: 'Long',  entered: "Apr 24 '26", entry: 124.70, stop: 113.50, current: 122.58, target: 160.00, plPct: '-1.7%',  plDol: '-$17',    shares:   8, toStop: '7.4%',  toTarget: '30.5%', progressW:  0, progressV: '-6%',  tier: null },
   { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 415.98, stop: null,   current: 418.20, target: null,   plPct: '-0.5%',  plDol: '-$47',    shares:  21, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 334.85, stop: null,   current: 350.34, target: null,   plPct: '-4.6%',  plDol: '-$201',   shares:  13, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
-  { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 215.97, target: null,   plPct: '-2.6%',  plDol: '-$131',   shares:  24, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
+  { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 205.64, target: null,   plPct: '+2.3%',  plDol: '+$117',   shares:  24, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
   { symbol: 'TXN',   cat: 'Short', entered: "Apr 23 '26", entry: 273.35, stop: null,   current: 269.50, target: 257.00, plPct: '+1.4%',  plDol: '+$135',   shares:  35, toStop: null,    toTarget: '4.6%',  progressW: 24, progressV: '+24%', tier: null },
   { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 595.86, target: 361.00, plPct: '-14.3%', plDol: '-$1,561', shares:  21, toStop: null,    toTarget: '39.4%', progressW:  0, progressV: '-46%', tier: 'high-potential' },
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 234.68, target: 185.00, plPct: '-5.0%',  plDol: '-$466',   shares:  42, toStop: null,    toTarget: '21.2%', progressW:  0, progressV: '-29%', tier: 'high-potential' },
