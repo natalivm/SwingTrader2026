@@ -33,6 +33,7 @@ const POSITIONS_DATA = [
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
+  { symbol: 'ZS',   cat: 'Long',  entered: "Apr 30 '26", entry: 135.82, stop: null, current: 129.60, target: null,   plPct: '-4.6%',  plDol: '-$124',  shares:  20, toStop: null, toTarget: null,    progressW:  0, progressV: 'n/a',   tier: null },
   { symbol: 'TXN',  cat: 'Short', entered: "Apr 23 '26", entry: 276.10, stop: null, current: 279.20, target: 257.00, plPct: '-1.1%',  plDol: '-$31',   shares:  10, toStop: null, toTarget: '7.9%',  progressW:  0, progressV: '-16%',  tier: null },
   { symbol: 'CAG',  cat: 'Long',  entered: "Apr 30 '26", entry:  14.13, stop: null, current:  14.23, target: null,   plPct: '+0.7%',  plDol: '+$20',   shares: 200, toStop: null, toTarget: null,    progressW:  0, progressV: 'n/a',   tier: null },
   { symbol: 'KMB',  cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null, current:  97.42, target: 132.00, plPct: '+1.4%',  plDol: '+$77',   shares: 56, toStop: null, toTarget: '35.5%', progressW:  4, progressV: '+4%',   tier: null },

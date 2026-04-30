@@ -16,7 +16,7 @@ except ImportError:
 SYMBOLS = [
     "MU", "KMB", "FIGS", "NBIS", "NXT",
     "AVGO", "GOOGL", "DELL", "TXN", "STX", "BE", "NVDA",
-    "AMD", "MRVL", "ARM", "ROAD", "CAG", "TSEM", "FSLY",
+    "AMD", "MRVL", "ARM", "ROAD", "CAG", "ZS", "TSEM", "FSLY",
     "GDX", "SPXU",
 ]
 
