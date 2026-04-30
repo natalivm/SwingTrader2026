@@ -177,10 +177,12 @@
             const ts              = groups[m];
             const { gains, losses } = splitByResult(ts);
             const sum             = ts.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const gainDol         = gains.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const lossDol         = losses.reduce((s, t) => s + parseDol(t.plDol), 0);
             const avgPct          = ts.reduce((s, t) => s + parsePct(t.returnPct), 0) / ts.length;
             const winPct          = gains.length / ts.length * 100;
             const lossPct         = losses.length / ts.length * 100;
-            return { m, trades: ts.length, winPct, lossPct, avg: avgPct, sum };
+            return { m, trades: ts.length, winPct, lossPct, gainDol, lossDol, avg: avgPct, sum };
         });
 
         monthlyBody.innerHTML = stats.map(s => {
@@ -188,8 +190,8 @@
             return `<tr>
                 <td class="monthly-name">${s.m} 2026</td>
                 <td class="text-right">${s.trades}</td>
-                <td class="text-right profit">${fmtRate(s.winPct)}</td>
-                <td class="text-right ${s.lossPct > 0 ? 'loss' : ''}">${fmtRate(s.lossPct)}</td>
+                <td class="text-right profit">${fmtRate(s.winPct)} · ${fmtDol(s.gainDol)}</td>
+                <td class="text-right ${s.lossPct > 0 ? 'loss' : ''}">${fmtRate(s.lossPct)}${s.lossDol < 0 ? ' · ' + fmtDol(s.lossDol) : ''}</td>
                 <td class="text-right ${sc}">${fmtPct(s.avg)}</td>
                 <td class="text-right monthly-sum ${sc}">${fmtDol(s.sum)}</td>
             </tr>`;
@@ -199,6 +201,8 @@
             const all             = CLOSED_TRADES_DATA;
             const { gains, losses } = splitByResult(all);
             const ytdSum          = all.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const ytdGainDol      = gains.reduce((s, t) => s + parseDol(t.plDol), 0);
+            const ytdLossDol      = losses.reduce((s, t) => s + parseDol(t.plDol), 0);
             const ytdAvg          = all.reduce((s, t) => s + parsePct(t.returnPct), 0) / all.length;
             const ytdWinPct       = gains.length / all.length * 100;
             const ytdLossPct      = losses.length / all.length * 100;
@@ -206,8 +210,8 @@
             monthlyFoot.innerHTML = `<tr class="ytd-row">
                 <td class="ytd-label">YTD 2026</td>
                 <td class="text-right">${all.length}</td>
-                <td class="text-right profit">${fmtRate(ytdWinPct)}</td>
-                <td class="text-right ${ytdLossPct > 0 ? 'loss' : ''}">${fmtRate(ytdLossPct)}</td>
+                <td class="text-right profit">${fmtRate(ytdWinPct)} · ${fmtDol(ytdGainDol)}</td>
+                <td class="text-right ${ytdLossPct > 0 ? 'loss' : ''}">${fmtRate(ytdLossPct)}${ytdLossDol < 0 ? ' · ' + fmtDol(ytdLossDol) : ''}</td>
                 <td class="text-right ${sc}">${fmtPct(ytdAvg)}</td>
                 <td class="text-right monthly-sum ${sc}">${fmtDol(ytdSum)}</td>
             </tr>`;
