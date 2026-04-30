@@ -35,6 +35,7 @@ const POSITIONS_DATA = [
 
 // ── Second positions table ────────────────────────────────────────────────────
 const POSITIONS_DATA_2 = [
+  { symbol: 'ROAD', cat: 'Long',  entered: "Apr 30 '26", entry: 116.35, stop: null, current: 122.85, target: null,   plPct: '+5.6%',  plDol: '+$33',   shares:  5, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
   { symbol: 'AMD',  cat: 'Short', entered: "Apr 23 '26", entry: 307.96, stop: null, current: 334.63, target: 285.00, plPct: '-8.7%',  plDol: '-$773',  shares: 29, toStop: null, toTarget: '14.8%', progressW: 0, progressV: '-116%', tier: 'high-potential' },
   { symbol: 'MRVL', cat: 'Short', entered: "Apr 25 '26", entry: 159.69, stop: null, current: 158.21, target: null,   plPct: '+0.9%',  plDol: '+$25',   shares: 17, toStop: null, toTarget: null,    progressW: 0, progressV: 'n/a',   tier: null },
   { symbol: 'ARM',  cat: 'Short', entered: "Apr 23 '26", entry: 206.11, stop: null, current: 215.88, target: 174.00, plPct: '-4.7%',  plDol: '-$313',  shares: 32, toStop: null, toTarget: '19.4%', progressW: 0, progressV: '-30%',  tier: 'high-potential' },
