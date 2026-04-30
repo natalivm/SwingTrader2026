@@ -23,7 +23,7 @@ const POSITIONS_DATA = [
   { symbol: 'KMB',   cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null,   current:  98.25, target: 132.00, plPct: '+2.3%',  plDol: '+$123',   shares:  56, toStop: null,    toTarget: '34.4%', progressW:  6, progressV: '+6%',  tier: null },
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  15.61, target:  20.00, plPct: '-1.1%',  plDol: '-$28',    shares: 166, toStop: '7.1%',  toTarget: '28.1%', progressW:  0, progressV: '-4%',  tier: null },
   { symbol: 'NXT',   cat: 'Long',  entered: "Apr 24 '26", entry: 124.70, stop: 113.50, current: 122.58, target: 160.00, plPct: '-1.7%',  plDol: '-$17',    shares:   8, toStop: '7.4%',  toTarget: '30.5%', progressW:  0, progressV: '-6%',  tier: null },
-  { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 415.98, stop: null,   current: 418.20, target: null,   plPct: '-0.5%',  plDol: '-$47',    shares:  21, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
+  { symbol: 'AVGO',  cat: 'Short', entered: "Apr 22 '26", entry: 419.45, stop: null,   current: 418.20, target: null,   plPct: '+0.3%',  plDol: '+$19',    shares:  15, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'GOOGL', cat: 'Short', entered: "Apr 14 '26", entry: 334.85, stop: null,   current: 350.34, target: null,   plPct: '-4.6%',  plDol: '-$201',   shares:  13, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: null },
   { symbol: 'DELL',  cat: 'Short', entered: "Apr 22 '26", entry: 210.53, stop: null,   current: 205.64, target: null,   plPct: '+2.3%',  plDol: '+$117',   shares:  24, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
   { symbol: 'TXN',   cat: 'Short', entered: "Apr 23 '26", entry: 273.35, stop: null,   current: 269.50, target: 257.00, plPct: '+1.4%',  plDol: '+$135',   shares:  35, toStop: null,    toTarget: '4.6%',  progressW: 24, progressV: '+24%', tier: null },
@@ -51,6 +51,7 @@ const OPTIONS_DATA = [
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+1.0%',  plDol: '+$52'    },
+  { symbol: 'AVGO', closeDate: 'Apr 28', result: 'gain', returnPct: '+2.3%',  plDol: '+$48'    },
   { symbol: 'SOXS', closeDate: 'Apr 30', result: 'loss', returnPct: '-83.5%', plDol: '-$152'   },
   { symbol: 'SOXS', closeDate: 'Apr 29', result: 'loss', returnPct: '-85.6%', plDol: '-$243'   },
   { symbol: 'NET',  closeDate: 'Apr 30', result: 'even', returnPct: '0.0%',   plDol: '$0'      },
