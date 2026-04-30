@@ -3,6 +3,7 @@ const TABLE2_NAME = 'Optional trades';
 
 // ── Ticker alerts ────────────────────────────────────────────────────────────
 const TICKER_DATA = [
+  { tier: 'warning',        icon: '⚠', symbol: 'TSEM', body: 'Long · enter at <strong>$200.75</strong> · stop <strong>$179.00</strong> · target <strong>$250.00</strong> · wide stop — go small!' },
   { tier: 'warning',        icon: '⚠', symbol: 'FSLY', body: 'Long · enter at <strong>$26.00</strong> · stop <strong>$22.70</strong> · target <strong>$33.00</strong> · go small!' },
   { tier: 'setup',          icon: '↗', symbol: 'MU',   body: 'Short <strong>$518.25</strong> → current <strong>$509.00</strong> · moved in favor <strong>+1.8%</strong>' },
   { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$214.60</strong> · <strong>18.9%</strong> potential' },
@@ -66,6 +67,7 @@ const CLOSED_TRADES_DATA = [
 
 // ── Trade alerts table ────────────────────────────────────────────────────────
 const ALERTS_DATA = [
+  { date: "Apr 30 '26", symbol: 'TSEM', tier: 'warning', cat: 'Long', entry: '$200.75', stop: '$179.00', target: '$250.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null, notes: 'Top-rated semicon play out of Israel · should get a nice boost from QCOM earnings and is set to break the recent pullback · wide stop at $179 — go small!' },
   { date: "Apr 28 '26", symbol: 'FSLY', tier: 'warning', cat: 'Long', entry: '$26.00', stop: '$22.70', target: '$33.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/6 close', notes: 'Only software play still in uptrend after AI fear · excellent growth metrics · false headwind from Anthropic launch should see bounce into earnings · stop wide at $22.70 — go small!' },
   { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',   cat: 'Long', entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
   { date: "Mar 26 '26", symbol: 'BWA',  tier: 'warning', cat: 'Long', entry: '$55.50',  stop: '$53.70',  target: '$70.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Raise Stop', outcomeDetail: null,            notes: 'Raise stop' },
