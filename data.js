@@ -63,7 +63,4 @@ const CLOSED_TRADES_DATA = [
 // ── Trade alerts table ────────────────────────────────────────────────────────
 const ALERTS_DATA = [
   { date: "Apr 30 '26", symbol: 'TSEM', tier: 'warning', cat: 'Long', entry: '$200.75', stop: '$179.00', target: '$250.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null, notes: 'Top-rated semicon play out of Israel · should get a nice boost from QCOM earnings and is set to break the recent pullback · wide stop at $179 — go small!' },
-  { date: "Apr 28 '26", symbol: 'FSLY', tier: 'warning', cat: 'Long', entry: '$26.00', stop: '$22.70', target: '$33.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: 'sell on 5/6 close', notes: 'Only software play still in uptrend after AI fear · excellent growth metrics · false headwind from Anthropic launch should see bounce into earnings · stop wide at $22.70 — go small!' },
-  { date: "Apr 23 '26", symbol: 'EQT',  tier: 'setup',   cat: 'Long', entry: '$58.86',  stop: '$55.90',  target: '$67.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null,                notes: 'HOLD' },
-  { date: "Mar 26 '26", symbol: 'BWA',  tier: 'warning', cat: 'Long', entry: '$55.50',  stop: '$53.70',  target: '$70.00',  outcomeCls: 'outcome-open', outcomeLabel: 'Raise Stop', outcomeDetail: null,            notes: 'Raise stop' },
 ];
