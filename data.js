@@ -28,7 +28,7 @@ const POSITIONS_DATA = [
   { symbol: 'TXN',   cat: 'Short', entered: "Apr 23 '26", entry: 273.35, stop: null,   current: 269.50, target: 257.00, plPct: '+1.4%',  plDol: '+$135',   shares:  35, toStop: null,    toTarget: '4.6%',  progressW: 24, progressV: '+24%', tier: null },
   { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 595.86, target: 361.00, plPct: '-14.3%', plDol: '-$1,561', shares:  21, toStop: null,    toTarget: '39.4%', progressW:  0, progressV: '-46%', tier: 'high-potential' },
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 234.68, target: 185.00, plPct: '-5.0%',  plDol: '-$466',   shares:  42, toStop: null,    toTarget: '21.2%', progressW:  0, progressV: '-29%', tier: 'high-potential' },
-  { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 201.31, stop: null,   current: 216.61, target: null,   plPct: '-7.6%',  plDol: '-$413',   shares:  27, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
+  { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 201.31, stop: null,   current: 199.63, target: null,   plPct: '+0.8%',  plDol: '+$45',    shares:  27, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
 ];
 
 // ── Second positions table ────────────────────────────────────────────────────
