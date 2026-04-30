@@ -3,7 +3,12 @@ const TABLE2_NAME = 'Optional trades';
 
 // ── Ticker alerts ────────────────────────────────────────────────────────────
 const TICKER_DATA = [
-  { tier: 'warning', icon: '⚠', symbol: 'TSEM', body: 'Long · enter at <strong>$200.75</strong> · stop <strong>$179.00</strong> · target <strong>$250.00</strong> · wide stop — go small!' },
+  { tier: 'warning',        icon: '⚠', symbol: 'TSEM',  body: 'Long · enter at <strong>$200.75</strong> · stop <strong>$179.00</strong> · target <strong>$250.00</strong> · wide stop — go small!' },
+  { tier: 'high-potential', icon: '↗', symbol: 'STX',   body: 'Short · current <strong>$645.82</strong> · target <strong>$361.00</strong> · <strong>44.1%</strong> potential' },
+  { tier: 'high-potential', icon: '↗', symbol: 'BE',    body: 'Short · current <strong>$279.48</strong> · target <strong>$185.00</strong> · <strong>33.8%</strong> potential' },
+  { tier: 'high-potential', icon: '↗', symbol: 'AMD',   body: 'Short · current <strong>$351.50</strong> · target <strong>$285.00</strong> · <strong>18.9%</strong> potential' },
+  { tier: 'setup',          icon: '↗', symbol: 'NBIS',  body: 'Earnings today · watch for push up to re-enter Short' },
+  { tier: 'setup',          icon: '↗', symbol: 'GOOGL', body: 'Short · current <strong>$383.60</strong> · large position · <strong>-9.3%</strong> · watching' },
 ];
 
 // ── Open equity positions ────────────────────────────────────────────────────
