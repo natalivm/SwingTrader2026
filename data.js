@@ -3,15 +3,7 @@ const TABLE2_NAME = 'Optional trades';
 
 // ── Ticker alerts ────────────────────────────────────────────────────────────
 const TICKER_DATA = [
-  { tier: 'warning',        icon: '⚠', symbol: 'TSEM', body: 'Long · enter at <strong>$200.75</strong> · stop <strong>$179.00</strong> · target <strong>$250.00</strong> · wide stop — go small!' },
-  { tier: 'warning',        icon: '⚠', symbol: 'FSLY', body: 'Long · enter at <strong>$26.00</strong> · stop <strong>$22.70</strong> · target <strong>$33.00</strong> · go small!' },
-  { tier: 'setup',          icon: '↗', symbol: 'MU',   body: 'Short <strong>$518.25</strong> → current <strong>$509.00</strong> · moved in favor <strong>+1.8%</strong>' },
-  { tier: 'high-potential', icon: '↗', symbol: 'ARM',  body: 'Short · enter at <strong>$214.60</strong> · <strong>18.9%</strong> potential' },
-  { tier: 'high-potential', icon: '↗', symbol: 'BE',   body: 'Short · enter at <strong>$234.68</strong> · <strong>21.2%</strong> potential' },
-  { tier: 'high-potential', icon: '↗', symbol: 'STX',  body: 'Short · enter at <strong>$645.82</strong> · <strong>44.1%</strong> potential' },
-  { tier: 'setup',          icon: '↗', symbol: 'AMD',  body: 'Short · enter at <strong>$334.63</strong> · setup intact' },
-  { tier: 'setup',          icon: '↗', symbol: 'DELL', body: 'Short · enter at <strong>$215.97</strong> · setup intact' },
-  { tier: 'setup',          icon: '↗', symbol: 'NVDA', body: 'Short · enter at <strong>$216.61</strong> · setup intact' },
+  { tier: 'warning', icon: '⚠', symbol: 'TSEM', body: 'Long · enter at <strong>$200.75</strong> · stop <strong>$179.00</strong> · target <strong>$250.00</strong> · wide stop — go small!' },
 ];
 
 // ── Open equity positions ────────────────────────────────────────────────────
