@@ -14,10 +14,10 @@ except ImportError:
     sys.exit("yfinance is required.  Run:  pip install yfinance")
 
 SYMBOLS = [
-    "Q", "MU", "PANW", "KMB", "FIGS", "NBIS", "NXT",
+    "MU", "KMB", "FIGS", "NBIS", "NXT",
     "AVGO", "GOOGL", "DELL", "TXN", "STX", "BE", "NVDA",
-    "NET", "AMD", "MRVL", "ARM", "FSLY",
-    "GDX", "SOXS", "SPXU",
+    "AMD", "MRVL", "ARM", "FSLY",
+    "GDX", "SPXU",
 ]
 
 for sym in SYMBOLS:

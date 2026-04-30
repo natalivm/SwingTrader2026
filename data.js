@@ -20,7 +20,6 @@ const TICKER_DATA = [
 const POSITIONS_DATA = [
   { symbol: 'Q',     cat: 'Long',  entered: "Apr 21 '26", entry: 136.76, stop: 132.00, current: 143.85, target: 165.00, plPct: '+5.2%',  plDol: '+$28',    shares:   4, toStop: '8.2%',  toTarget: '14.7%', progressW: 25, progressV: '+25%', tier: null },
   { symbol: 'MU',    cat: 'Short', entered: "Apr 24 '26", entry: 498.36, stop: null,   current: 524.56, target: null,   plPct: '-5.3%',  plDol: '-$341',   shares:  13, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'warning' },
-  { symbol: 'PANW',  cat: 'Long',  entered: "Apr 23 '26", entry: 170.28, stop: 159.00, current: 182.90, target: 210.00, plPct: '+7.4%',  plDol: '+$126',   shares:  10, toStop: '13.1%', toTarget: '14.8%', progressW: 32, progressV: '+32%', tier: null },
   { symbol: 'KMB',   cat: 'Long',  entered: "Apr 7 '26",  entry:  96.05, stop: null,   current:  98.25, target: 132.00, plPct: '+2.3%',  plDol: '+$123',   shares:  56, toStop: null,    toTarget: '34.4%', progressW:  6, progressV: '+6%',  tier: null },
   { symbol: 'FIGS',  cat: 'Long',  entered: "Apr 22 '26", entry:  15.78, stop:  14.50, current:  15.61, target:  20.00, plPct: '-1.1%',  plDol: '-$28',    shares: 166, toStop: '7.1%',  toTarget: '28.1%', progressW:  0, progressV: '-4%',  tier: null },
   { symbol: 'NBIS',  cat: 'Short', entered: "Apr 15 '26", entry: 163.76, stop: null,   current: 144.96, target: 128.39, plPct: '+11.5%', plDol: '+$395',   shares:  21, toStop: null,    toTarget: '11.4%', progressW: 53, progressV: '+53%', tier: null },
@@ -31,8 +30,7 @@ const POSITIONS_DATA = [
   { symbol: 'TXN',   cat: 'Short', entered: "Apr 23 '26", entry: 273.35, stop: null,   current: 269.50, target: 257.00, plPct: '+1.4%',  plDol: '+$135',   shares:  35, toStop: null,    toTarget: '4.6%',  progressW: 24, progressV: '+24%', tier: null },
   { symbol: 'STX',   cat: 'Short', entered: "Apr 16 '26", entry: 521.53, stop: null,   current: 595.86, target: 361.00, plPct: '-14.3%', plDol: '-$1,561', shares:  21, toStop: null,    toTarget: '39.4%', progressW:  0, progressV: '-46%', tier: 'high-potential' },
   { symbol: 'BE',    cat: 'Short', entered: "Apr 21 '26", entry: 223.58, stop: null,   current: 234.68, target: 185.00, plPct: '-5.0%',  plDol: '-$466',   shares:  42, toStop: null,    toTarget: '21.2%', progressW:  0, progressV: '-29%', tier: 'high-potential' },
-  { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 216.61, target: null,   plPct: '-8.2%',  plDol: '-$768',   shares:  47, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
-  { symbol: 'NET',   cat: 'Long',  entered: "Apr 27 '26", entry: 205.52, stop: 189.00, current: 212.36, target: 240.00, plPct: '+3.3%',  plDol: '+$68',    shares:  10, toStop: '11.0%', toTarget: '13.0%', progressW: 20, progressV: '+20%', tier: null },
+  { symbol: 'NVDA',  cat: 'Short', entered: "Apr 17 '26", entry: 200.27, stop: null,   current: 216.61, target: null,   plPct: '-8.2%',  plDol: '-$359',   shares:  22, toStop: null,    toTarget: null,    progressW:  0, progressV: 'n/a',  tier: 'setup' },
 ];
 
 // ── Second positions table ────────────────────────────────────────────────────
@@ -45,7 +43,6 @@ const POSITIONS_DATA_2 = [
 // ── Options positions ────────────────────────────────────────────────────────
 const OPTIONS_DATA = [
   { symbol: 'GDX',  type: 'Long Put',  typeCls: 'long-put',  strike: '$89.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.83', current: '$2.10', plPct: '-25.8%', plDol: '-$73'  },
-  { symbol: 'SOXS', type: 'Long Call', typeCls: 'long-call', strike: '$16.50', expiry: "May 8 '26",  contracts: 1, avgPrice: '$1.82', current: '$0.62', plPct: '-65.9%', plDol: '-$120' },
   { symbol: 'SOXS', type: 'Long Call', typeCls: 'long-call', strike: '$21.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.84', current: '$0.41', plPct: '-85.6%', plDol: '-$243' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$46.00', expiry: "May 1 '26",  contracts: 2, avgPrice: '$1.80', current: '$0.40', plPct: '-77.8%', plDol: '-$280' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$45.00', expiry: "May 15 '26", contracts: 2, avgPrice: '$2.80', current: '$1.30', plPct: '-53.6%', plDol: '-$300' },
@@ -53,6 +50,10 @@ const OPTIONS_DATA = [
 
 // ── Closed trades ────────────────────────────────────────────────────────────
 const CLOSED_TRADES_DATA = [
+  { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+1.0%',  plDol: '+$52'    },
+  { symbol: 'SOXS', closeDate: 'Apr 30', result: 'loss', returnPct: '-83.5%', plDol: '-$152'   },
+  { symbol: 'NET',  closeDate: 'Apr 30', result: 'even', returnPct: '0.0%',   plDol: '$0'      },
+  { symbol: 'PANW', closeDate: 'Apr 30', result: 'even', returnPct: '0.0%',   plDol: '$0'      },
   { symbol: 'CRDO', closeDate: 'Apr 27', result: 'gain', returnPct: '+8.6%',  plDol: '+$33'    },
   { symbol: 'CIEN', closeDate: 'Apr 27', result: 'gain', returnPct: '+4.5%',  plDol: '+$232'   },
   { symbol: 'COHR', closeDate: 'Apr 27', result: 'gain', returnPct: '+9.6%',  plDol: '+$328'   },
