@@ -43,7 +43,6 @@ const POSITIONS_DATA_2 = [
 // ── Options positions ────────────────────────────────────────────────────────
 const OPTIONS_DATA = [
   { symbol: 'GDX',  type: 'Long Put',  typeCls: 'long-put',  strike: '$89.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.83', current: '$2.10', plPct: '-25.8%', plDol: '-$73'  },
-  { symbol: 'SOXS', type: 'Long Call', typeCls: 'long-call', strike: '$21.00', expiry: "May 15 '26", contracts: 1, avgPrice: '$2.84', current: '$0.41', plPct: '-85.6%', plDol: '-$243' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$46.00', expiry: "May 1 '26",  contracts: 2, avgPrice: '$1.80', current: '$0.40', plPct: '-77.8%', plDol: '-$280' },
   { symbol: 'SPXU', type: 'Long Call', typeCls: 'long-call', strike: '$45.00', expiry: "May 15 '26", contracts: 2, avgPrice: '$2.80', current: '$1.30', plPct: '-53.6%', plDol: '-$300' },
 ];
@@ -52,6 +51,7 @@ const OPTIONS_DATA = [
 const CLOSED_TRADES_DATA = [
   { symbol: 'NVDA', closeDate: 'Apr 30', result: 'gain', returnPct: '+1.0%',  plDol: '+$52'    },
   { symbol: 'SOXS', closeDate: 'Apr 30', result: 'loss', returnPct: '-83.5%', plDol: '-$152'   },
+  { symbol: 'SOXS', closeDate: 'Apr 29', result: 'loss', returnPct: '-85.6%', plDol: '-$243'   },
   { symbol: 'NET',  closeDate: 'Apr 30', result: 'even', returnPct: '0.0%',   plDol: '$0'      },
   { symbol: 'PANW', closeDate: 'Apr 30', result: 'even', returnPct: '0.0%',   plDol: '$0'      },
   { symbol: 'CRDO', closeDate: 'Apr 27', result: 'gain', returnPct: '+8.6%',  plDol: '+$33'    },
