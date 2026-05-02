@@ -331,7 +331,7 @@
                 </div>
                 <div class="alert-card-date">${a.date}</div>
                 ${pricesHtml}
-                ${a.notes ? `<div class="alert-card-notes">${a.notes}</div>` : ''}`;
+                `;
             alertsCardGrid.appendChild(card);
         });
     }
