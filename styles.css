@@ -1539,9 +1539,9 @@ tr.row-profit-prog {
     padding: 4px 12px;
 }
 .alert-card .badge.outcome-open {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border-color: rgba(16, 185, 129, 0.3);
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.3);
 }
 .alert-card .badge.outcome-closed {
     background-color: rgba(100, 116, 139, 0.15);
@@ -1556,14 +1556,15 @@ tr.row-profit-prog {
 
 /* ── Open vs Closed alert card states ───────────────────────────────────── */
 .alert-card.outcome-open {
-    border-color: rgba(16, 185, 129, 0.18);
-    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.08), 0 4px 24px rgba(16, 185, 129, 0.07);
+    border-color: rgba(59, 130, 246, 0.25);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.12), 0 4px 24px rgba(59, 130, 246, 0.12);
+    background: linear-gradient(145deg, #111d35, #152040);
 }
 .alert-card.outcome-open .alert-card-symbol {
-    color: #e2fef5;
+    color: #bfdbfe;
 }
 .alert-card.outcome-open .alert-card-price-val {
-    color: #e2e8f0;
+    color: #dbeafe;
 }
 
 .alert-card.outcome-closed {
