@@ -68,5 +68,5 @@ const CLOSED_TRADES_DATA = [
 // ── Trade alerts table ────────────────────────────────────────────────────────
 const ALERTS_DATA = [
   { date: "Apr 30 '26", symbol: 'TSEM', tier: 'warning', cat: 'Long', entry: '$200.75', stop: '$179.00', target: '$250.00', outcomeCls: 'outcome-open', outcomeLabel: 'Open', outcomeDetail: null, notes: 'Top-rated semicon play out of Israel · should get a nice boost from QCOM earnings and is set to break the recent pullback · wide stop at $179 — go small!' },
-  { date: "May 1 '26", symbol: 'DELL', tier: null, cat: 'Short', entry: '$212.87', stop: null, target: '$208.87', outcomeCls: 'outcome-closed', outcomeLabel: 'Covered', outcomeDetail: '+1.88%', notes: 'Apr 21 entry · covered May 1 · 300 shares' },
+  { date: "May 1 '26", symbol: 'DELL', tier: null, cat: 'Short', entry: '$212.87', stop: null, target: '$208.87', outcomeCls: 'outcome-closed', outcomeLabel: 'Covered', outcomeDetail: '+1.88%', notes: 'Apr 21 entry · covered May 1' },
 ];
