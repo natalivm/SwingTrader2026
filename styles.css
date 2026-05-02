@@ -1867,7 +1867,7 @@ tr.row-profit-prog {
 .pos-modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 14px;
     gap: 12px;
 }
@@ -1876,6 +1876,13 @@ tr.row-profit-prog {
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
+}
+.pos-modal-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 .pos-modal-symbol {
     font-size: 54px;
@@ -1915,8 +1922,9 @@ tr.row-profit-prog {
     margin-bottom: 16px;
 }
 .pos-modal-price-col {
-    padding: 20px 16px;
+    padding: 20px 10px;
     text-align: center;
+    min-width: 0;
 }
 .pos-modal-price-col + .pos-modal-price-col {
     border-left: 1px solid rgba(255, 255, 255, 0.07);
@@ -1995,15 +2003,32 @@ tr.row-profit-prog {
 /* ── Alert modal outcome backgrounds ────────────────────────────────────── */
 .alert-modal[data-outcome="outcome-open"] {
     background: linear-gradient(160deg, #05102b 0%, #071330 100%);
+    border: 1px solid rgba(96, 165, 250, 0.55);
+    box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.25), 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.18);
 }
 .alert-modal[data-outcome="outcome-closed"] {
     background: linear-gradient(160deg, #1f0a00 0%, #241005 100%);
 }
 
+/* Blinking live-arrow on Open badge (cards + modal) */
+.alert-card .badge.outcome-open,
+.alert-modal .badge.outcome-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.alert-card .badge.outcome-open::before,
+.alert-modal .badge.outcome-open::before {
+    content: '↗';
+    font-size: 1em;
+    line-height: 1;
+    animation: blink-arrow 1.2s ease-in-out infinite;
+}
+
 .alert-modal-date {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    color: #3d526b;
+    color: #e2e8f0;
     text-transform: uppercase;
     letter-spacing: 0.6px;
     margin-bottom: 22px;
@@ -2017,6 +2042,16 @@ tr.row-profit-prog {
     line-height: 1.55;
 }
 
+/* Larger labels inside alert modal, coloured to match values */
+.alert-modal .pos-modal-price-label {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+.alert-modal .pos-modal-price-val {
+    font-size: clamp(20px, 4.6vw, 30px);
+    letter-spacing: -0.5px;
+}
+
 /* Price value colours inside alert modal */
 .pos-modal-price-val.am-stop    { color: #f87171; }
 .pos-modal-price-val.am-target  { color: #34d399; }
@@ -2024,18 +2059,28 @@ tr.row-profit-prog {
 .pos-modal-price-val.am-gain    { color: #34d399; }
 .pos-modal-price-val.am-loss    { color: #f87171; }
 
+/* Match label colour to value colour inside alert modal */
+.alert-modal .pos-modal-price-label.am-stop    { color: #f87171; }
+.alert-modal .pos-modal-price-label.am-target  { color: #34d399; }
+.alert-modal .pos-modal-price-label.am-covered { color: #94a3b8; }
+.alert-modal .pos-modal-price-label.am-gain    { color: #34d399; }
+.alert-modal .pos-modal-price-label.am-loss    { color: #f87171; }
+
 /* Badge overrides inside alert modal */
+.alert-modal .badge {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 14px;
+}
 .alert-modal .badge.outcome-open {
     background-color: rgba(16, 185, 129, 0.15);
     color: #34d399;
     border-color: rgba(16, 185, 129, 0.3);
-    font-size: 14px;
 }
 .alert-modal .badge.outcome-closed {
     background-color: rgba(251, 146, 60, 0.15);
     color: #fb923c;
     border-color: rgba(251, 146, 60, 0.3);
-    font-size: 14px;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
