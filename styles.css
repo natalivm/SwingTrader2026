@@ -1509,8 +1509,11 @@ tr.row-profit-prog {
     color: #cbd5e1;
     font-variant-numeric: tabular-nums;
 }
-.alert-card-price-val.stop   { color: #f87171; }
-.alert-card-price-val.target { color: #34d399; }
+.alert-card-price-val.stop        { color: #f87171; }
+.alert-card-price-val.target      { color: #34d399; }
+.alert-card-price-val.covered     { color: #94a3b8; }
+.alert-card-price-val.return-gain { color: #34d399; font-size: 20px; }
+.alert-card-price-val.loss        { color: #f87171; font-size: 20px; }
 
 .alert-card-notes {
     font-size: 13px;
