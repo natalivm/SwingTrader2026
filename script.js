@@ -332,8 +332,96 @@
                 <div class="alert-card-date">${a.date}</div>
                 ${pricesHtml}
                 `;
+            card.addEventListener('click', () => openAlertModal(ALERTS_DATA, idx));
             alertsCardGrid.appendChild(card);
         });
+    }
+
+    function openAlertModal(allAlerts, idx) {
+        document.querySelector('.pos-modal-overlay')?.remove();
+        const a = allAlerts[idx];
+        const isClosed = a.outcomeCls === 'outcome-closed';
+        const catCls = a.cat === 'Long' ? 'swing-trade' : 'short-trade';
+        const tierAttr = a.tier ?? '';
+        const tierSpeed = TIER_BORDER_SPEED[tierAttr];
+
+        const pricesHtml = isClosed
+            ? `<div class="pos-modal-prices">
+                <div class="pos-modal-price-col">
+                    <div class="pos-modal-price-label">Entry</div>
+                    <div class="pos-modal-price-val">${a.entry}</div>
+                </div>
+                <div class="pos-modal-price-col">
+                    <div class="pos-modal-price-label">${a.cat === 'Short' ? 'Covered' : 'Sold At'}</div>
+                    <div class="pos-modal-price-val am-covered">${a.target ?? '—'}</div>
+                </div>
+                <div class="pos-modal-price-col">
+                    <div class="pos-modal-price-label">Return</div>
+                    <div class="pos-modal-price-val ${a.outcomeDetail?.startsWith('-') ? 'am-loss' : 'am-gain'}">${a.outcomeDetail ?? '—'}</div>
+                </div>
+            </div>`
+            : `<div class="pos-modal-prices">
+                <div class="pos-modal-price-col">
+                    <div class="pos-modal-price-label">Entry</div>
+                    <div class="pos-modal-price-val">${a.entry}</div>
+                </div>
+                <div class="pos-modal-price-col">
+                    <div class="pos-modal-price-label">Stop</div>
+                    <div class="pos-modal-price-val am-stop">${a.stop ?? '—'}</div>
+                </div>
+                <div class="pos-modal-price-col">
+                    <div class="pos-modal-price-label">Target</div>
+                    <div class="pos-modal-price-val am-target">${a.target ?? '—'}</div>
+                </div>
+            </div>`;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'pos-modal-overlay';
+        overlay.innerHTML = `
+            <button class="pos-modal-nav pos-modal-prev" aria-label="Previous"${idx === 0 ? ' disabled' : ''}>&#8592;</button>
+            <div class="pos-modal alert-modal" role="dialog" aria-modal="true" data-outcome="${a.outcomeCls}"${tierAttr ? ` data-tier="${tierAttr}"` : ''}>
+                <button class="pos-modal-close" aria-label="Close">✕</button>
+                <div class="pos-modal-header">
+                    <div class="pos-modal-sym-row">
+                        <span class="pos-modal-symbol">${a.symbol}</span>
+                        <span class="badge ${catCls}">${a.cat}</span>
+                    </div>
+                    <span class="badge ${a.outcomeCls}">${a.outcomeLabel}</span>
+                </div>
+                <div class="alert-modal-date">${a.date}</div>
+                ${pricesHtml}
+                ${a.notes ? `<div class="alert-modal-notes">${a.notes}</div>` : ''}
+            </div>
+            <button class="pos-modal-nav pos-modal-next" aria-label="Next"${idx === allAlerts.length - 1 ? ' disabled' : ''}>&#8594;</button>`;
+
+        if (tierSpeed) {
+            const modal = overlay.querySelector('.pos-modal');
+            modal.style.animation = `modalIn 0.38s cubic-bezier(0.16, 1, 0.3, 1), rotateBorderAngle ${tierSpeed}s linear infinite`;
+        }
+
+        document.body.appendChild(overlay);
+
+        const close = () => {
+            overlay.style.cssText = 'opacity:0; transition:opacity 0.15s ease';
+            setTimeout(() => overlay.remove(), 150);
+        };
+        overlay.querySelector('.pos-modal-close').addEventListener('click', close);
+        overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+        overlay.querySelector('.pos-modal-prev').addEventListener('click', e => {
+            e.stopPropagation();
+            if (idx > 0) openAlertModal(allAlerts, idx - 1);
+        });
+        overlay.querySelector('.pos-modal-next').addEventListener('click', e => {
+            e.stopPropagation();
+            if (idx < allAlerts.length - 1) openAlertModal(allAlerts, idx + 1);
+        });
+
+        const onKey = e => {
+            if      (e.key === 'ArrowLeft'  && idx > 0)                    { openAlertModal(allAlerts, idx - 1); document.removeEventListener('keydown', onKey); }
+            else if (e.key === 'ArrowRight' && idx < allAlerts.length - 1) { openAlertModal(allAlerts, idx + 1); document.removeEventListener('keydown', onKey); }
+            else if (e.key === 'Escape')                                    { close(); document.removeEventListener('keydown', onKey); }
+        };
+        document.addEventListener('keydown', onKey);
     }
 
     function activateAlertsCardView() {
