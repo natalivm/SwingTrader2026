@@ -1383,6 +1383,216 @@ tr.row-profit-prog {
     to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Alerts section header ───────────────────────────────────────────────── */
+.alerts-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.alerts-section-header .section-title { margin-bottom: 0; }
+
+/* ── Alert cards grid ────────────────────────────────────────────────────── */
+.alerts-card-grid {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    background: linear-gradient(160deg, #0d1117 0%, #0f172a 100%);
+    border-radius: 14px;
+}
+
+.alert-card {
+    background: #1a2336;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 24px 26px;
+    position: relative;
+    transition: box-shadow 0.25s, transform 0.18s;
+    animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.alert-card[data-tier="high-potential"] {
+    border: 3px solid transparent;
+    background:
+        linear-gradient(145deg, #1d1438, #1a2036) padding-box,
+        conic-gradient(from var(--border-angle),
+            #9333ea, #ec4899, #22d3ee, #ec4899, #9333ea) border-box;
+}
+.alert-card[data-tier="warning"] {
+    border: 3px solid transparent;
+    background:
+        linear-gradient(145deg, #1e1820, #1a2030) padding-box,
+        conic-gradient(from var(--border-angle),
+            #f59e0b, #f97316, #ef4444, #f97316, #f59e0b) border-box;
+}
+.alert-card[data-tier="setup"] {
+    border: 2px solid transparent;
+    background:
+        #1a2336 padding-box,
+        conic-gradient(from var(--border-angle),
+            rgba(255,255,255,0.06), rgba(148,163,184,0.35), rgba(255,255,255,0.06)) border-box;
+}
+
+.alert-card:hover {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    transform: translateY(-3px);
+}
+.alert-card:not([data-tier]):hover {
+    background: #1f2d45;
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.alert-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    gap: 8px;
+}
+.alert-card-sym-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+.alert-card-symbol {
+    font-size: 36px;
+    font-weight: 900;
+    color: #f1f5f9;
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+.alert-card-outcome-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+}
+.alert-card-outcome-detail {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.alert-card-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3d526b;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 18px;
+}
+.alert-card-prices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    gap: 4px;
+}
+.alert-card-price-col { min-width: 0; }
+.alert-card-price-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3d526b;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 5px;
+}
+.alert-card-price-val {
+    font-size: 17px;
+    font-weight: 800;
+    color: #cbd5e1;
+    font-variant-numeric: tabular-nums;
+}
+.alert-card-price-val.stop   { color: #f87171; }
+.alert-card-price-val.target { color: #34d399; }
+
+.alert-card-notes {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.55;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Badge overrides inside dark alert cards */
+.alert-card .badge.swing-trade {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.3);
+    font-size: 13px;
+    padding: 4px 12px;
+}
+.alert-card .badge.short-trade {
+    background-color: rgba(249, 115, 22, 0.15);
+    color: #fb923c;
+    border-color: rgba(249, 115, 22, 0.3);
+    font-size: 13px;
+    padding: 4px 12px;
+}
+.alert-card .badge.outcome-open {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+.alert-card .badge.outcome-closed {
+    background-color: rgba(100, 116, 139, 0.15);
+    color: #94a3b8;
+    border-color: rgba(100, 116, 139, 0.3);
+}
+.alert-card .badge.outcome-unfilled {
+    background-color: rgba(100, 116, 139, 0.1);
+    color: #64748b;
+    border-color: rgba(100, 116, 139, 0.2);
+}
+
+/* ── Open vs Closed alert card states ───────────────────────────────────── */
+.alert-card.outcome-open {
+    border-color: rgba(16, 185, 129, 0.18);
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.08), 0 4px 24px rgba(16, 185, 129, 0.07);
+}
+.alert-card.outcome-open .alert-card-symbol {
+    color: #e2fef5;
+}
+.alert-card.outcome-open .alert-card-price-val {
+    color: #e2e8f0;
+}
+
+.alert-card.outcome-closed {
+    opacity: 0.62;
+    filter: grayscale(35%);
+}
+.alert-card.outcome-closed:hover {
+    opacity: 0.85;
+    filter: grayscale(0%);
+}
+.alert-card.outcome-closed .alert-card-symbol {
+    color: #94a3b8;
+}
+
+.alert-card.outcome-unfilled {
+    opacity: 0.55;
+    filter: grayscale(50%);
+}
+.alert-card.outcome-unfilled:hover {
+    opacity: 0.78;
+    filter: grayscale(0%);
+}
+
+/* ── Responsive alert cards ──────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .alerts-card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+    .alerts-card-grid { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+    .alert-card-symbol { font-size: 28px; }
+}
+
 /* ── Position cards grid ─────────────────────────────────────────────────── */
 .positions-card-grid {
     padding: 28px;
