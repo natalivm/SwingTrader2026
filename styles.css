@@ -1539,9 +1539,9 @@ tr.row-profit-prog {
     padding: 4px 12px;
 }
 .alert-card .badge.outcome-open {
-    background-color: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
-    border-color: rgba(59, 130, 246, 0.3);
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
 }
 .alert-card .badge.outcome-closed {
     background-color: rgba(100, 116, 139, 0.15);
@@ -1556,27 +1556,12 @@ tr.row-profit-prog {
 
 /* ── Open vs Closed alert card states ───────────────────────────────────── */
 .alert-card.outcome-open {
-    border-color: rgba(59, 130, 246, 0.25);
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.12), 0 4px 24px rgba(59, 130, 246, 0.12);
-    background: linear-gradient(145deg, #111d35, #152040);
-}
-.alert-card.outcome-open .alert-card-symbol {
-    color: #bfdbfe;
-}
-.alert-card.outcome-open .alert-card-price-val {
-    color: #dbeafe;
+    background: linear-gradient(145deg, #05102b, #071330);
 }
 
+
 .alert-card.outcome-closed {
-    opacity: 0.62;
-    filter: grayscale(35%);
-}
-.alert-card.outcome-closed:hover {
-    opacity: 0.85;
-    filter: grayscale(0%);
-}
-.alert-card.outcome-closed .alert-card-symbol {
-    color: #94a3b8;
+    background: linear-gradient(145deg, #1f0a00, #241005);
 }
 
 .alert-card.outcome-unfilled {
@@ -2005,6 +1990,52 @@ tr.row-profit-prog {
     border-color: rgba(244, 63, 94, 0.3);
     font-size: 14px;
     padding: 4px 12px;
+}
+
+/* ── Alert modal outcome backgrounds ────────────────────────────────────── */
+.alert-modal[data-outcome="outcome-open"] {
+    background: linear-gradient(160deg, #05102b 0%, #071330 100%);
+}
+.alert-modal[data-outcome="outcome-closed"] {
+    background: linear-gradient(160deg, #1f0a00 0%, #241005 100%);
+}
+
+.alert-modal-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3d526b;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 22px;
+}
+.alert-modal-notes {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.55;
+}
+
+/* Price value colours inside alert modal */
+.pos-modal-price-val.am-stop    { color: #f87171; }
+.pos-modal-price-val.am-target  { color: #34d399; }
+.pos-modal-price-val.am-covered { color: #94a3b8; }
+.pos-modal-price-val.am-gain    { color: #34d399; }
+.pos-modal-price-val.am-loss    { color: #f87171; }
+
+/* Badge overrides inside alert modal */
+.alert-modal .badge.outcome-open {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+    font-size: 14px;
+}
+.alert-modal .badge.outcome-closed {
+    background-color: rgba(251, 146, 60, 0.15);
+    color: #fb923c;
+    border-color: rgba(251, 146, 60, 0.3);
+    font-size: 14px;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
