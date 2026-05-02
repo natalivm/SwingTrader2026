@@ -11,7 +11,11 @@
     const table2      = document.querySelector('.positions-table-2');
     const tradesBody  = document.querySelector('.trades-table tbody');
     const tradesTable = document.querySelector('.trades-table');
-    const alertsBody  = document.querySelector('.alerts-table tbody');
+    const alertsBody          = document.querySelector('.alerts-table tbody');
+    const alertsTableViewBtn  = document.getElementById('alertsTableViewBtn');
+    const alertsCardViewBtn   = document.getElementById('alertsCardViewBtn');
+    const alertsTableContainer = document.getElementById('alertsTableContainer');
+    const alertsCardGrid      = document.getElementById('alertsCardGrid');
 
     // ── Shared helpers ──────────────────────────────────────────────────────
     const signClass = s => s?.startsWith('+') ? 'profit' : s?.startsWith('-') ? 'loss' : 'neutral';
@@ -267,6 +271,99 @@
     renderMetrics();
     renderMonthly();
     renderAlerts();
+
+    // ── Alert card view ─────────────────────────────────────────────────────
+    function buildAlertCards() {
+        if (!alertsCardGrid || typeof ALERTS_DATA === 'undefined') return;
+        alertsCardGrid.innerHTML = '';
+        ALERTS_DATA.forEach((a, idx) => {
+            const card = document.createElement('div');
+            const tierAttr = a.tier ?? '';
+            card.className = `alert-card${a.outcomeCls ? ' ' + a.outcomeCls : ''}`;
+            if (tierAttr) card.dataset.tier = tierAttr;
+            const tierDot = tierAttr ? `<span class="tier-dot ${tierAttr}"></span>` : '';
+            const catCls  = a.cat === 'Long' ? 'swing-trade' : 'short-trade';
+            const isClosed = a.outcomeCls === 'outcome-closed';
+            const detail  = a.outcomeDetail ? `<span class="alert-card-outcome-detail">${a.outcomeDetail}</span>` : '';
+            const entranceDelay = `${idx * 45}ms`;
+            const tierSpeed = TIER_BORDER_SPEED[tierAttr];
+            const borderAnim = tierSpeed ? `, rotateBorderAngle ${tierSpeed}s linear infinite` : '';
+            card.style.animation = `cardEntrance 0.5s ${entranceDelay} cubic-bezier(0.16, 1, 0.3, 1) both${borderAnim}`;
+            const pricesHtml = isClosed
+                ? `<div class="alert-card-prices">
+                    <div class="alert-card-price-col">
+                        <div class="alert-card-price-label">Entry</div>
+                        <div class="alert-card-price-val">${a.entry}</div>
+                    </div>
+                    <div class="alert-card-price-col">
+                        <div class="alert-card-price-label">${a.cat === 'Short' ? 'Covered' : 'Sold At'}</div>
+                        <div class="alert-card-price-val covered">${a.target ?? '—'}</div>
+                    </div>
+                    <div class="alert-card-price-col">
+                        <div class="alert-card-price-label">Return</div>
+                        <div class="alert-card-price-val ${a.outcomeDetail?.startsWith('-') ? 'loss' : 'return-gain'}">${a.outcomeDetail ?? '—'}</div>
+                    </div>
+                </div>`
+                : `<div class="alert-card-prices">
+                    <div class="alert-card-price-col">
+                        <div class="alert-card-price-label">Entry</div>
+                        <div class="alert-card-price-val">${a.entry}</div>
+                    </div>
+                    <div class="alert-card-price-col">
+                        <div class="alert-card-price-label">Stop</div>
+                        <div class="alert-card-price-val stop">${a.stop ?? '—'}</div>
+                    </div>
+                    <div class="alert-card-price-col">
+                        <div class="alert-card-price-label">Target</div>
+                        <div class="alert-card-price-val target">${a.target ?? '—'}</div>
+                    </div>
+                </div>`;
+            card.innerHTML = `
+                <div class="alert-card-header">
+                    <div class="alert-card-sym-wrap">
+                        ${tierDot}<span class="alert-card-symbol">${a.symbol}</span>
+                        <span class="badge ${catCls}">${a.cat}</span>
+                    </div>
+                    <div class="alert-card-outcome-wrap">
+                        <span class="badge ${a.outcomeCls}">${a.outcomeLabel}</span>
+                        ${isClosed ? '' : detail}
+                    </div>
+                </div>
+                <div class="alert-card-date">${a.date}</div>
+                ${pricesHtml}
+                ${a.notes ? `<div class="alert-card-notes">${a.notes}</div>` : ''}`;
+            alertsCardGrid.appendChild(card);
+        });
+    }
+
+    function activateAlertsCardView() {
+        buildAlertCards();
+        alertsCardViewBtn.classList.add('active');
+        alertsCardViewBtn.setAttribute('aria-pressed', 'true');
+        alertsTableViewBtn.classList.remove('active');
+        alertsTableViewBtn.setAttribute('aria-pressed', 'false');
+        alertsTableContainer.hidden = true;
+        alertsCardGrid.hidden = false;
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('alertsView', 'card');
+    }
+
+    function activateAlertsTableView() {
+        alertsTableViewBtn.classList.add('active');
+        alertsTableViewBtn.setAttribute('aria-pressed', 'true');
+        alertsCardViewBtn.classList.remove('active');
+        alertsCardViewBtn.setAttribute('aria-pressed', 'false');
+        alertsTableContainer.hidden = false;
+        alertsCardGrid.hidden = true;
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('alertsView', 'table');
+    }
+
+    if (alertsTableViewBtn && alertsCardViewBtn && alertsTableContainer && alertsCardGrid) {
+        alertsTableViewBtn.addEventListener('click', activateAlertsTableView);
+        alertsCardViewBtn.addEventListener('click', activateAlertsCardView);
+        if (localStorage.getItem('alertsView') === 'card') activateAlertsCardView();
+    }
 
     // ── Tab activation ──────────────────────────────────────────────────────
     function activateTab(tabName) {
