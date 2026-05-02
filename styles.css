@@ -1556,7 +1556,7 @@ tr.row-profit-prog {
 
 /* ── Open vs Closed alert card states ───────────────────────────────────── */
 .alert-card.outcome-open {
-    background: linear-gradient(145deg, #0f1e3a, #122144);
+    background: linear-gradient(145deg, #05102b, #071330);
 }
 
 
